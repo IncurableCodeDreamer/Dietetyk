@@ -1,8 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model DietInfo
+
+@{
+    ViewData["Title"] = "Stron główna";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <button type="button" class="btn w-100 mb-2" style="color:white; background-color:#29ca1f" data-toggle="collapse" data-target="#dietitem"> @Model.DietName </button>
+    <div id="dietitem" class="collapse mb-2">
+        @Model.Info
+    </div>
+</div>
+<div class="container">
+    <button type="button" class="btn btn-info w-100 mb-2" data-toggle="collapse" data-target="#dietitem2"> @Model.DietName </button>
+    <div id="dietitem2" class="collapse mb-2">
+        @Model.Info
+    </div>
 </div>
