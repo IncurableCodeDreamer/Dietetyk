@@ -12,12 +12,12 @@ namespace Dietician.Controllers
     {
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            DietInfo dietinfo = new DietInfo
+            {
+                DietName = "Wegetariańska",
+                Info = "Najogólniej mówiąc, dieta wegetariańska to taka, która zakłada niejedzenia mięsa."
+            };
+            return View(dietinfo);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
