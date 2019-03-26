@@ -34,6 +34,18 @@ button.accept-policy {
   line-height: inherit;
 }
 
+/* Custom styles */
+.divider {
+    height: 1px;
+    background-color: gray;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.btn-primary{
+    float:right;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

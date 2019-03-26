@@ -1,0 +1,15 @@
+﻿@model ActivitySettings
+
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.LifeStyle, "Cel diety")
+    </div>
+    <div class="col">
+        @Html.DropDownListFor(model =>
+            model.LifeStyle,
+            new SelectList(new List<string>() {
+                "Niski", "Wysoki",
+            }), new { @class = "form-control" }
+        )
+    </div>
+</div>

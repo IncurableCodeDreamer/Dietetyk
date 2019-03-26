@@ -1,0 +1,33 @@
+﻿@model MenuSettings
+
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.DietAim, "Cel diety")
+    </div>
+    <div class="col">
+        @Html.DropDownListFor(model =>
+            model.DietAim,
+            new SelectList(new List<string>() {
+                "Wegetariańska", "Wegańska"
+            }), new { @class = "form-control" }
+        )
+    </div>
+</div>
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.Preferences, "Preferencje")
+    </div>
+    <div class="col">
+        @Html.DropDownListFor(model =>
+            model.DietAim,
+            new SelectList(new List<string>() {
+                "Brak", "Wegańska"
+            }), new { @class = "form-control" }
+        )
+    </div>
+</div>
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.Ingidients, "Składniki wykluczone (opcjonalnie)")
+    </div>
+</div>
