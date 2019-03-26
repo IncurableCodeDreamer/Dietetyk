@@ -11,7 +11,9 @@ namespace Dietician.Controllers
             {
                 PresonalData = new PersonalDataSettings(),
                 Params = new CheckboxResult(),
-                FatLevel = new FatLevel()
+                FatLevel = new FatLevel(),
+                ShowResults = false,
+                ParameterResults = new ParameterResults()
             };
             return View(model);
         }

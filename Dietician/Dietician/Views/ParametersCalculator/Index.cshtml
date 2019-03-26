@@ -9,7 +9,11 @@
     <div class="container">
         @Html.Partial("parameters", Model)
     </div>
-    <div class="container">
-        @Html.Partial("results")
+
+    @if (Model.ShowResults)
+    { 
+      <div class="container">
+        @Html.Partial("results", Model.ParameterResults)
     </div>
-}
+     }
+ }

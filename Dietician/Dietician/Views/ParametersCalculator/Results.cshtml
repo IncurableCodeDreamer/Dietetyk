@@ -1,6 +1,62 @@
-﻿
+﻿@model ParameterResults
 
 <div class="container">
 
+    <div class="form-group" style="margin-top:30px">
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.BmiLabel, "Twoje BMI")
+            </div>
+            <div class="col">
+                @Html.LabelFor(m => m.BmiLabel)
+                @Html.LabelFor(m => m.Bmi)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.Cmp, "Dzienne spożycie kalorii")
+            </div>
+            <div class="col">
+                @Html.LabelFor(m => m.Cmp)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.Protein, "Białko [g]")
+            </div>
+            <div class="col">
+                @Html.LabelFor(m => m.Protein)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.Carbohydrate, "Węglowodany [g]")
+            </div>
+            <div class="col">
+                @Html.LabelFor(m => m.Carbohydrate)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.Fat, "Tłuszcz [g]")
+            </div>
+            <div class="col">
+                @Html.LabelFor(m => m.Fat)
+            </div>
+        </div>
+    </div>
 
 </div>

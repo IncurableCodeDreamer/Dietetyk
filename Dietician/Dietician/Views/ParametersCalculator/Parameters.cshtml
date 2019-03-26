@@ -6,9 +6,9 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
-                    @Html.LabelFor(m => m.PresonalData.Height, "Wzrost")
+                    @Html.LabelFor(m => m.PresonalData.Height, "Wzrost [cm]")
                 </div>
-                <div class="col">
+                <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.PresonalData.Height, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
@@ -17,9 +17,9 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
-                    @Html.LabelFor(m => m.PresonalData.Weight, "Waga")
+                    @Html.LabelFor(m => m.PresonalData.Weight, "Waga [kg]")
                 </div>
-                <div class="col">
+                <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.PresonalData.Weight, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="col-2">
                     @Html.LabelFor(m => m.PresonalData.Age, "Wiek")
                 </div>
-                <div class="col">
+                <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.PresonalData.Age, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
@@ -57,9 +57,9 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
-                    @Html.LabelFor(m => m.FatLevel.LifeStyle, "Wybierz styl życia")
+                    @Html.LabelFor(m => m.FatLevel.LifeStyle, "Wybierz tryb życia")
                 </div>
-                <div class="col">
+                <div class="col" style="max-width:410px">
                     @Html.DropDownListFor(m =>
                        m.FatLevel.LifeStyle,
                         new SelectList(new List<string>() {
@@ -77,9 +77,9 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
-                    @Html.LabelFor(m => m.FatLevel.HipSize, "Obwód bioder")
+                    @Html.LabelFor(m => m.FatLevel.HipSize, "Obwód bioder [cm]")
                 </div>
-                <div class="col">
+                <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.FatLevel.HipSize, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
@@ -88,9 +88,9 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
-                    @Html.LabelFor(m => m.FatLevel.WaistSize, "Obwód talii")
+                    @Html.LabelFor(m => m.FatLevel.WaistSize, "Obwód talii [cm]")
                 </div>
-                <div class="col">
+                <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.FatLevel.WaistSize, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
@@ -118,10 +118,7 @@
             </div>
         </div>
 
-        <div class="container mb-4">
-            <input type="submit" value="Oblicz parametry" class="btn btn-primary" />
-        </div>
-
+        <input type="submit" value="Oblicz parametry" class="btn btn-primary" />
     </form>
 
 </div>
