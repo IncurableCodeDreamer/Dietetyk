@@ -1,3 +1,41 @@
-﻿@{
+﻿@model Settings
+
+@{
     ViewData["Title"] = "Ustawienia";
 }
+
+@using (Html.BeginForm())
+{
+    <div class="container mb-4">
+        <h6>Dane osobowe</h6>
+        <div class="divider"></div>
+        @Html.Partial("PersonalData", Model.PersonalData)
+    </div>
+    <div class="container mb-4">
+        <h6>Jadłospis</h6>
+        <div class="divider"></div>
+        @Html.Partial("Menu", Model.Menu)
+    </div>
+    <div class="container mb-4">
+        <h6>Aktywność</h6>
+        <div class="divider"></div>
+        @Html.Partial("ActivitySettings", Model.Activity)
+    </div>
+    <div class="container mb-4">
+        <input type="submit" value="Zapisz" class="btn btn-primary"/>
+    </div>
+}
+    <style>
+        .divider {
+            height: 1px;
+            background-color: gray;
+            margin-bottom: 15px;
+            margin-top: 5px;
+        }
+        .row {
+            margin-bottom: 5px;
+        }
+        .btn-primary{
+            float:right;
+        }
+    </style>

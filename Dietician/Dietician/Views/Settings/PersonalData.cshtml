@@ -1,0 +1,42 @@
+﻿@model PersonalDataSettings
+
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.Name, "Imię")
+    </div>
+    <div class="col">
+        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.Lastname, "Nazwisko")
+    </div>
+    <div class="col">
+        @Html.EditorFor(m => m.Lastname, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.Age, "Wiek")
+    </div>
+    <div class="col">
+        @Html.EditorFor(m => m.Age, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.LabelFor(m => m.Height, "Wzrost")
+    </div>
+    <div class="col">
+        @Html.EditorFor(m => m.Height, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row" style="max-width:400px">
+    <div class="col">
+        @Html.RadioButtonFor(model => model.Gender, "1") Kobieta
+    </div>
+    <div class="col">
+        @Html.RadioButtonFor(model => model.Gender, "2") Mężczyzna
+    </div>
+</div>
