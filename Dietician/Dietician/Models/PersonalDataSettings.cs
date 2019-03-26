@@ -1,4 +1,10 @@
-﻿namespace Dietician.Models
+﻿using Dietician.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Dietician.Models
 {
     public class PersonalDataSettings
     {
@@ -7,6 +13,5 @@
         public int Age { get; set; }
         public int Height { get; set; }
         public Gender Gender { get; set; }
-        public int Weight { get; set; }
     }
 }
