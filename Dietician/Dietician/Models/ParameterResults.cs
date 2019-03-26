@@ -8,5 +8,8 @@
         public int Protein { get; set; } 
         public int Carbohydrate { get; set; }
         public int Fat { get; set; }
+        public int Whr { get; set; }
+        public string WhrLabel { get; set; }
+        public int FatLevel { get; set; }
     }
 }
