@@ -30,7 +30,10 @@ namespace Dietician
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie();
+                    .AddCookie(options => {
+                        options.LoginPath = "/Account/Login/";
+                        //options.AccessDeniedPath = "/Account/Forbidden/";
+                    });
 
             services.Configure<CookiePolicyOptions>(options =>
             {

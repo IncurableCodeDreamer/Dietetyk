@@ -1,5 +1,53 @@
-﻿@{
+﻿@using Dietician.Models
+@model LoginModel
+
+@{
     ViewData["Title"] = "Logowanie";
 }
 
-@Html.ActionLink("Zarejestruj się", "Register", "Account");
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+
+    <div class="form-group" style="max-width:50%">
+        <div class="container mb-4">
+            <h4>Zaloguj się</h4>
+        </div>
+        <div class="container mb-3">
+            <div class="row" style="max-width:400px">
+                <div class="col">
+                    @Html.LabelFor(m => m.Login, "Login")
+                </div>
+                <div class="col">
+                    @Html.EditorFor(m => m.Login, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="row" style="max-width:400px">
+                <div class="col">
+                    @Html.LabelFor(m => m.Password, "Hasło")
+                </div>
+                <div class="col">
+                    @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+
+        <div class="container mb-4">
+            <div class="row" style="max-width:400px">
+                <div class="col">
+                    <input type="submit" value="Zaloguj się" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container mb-4">
+    @Html.ActionLink("Zarejestruj się bezpłatnie", "Register", "Account")
+</div>
+
+<style>
+    .row {
+        margin-bottom: 5px;
+    }
+</style>
