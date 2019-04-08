@@ -40,12 +40,19 @@
                         </li>
                     </ul>
                 </div>
-                <div class="dropdown">
+                <div class="dropdown" style="display:none" >
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Użytkownik</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" asp-area="" asp-controller="Settings" asp-action="Index">Ustawienia</a>
                         <a class="dropdown-item" asp-area="" asp-controller="#" asp-action="#">Wyloguj</a>
                     </div>
+                </div>
+                <div>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li>
+                            <a class="nav-link text-info" asp-area="" asp-controller="Login" asp-action="Index">Zaloguj się</a>
+                        </li> 
+                    </ul>
                 </div>
             </div>
         </nav>

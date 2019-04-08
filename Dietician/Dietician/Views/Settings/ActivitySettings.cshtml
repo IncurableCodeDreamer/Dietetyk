@@ -2,13 +2,13 @@
 
 <div class="row" style="max-width:400px">
     <div class="col">
-        @Html.LabelFor(m => m.LifeStyle, "Cel diety")
+        @Html.LabelFor(m => m.LifeStyle, "Poziom aktywności")
     </div>
     <div class="col">
         @Html.DropDownListFor(model =>
             model.LifeStyle,
             new SelectList(new List<string>() {
-                "Niski", "Wysoki",
+                "Niski", "Średni", "Wysoki",
             }), new { @class = "form-control" }
         )
     </div>

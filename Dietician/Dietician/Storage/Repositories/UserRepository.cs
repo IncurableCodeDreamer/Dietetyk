@@ -8,10 +8,11 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Dietician.Storage
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository: IUserRepository
     { 
         private readonly TableStorage _tableStorage;
         private readonly string _userTable;
+
         public UserRepository(IAppConfiguration configuration)
         {
             _tableStorage = new TableStorage(configuration);
@@ -23,8 +24,7 @@ namespace Dietician.Storage
             var userEntity = new UserEntity()
             {
                 PartitionKey = user.Login,
-                RowKey = user.PersonId.ToString(),
-                UserModelData = user
+                RowKey = user.PersonId.ToString()
             };
 
             var tableOperation = TableOperation.InsertOrMerge(userEntity);

@@ -5,9 +5,31 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Dietician.Storage.StorageModels
 {
-    public class UserEntity : TableEntity
+    public class UserEntity : AzureUser
     {
-        public PersonalData UserModelData { get; set; }
+
+        public string Name { get; set; }
+        public string Lastname { get; set; }
+        public int? Age { get; set; }
+        public int? Height { get; set; }
+        public Gender Gender { get; set; }
+        public int? Weight { get; set; }
+
+        public UserEntity()
+        {
+
+        }
+
+        public UserEntity(string name, string lastname,
+          int age, int height, Gender gender, int weight)
+        {
+            Name = name;
+            Lastname = lastname;
+            Age = age;
+            Height = height;
+            Gender = gender;
+            Weight = weight;
+        }
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
@@ -18,7 +40,7 @@ namespace Dietician.Storage.StorageModels
             string lastname = "";
             int age = 0;
             int height = 0;
-            Gender? gender=null;
+            Gender gender = 0;
             int weight = 0;
 
             foreach (var prop in properties)
@@ -54,22 +76,21 @@ namespace Dietician.Storage.StorageModels
                         break;
                 }
             }
-            UserModelData = new PersonalData(personId, login, password, name, lastname, age, height, gender, weight);
         }
 
         public override IDictionary<string, EntityProperty> WriteEntity(OperationContext context)
         {
             var result = new Dictionary<string, EntityProperty>
             {
-                {nameof(UserModelData.Login), new EntityProperty(UserModelData.Login)},
-                {nameof(UserModelData.Password), new EntityProperty(UserModelData.Password)},
-                {nameof(UserModelData.Name), new EntityProperty(UserModelData.Name)},
-                {nameof(UserModelData.Lastname), new EntityProperty(UserModelData.Lastname)},
-                {nameof(UserModelData.Age), new EntityProperty(UserModelData.Age)},
-                {nameof(UserModelData.PersonId), new EntityProperty(UserModelData.PersonId)},
-                {nameof(UserModelData.Weight), new EntityProperty(UserModelData.Weight)},
-                {nameof(UserModelData.Height), new EntityProperty(UserModelData.Height)},
-                {nameof(UserModelData.Gender), new EntityProperty(UserModelData.Gender.ToString())}
+                {nameof(UserName), new EntityProperty(UserName)},
+                {nameof(PasswordHash), new EntityProperty(PasswordHash)},
+                {nameof(Name), new EntityProperty(Name)},
+                {nameof(Lastname), new EntityProperty(Lastname)},
+                {nameof(Age), new EntityProperty(Age)},
+                {nameof(Id), new EntityProperty(Id)},
+                {nameof(Weight), new EntityProperty(Weight)},
+                {nameof(Height), new EntityProperty(Height)},
+                {nameof(Gender), new EntityProperty(Gender.ToString())}
             };
             return result;
         }
