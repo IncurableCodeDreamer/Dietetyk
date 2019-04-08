@@ -1,6 +1,8 @@
-﻿using Dietician.Storage.StorageModels;
+﻿using Dietician.Storage.Identity;
+using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,7 @@ using System.Threading.Tasks;
 
 namespace Dietician.Storage
 {
-    public class AzureUserStore: IUserStore<UserEntity>, IUserPasswordStore<UserEntity>, IUserLockoutStore<UserEntity>,
-                                 IUserTwoFactorStore<UserEntity>, IUserClaimsPrincipalFactory<UserEntity>, IUserClaimStore<UserEntity>
+    public class AzureUserStore: IUserStore<UserEntity>, IUserPasswordStore<UserEntity>
     {
         private readonly CloudTable cloudTable;
 
@@ -20,144 +21,47 @@ namespace Dietician.Storage
         {
             CloudStorageAccount csa = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=dietdevelop;AccountKey=8i5kPct+ng1gUz6qmCbFeL7j2U1/i6CyuRf+nsJTlLckrHyypoMl3/eWjHGnvK+DjNdRdVEv1MsZmFzNd4JmLg==;EndpointSuffix=core.windows.net");
             cloudTable = csa.CreateCloudTableClient().GetTableReference("userTable");
+            cloudTable.CreateIfNotExistsAsync();
         }
+
         #region UserStore
-        public Task AddClaimsAsync(UserEntity user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-        
-
-        public Task<IdentityResult> CreateAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ClaimsPrincipal> CreateAsync(UserEntity user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IdentityResult> DeleteAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Dispose()
         {
         }
 
-        public Task<UserEntity> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public Task<TableResult> CreateAsync(UserEntity user)
         {
-            throw new NotImplementedException();
+            TableOperation op = TableOperation.InsertOrMerge(user);
+            var result = cloudTable.ExecuteAsync(op);
+            return result;
         }
 
-        public Task<UserEntity> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public Task<TableResult> DeleteAsync(UserEntity user)
         {
-            throw new NotImplementedException();
+            TableOperation op = TableOperation.Delete(user);
+            var result = cloudTable.ExecuteAsync(op);
+            return result;
         }
 
-        public Task<int> GetAccessFailedCountAsync(UserEntity user, CancellationToken cancellationToken)
+        public Task<TableResult> UpdateAsync(UserEntity user)
         {
-            throw new NotImplementedException();
+            TableOperation op = TableOperation.Replace(user);
+            var result = cloudTable.ExecuteAsync(op);
+            return result;
         }
 
-        public Task<IList<Claim>> GetClaimsAsync(UserEntity user, CancellationToken cancellationToken)
+
+
+        public Task<IdentityResult> CreateAsync(UserEntity user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = CreateAsync(user);
+            IdentityResult identityResult = new Result { Success = true, ErrorMessages = null };
+
+            return Task.FromResult(identityResult);
         }
 
-        public Task<bool> GetLockoutEnabledAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DateTimeOffset?> GetLockoutEndDateAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetNormalizedUserNameAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetPasswordHashAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> GetTwoFactorEnabledAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetUserIdAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetUserNameAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<UserEntity>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> HasPasswordAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> IncrementAccessFailedCountAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveClaimsAsync(UserEntity user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ReplaceClaimAsync(UserEntity user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ResetAccessFailedCountAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetLockoutEnabledAsync(UserEntity user, bool enabled, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetLockoutEndDateAsync(UserEntity user, DateTimeOffset? lockoutEnd, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetNormalizedUserNameAsync(UserEntity user, string normalizedName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetPasswordHashAsync(UserEntity user, string passwordHash, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetTwoFactorEnabledAsync(UserEntity user, bool enabled, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetUserNameAsync(UserEntity user, string userName, CancellationToken cancellationToken)
+        public Task<IdentityResult> DeleteAsync(UserEntity user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
@@ -167,7 +71,69 @@ namespace Dietician.Storage
             throw new NotImplementedException();
         }
 
-     
+
+
+        public Task<UserEntity> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        {
+            //TableOperation op = TableOperation.Retrieve<AzureUser>(Constants.Id, userId)
+            TableOperation op = TableOperation.Retrieve<AzureUser>("personId", userId);
+            var result = cloudTable.ExecuteAsync(op);
+            UserEntity userEntity = result.Result.Result as UserEntity;
+            return Task.FromResult(userEntity);
+        }
+
+        public Task<UserEntity> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        {
+            TableQuery<AzureUser> query = new TableQuery<AzureUser>()
+                .Where(TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, normalizedUserName));
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+            UserEntity userEntity = result.Result.FirstOrDefault() as UserEntity;
+            return Task.FromResult(userEntity);
+        }
+
+        public Task<string> GetNormalizedUserNameAsync(UserEntity user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task<string> GetPasswordHashAsync(UserEntity user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.PasswordHash);
+        }
+
+        public Task<string> GetUserIdAsync(UserEntity user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Id);
+        }
+
+        public Task<string> GetUserNameAsync(UserEntity user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task<bool> HasPasswordAsync(UserEntity user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Id != null );
+        }
+
+        public Task SetNormalizedUserNameAsync(UserEntity user, string normalizedName, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task SetPasswordHashAsync(UserEntity user, string passwordHash, CancellationToken cancellationToken)
+        {
+            user.PasswordHash = passwordHash;
+            return Task.FromResult(0);
+        }
+
+        public Task SetUserNameAsync(UserEntity user, string userName, CancellationToken cancellationToken)
+        {
+            user.UserName = userName;
+            return Task.FromResult(0);
+        }
+
         #endregion
     }
 }

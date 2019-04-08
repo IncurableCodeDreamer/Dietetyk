@@ -18,13 +18,13 @@ namespace Dietician.Storage
             _tableStorage = new TableStorage(configuration);
             _userTable = configuration.GetVariable("UserTable");
         }
-        public async Task InsertUserIntoTable(PersonalData user)
+        public async Task InsertUserIntoTable(AzureUser user)
         {
             var table = await _tableStorage.GetTableReference(_userTable);
             var userEntity = new UserEntity()
             {
-                PartitionKey = user.Login,
-                RowKey = user.PersonId.ToString()
+                PartitionKey = user.PartitionKey,
+                RowKey = user.Id.ToString()
             };
 
             var tableOperation = TableOperation.InsertOrMerge(userEntity);
@@ -67,6 +67,7 @@ namespace Dietician.Storage
 
             return result != null;
         }
+        
     }
 }
 

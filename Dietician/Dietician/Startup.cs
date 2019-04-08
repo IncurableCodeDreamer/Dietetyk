@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dietician.Storage;
 using Dietician.Storage.StorageModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,8 @@ namespace Dietician
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -37,19 +40,11 @@ namespace Dietician
             });
 
             IdentityServiceCollectionExtensions.AddIdentity<UserEntity>(services)
-                .AddSignInManager<SignInManager<UserEntity>>()
-                .AddUserManager<UserManager<UserEntity>>()
                 .AddUserStore<AzureUserStore>()
                 .AddDefaultTokenProviders();
-
-            /*services.AddIdentity<UserEntity, IdentityRole>()
-                .AddSignInManager<SignInManager<UserEntity>>()
-                .AddUserManager<UserManager<UserEntity>>()
-                .AddDefaultTokenProviders();*/
+            
            
-            //services.AddTransient<IUserRepository, UserRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddSingleton<IUserRepository, UserRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -69,6 +64,8 @@ namespace Dietician
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

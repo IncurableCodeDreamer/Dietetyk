@@ -10,6 +10,7 @@ namespace Dietician.Storage.StorageModels
     { 
         public AzureUser()
         {
+            PartitionKey = Guid.NewGuid().ToString();
             RowKey = Guid.NewGuid().ToString();
             Id = RowKey;
         }

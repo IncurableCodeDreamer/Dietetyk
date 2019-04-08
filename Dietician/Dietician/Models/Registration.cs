@@ -8,10 +8,10 @@ namespace Dietician.Models
 {
     public class Registration
     {
-        [Required, MinLength(8), MaxLength(20), Display(Name = "Login")]
+        [Required, MinLength(4), MaxLength(20), Display(Name = "Login")]
         public string Login { get; set; }
 
-        [Required, MinLength(8), MaxLength(20), DataType(DataType.Password), Display(Name = "Hasło")]
+        [Required, MinLength(4), MaxLength(20), DataType(DataType.Password), Display(Name = "Hasło")]
         public string Password { get; set; }
 
         [Required, MinLength(8), MaxLength(20), DataType(DataType.Password), Display(Name = "Potwierdź hasło")]

@@ -8,7 +8,7 @@ namespace Dietician.Storage
 {
     public interface IUserRepository
     {
-        Task InsertUserIntoTable(PersonalData user);
+        Task InsertUserIntoTable(AzureUser user);
         Task<bool> CheckIfUserExist(string login);
         Task<bool> VerifyPassword(string login, string password);
     }

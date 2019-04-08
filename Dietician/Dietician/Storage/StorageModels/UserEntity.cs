@@ -47,13 +47,13 @@ namespace Dietician.Storage.StorageModels
             {
                 switch (prop.Key.ToLower())
                 {
-                    case "personid":
+                    case "id":
                         personId = (int) prop.Value.Int32Value;
                         break;
-                    case "login":
-                        login = prop.Value.StringValue;
+                    case "username":
+                        login = prop.Value.StringValue.ToUpper();
                         break;
-                    case "password":
+                    case "passwordhash":
                         password = prop.Value.StringValue;
                         break;
                     case "name":
@@ -75,6 +75,16 @@ namespace Dietician.Storage.StorageModels
                         gender = (Gender) prop.Value.PropertyType;
                         break;
                 }
+
+                Id = personId.ToString();
+                UserName = login;
+                PasswordHash = password;
+                Name = name;
+                Lastname = lastname;
+                Age = age;
+                Height = height;
+                Gender = gender;
+                Weight = weight;
             }
         }
 

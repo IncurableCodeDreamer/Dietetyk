@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dietician.Models;
+using Dietician.Storage.Identity;
 using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,17 @@ namespace Dietician.Controllers
         {
              _userManager = userManager;
              _signInManager = signInManager;
+        }
+
+        public IActionResult Login()
+        {
+            /* var model = new Registration()
+             {
+                 PersonalData = new PersonalDataSettings(),
+                 Menu = new MenuSettings(),
+                 Activity = new ActivitySettings()
+             };*/
+            return RedirectToAction("Register");
         }
 
         public IActionResult Register()
@@ -42,7 +54,7 @@ namespace Dietician.Controllers
             var user = new UserEntity { UserName = registration.Login };
             var result = await _userManager.CreateAsync(user, registration.Password);
 
-            if (result.Succeeded)
+            if ((result as Result).Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
                 return RedirectToAction("Index", "Home");
