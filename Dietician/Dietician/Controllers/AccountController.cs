@@ -15,11 +15,13 @@ namespace Dietician.Controllers
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
+        private readonly IUserRepository _userRepository;
 
-        public AccountController(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager)
+        public AccountController(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, IAppConfiguration appConfiguration)
         {
              _userManager = userManager;
              _signInManager = signInManager;
+            _userRepository = new UserRepository(appConfiguration);
         }
 
         public IActionResult Login()
@@ -47,11 +49,20 @@ namespace Dietician.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(Registration registration)
         {
+            bool userExist = await _userRepository.CheckIfUserExist(registration.Login);
+
             if (!ModelState.IsValid)
             {
                 return View(registration);
                 
             }
+
+            /*if (userExist)
+            {
+                ModelState.AddModelError("userExist", "Użytkownik o podanym loginie już istnieje");
+                return View(registration);
+            }*/
+
             var user = new UserEntity { UserName = registration.Login };
             var result = await _userManager.CreateAsync(user, registration.Password);
 

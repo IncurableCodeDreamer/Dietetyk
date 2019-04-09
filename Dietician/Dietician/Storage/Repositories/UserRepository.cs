@@ -53,7 +53,7 @@ namespace Dietician.Storage
         public async Task<bool> CheckIfUserExist(string login)
         {
             var table = await _tableStorage.GetTableReference(_userTable);
-            var loginFilter = TableQuery.GenerateFilterCondition("Login", QueryComparisons.Equal, login);
+            var loginFilter = TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, login);
             var query = new TableQuery<UserEntity>().Where(loginFilter);
             TableContinuationToken tableContinuationToken = null;
             UserEntity result;

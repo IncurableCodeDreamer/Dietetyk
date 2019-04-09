@@ -8,67 +8,71 @@
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
-
-    <div class="form-group">
-        <div class="container mb-4">
-            <h4>Utwórz nowe konto</h4>
-        </div>
-        <div class="container mb-4">
-            <div class="row" style="max-width:400px">
-                <div class="col">
-                    @Html.LabelFor(m => m.Login, "Login")
-                </div>
-                <div class="col">
-                    @Html.EditorFor(m => m.Login, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-
-            <div class="row" style="max-width:400px">
-                <div class="col">
-                    @Html.LabelFor(m => m.Password, "Hasło")
-                </div>
-                <div class="col">
-                    @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-
-            <div class="row" style="max-width:400px">
-                <div class="col">
-                    @Html.LabelFor(m => m.ConfirmPassword, "Potwierdź hasło")
-                </div>
-                <div class="col">
-                    @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-        </div>
-
-        <!--<div class="container mb-4">
-               <h6>Uzupełnij dane osobowe</h6>
-               <div class="divider"></div>
-               Html.Partial("~/Views/Settings/PersonalData.cshtml", Model.PersonalData)
-           </div>
-
-           <div class="container mb-4">
-               <h6>Uzupełnij swoje preferencje dotyczące jadłospisu</h6>
-               <div class="divider"></div>
-               Html.Partial("~/Views/Settings/Menu.cshtml", Model.Menu)
-           </div>
-
-           <div class="container mb-4">
-               <h6>Uzupełnij dane dotyczące aktywności fizycznej</h6>
-               <div class="divider"></div>
-               Html.Partial("~/Views/Settings/ActivitySettings.cshtml", Model.Activity)
-           </div>
-          -->
-        <div class="container mb-4">
-            <div class="row" style="max-width:400px">
-                <div class="col">
-                    <input type="submit" value="Zarejestruj się" class="btn btn-primary" />
-                </div>
-            </div>
-        </div>
-
+<div class="form-group">
+    <div class="container mb-4">
+        <h4>Utwórz nowe konto</h4>
     </div>
+
+    @Html.ValidationSummary()
+    <div class="container mb-4">
+        <div class="row" style="max-width:400px">
+            <div class="col">
+                @Html.LabelFor(m => m.Login, "Login")
+            </div>
+            <div class="col">
+                @Html.EditorFor(m => m.Login, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @*@Html.ValidationMessageFor(m => m.Login)*@
+        </div>
+
+        <div class="row" style="max-width:400px">
+            <div class="col">
+                @Html.LabelFor(m => m.Password, "Hasło")
+            </div>
+            <div class="col">
+                @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @*@Html.ValidationMessageFor(m => m.Password)*@
+        </div>
+
+        <div class="row" style="max-width:400px">
+            <div class="col">
+                @Html.LabelFor(m => m.ConfirmPassword, "Potwierdź hasło")
+            </div>
+            <div class="col">
+                @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @*@Html.ValidationMessageFor(m => m.ConfirmPassword)*@
+        </div>
+    </div>
+
+    <!--<div class="container mb-4">
+           <h6>Uzupełnij dane osobowe</h6>
+           <div class="divider"></div>
+           Html.Partial("~/Views/Settings/PersonalData.cshtml", Model.PersonalData)
+       </div>
+
+       <div class="container mb-4">
+           <h6>Uzupełnij swoje preferencje dotyczące jadłospisu</h6>
+           <div class="divider"></div>
+           Html.Partial("~/Views/Settings/Menu.cshtml", Model.Menu)
+       </div>
+
+       <div class="container mb-4">
+           <h6>Uzupełnij dane dotyczące aktywności fizycznej</h6>
+           <div class="divider"></div>
+           Html.Partial("~/Views/Settings/ActivitySettings.cshtml", Model.Activity)
+       </div>
+      -->
+    <div class="container mb-4">
+        <div class="row" style="max-width:400px">
+            <div class="col">
+                <input type="submit" value="Zarejestruj się" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+</div>
 }
 
 

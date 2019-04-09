@@ -8,10 +8,11 @@ namespace Dietician.Models
 {
     public class Registration
     {
-        [Required, MinLength(4), MaxLength(20), Display(Name = "Login")]
+        [Required(ErrorMessage ="Login musi składać się z min. 4 znaków"), MinLength(4), MaxLength(20), Display(Name = "Login")]
         public string Login { get; set; }
 
-        [Required, MinLength(4), MaxLength(20), DataType(DataType.Password), Display(Name = "Hasło")]
+        [Required(ErrorMessage = "Hasło powinno składać się z min. 8 znaków (w tym 1 dużą literę, 1 cyfrę i 1 znak specjalny")]
+        [MinLength(8), MaxLength(20), DataType(DataType.Password), Display(Name = "Hasło")]
         public string Password { get; set; }
 
         [Required, MinLength(8), MaxLength(20), DataType(DataType.Password), Display(Name = "Potwierdź hasło")]

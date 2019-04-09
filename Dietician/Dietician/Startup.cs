@@ -29,11 +29,9 @@ namespace Dietician
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options => {
-                        options.LoginPath = "/Account/Login/";
-                        //options.AccessDeniedPath = "/Account/Forbidden/";
-                    });
+            services
+                .AddAuthentication(IdentityConstants.ApplicationScheme)
+                .AddCookie(IdentityConstants.ApplicationScheme);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -44,6 +42,7 @@ namespace Dietician
 
             IdentityServiceCollectionExtensions.AddIdentity<UserEntity>(services)
                 .AddUserStore<AzureUserStore>()
+                .AddSignInManager()
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IAppConfiguration, AppConfiguration>();
