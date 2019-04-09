@@ -8,7 +8,7 @@ using Dietician.Models;
 
 namespace Dietician.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {

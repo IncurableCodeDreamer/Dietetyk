@@ -51,8 +51,6 @@ namespace Dietician.Storage
             return result;
         }
 
-
-
         public Task<IdentityResult> CreateAsync(UserEntity user, CancellationToken cancellationToken)
         {
             var result = CreateAsync(user);

@@ -1,15 +1,19 @@
-﻿@model ActivitySettings
+﻿@using Dietician.Enums;
+@model ActivitySettings
 
-<div class="row" style="max-width:400px">
+<div class="row">
     <div class="col">
         @Html.LabelFor(m => m.LifeStyle, "Poziom aktywności")
     </div>
-    <div class="col">
+    <div class="col input">
         @Html.DropDownListFor(model =>
             model.LifeStyle,
-            new SelectList(new List<string>() {
-                "Niski", "Średni", "Wysoki",
-            }), new { @class = "form-control" }
-        )
-    </div>
+            new SelectList(new Dictionary<string,string>() {
+    { "Nieaktywny (brak ćwiczeń)" ,Lifestyle.Nieaktywny.ToString() },
+    { "Mało aktywny (lekkie ćwiczenia)",Lifestyle.MaloAktywny.ToString() },
+    { "Średnio aktywny (wysiłek 3–5 razy tygodniowo)", Lifestyle.SrednioAktywny.ToString() },
+    { "Aktywny (wysiłek 6–7 razy w tygodniu)", Lifestyle.Aktywny.ToString() },
+    { "Bardzo aktywny (ćwiczenia i praca fizyczna)", Lifestyle.BardzoAktywny.ToString() }
+    }, "Value", "Key"), new { @class = "form-control" })
+</div>
 </div>

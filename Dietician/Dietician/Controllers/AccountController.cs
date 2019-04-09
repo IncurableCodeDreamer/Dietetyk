@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dietician.Models;
+using Dietician.Storage;
 using Dietician.Storage.Identity;
 using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dietician.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;

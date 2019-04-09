@@ -45,8 +45,8 @@ namespace Dietician
             IdentityServiceCollectionExtensions.AddIdentity<UserEntity>(services)
                 .AddUserStore<AzureUserStore>()
                 .AddDefaultTokenProviders();
-            
-           
+
+            services.AddScoped<IAppConfiguration, AppConfiguration>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

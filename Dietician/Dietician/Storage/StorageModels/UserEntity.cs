@@ -33,7 +33,7 @@ namespace Dietician.Storage.StorageModels
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
-            int personId = 0;
+            string personId = "";
             string login = "";
             string password = "";
             string name = "";
@@ -48,10 +48,10 @@ namespace Dietician.Storage.StorageModels
                 switch (prop.Key.ToLower())
                 {
                     case "id":
-                        personId = (int) prop.Value.Int32Value;
+                        personId = prop.Value.StringValue;
                         break;
                     case "username":
-                        login = prop.Value.StringValue.ToUpper();
+                        login = prop.Value.StringValue;
                         break;
                     case "passwordhash":
                         password = prop.Value.StringValue;
@@ -72,11 +72,11 @@ namespace Dietician.Storage.StorageModels
                         weight = (int)prop.Value.Int32Value;
                         break;
                     case "gender":
-                        gender = (Gender) prop.Value.PropertyType;
+                        gender = prop.Value.StringValue==Gender.Kobieta.ToString() ? Gender.Kobieta:Gender.Mężczyzna;
                         break;
                 }
 
-                Id = personId.ToString();
+                Id = personId;
                 UserName = login;
                 PasswordHash = password;
                 Name = name;

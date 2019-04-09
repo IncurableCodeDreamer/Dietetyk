@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dietician.Controllers
 {
-    public class StatisticsController : Controller
+    public class StatisticsController : BaseController
     {
         public IActionResult Index()
         {

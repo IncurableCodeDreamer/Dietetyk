@@ -1,42 +1,55 @@
 ﻿@model PersonalDataSettings
 
-<div class="row" style="max-width:400px">
+<div class="row">
     <div class="col">
         @Html.LabelFor(m => m.Name, "Imię")
     </div>
-    <div class="col">
+    <div class="col input">
         @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
     </div>
 </div>
-<div class="row" style="max-width:400px">
+
+<div class="row">
     <div class="col">
         @Html.LabelFor(m => m.Lastname, "Nazwisko")
     </div>
-    <div class="col">
+    <div class="col input">
         @Html.EditorFor(m => m.Lastname, new { htmlAttributes = new { @class = "form-control" } })
     </div>
 </div>
-<div class="row" style="max-width:400px">
+
+<div class="row">
     <div class="col">
         @Html.LabelFor(m => m.Age, "Wiek")
     </div>
-    <div class="col">
+    <div class="col input">
         @Html.EditorFor(m => m.Age, new { htmlAttributes = new { @class = "form-control" } })
     </div>
 </div>
-<div class="row" style="max-width:400px">
+
+<div class="row">
     <div class="col">
-        @Html.LabelFor(m => m.Height, "Wzrost")
+        @Html.LabelFor(m => m.Height, "Wzrost [cm]")
     </div>
-    <div class="col">
+    <div class="col input">
         @Html.EditorFor(m => m.Height, new { htmlAttributes = new { @class = "form-control" } })
     </div>
 </div>
-<div class="row" style="max-width:400px">
+
+<div class="row">
     <div class="col">
-        @Html.RadioButtonFor(model => model.Gender, "1") Kobieta
+        @Html.LabelFor(m => m.Weight, "Waga [kg]")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Weight, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.RadioButtonFor(model => model.Gender, Gender.Kobieta.ToString()) Kobieta
     </div>
     <div class="col">
-        @Html.RadioButtonFor(model => model.Gender, "2") Mężczyzna
+        @Html.RadioButtonFor(model => model.Gender, Gender.Mężczyzna.ToString()) Mężczyzna
     </div>
 </div>

@@ -8,8 +8,8 @@ namespace Dietician.Storage
 
         string GetVariable(string name);
 
-         string GetEnvironmentVariable(string name);
+        string GetEnvironmentVariable(string name);
 
-         IConfigurationSection GetSection(string key);
+        IConfigurationSection GetSection(string key);
     }
 }

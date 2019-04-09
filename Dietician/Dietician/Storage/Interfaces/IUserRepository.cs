@@ -11,5 +11,7 @@ namespace Dietician.Storage
         Task InsertUserIntoTable(AzureUser user);
         Task<bool> CheckIfUserExist(string login);
         Task<bool> VerifyPassword(string login, string password);
+        Task<UserEntity> GetUserFromTable(string userName);
+        void UpdateUser(UserEntity user);
     }
 }

@@ -32,6 +32,24 @@ namespace Dietician.Storage
 
         }
 
+        public async Task<UserEntity> GetUserFromTable(string userName)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_userTable);
+            TableQuery<UserEntity> query = new TableQuery<UserEntity>()
+                .Where(TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, userName));
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+            UserEntity userEntity = result.Result.FirstOrDefault() as UserEntity;
+            return userEntity;
+        }
+
+        public async void UpdateUser(UserEntity user)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_userTable);
+            TableOperation op = TableOperation.Replace(user);
+            var result = cloudTable.ExecuteAsync(op);
+        }
+
         public async Task<bool> CheckIfUserExist(string login)
         {
             var table = await _tableStorage.GetTableReference(_userTable);
