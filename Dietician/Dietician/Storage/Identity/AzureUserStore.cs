@@ -73,21 +73,26 @@ namespace Dietician.Storage
 
         public Task<UserEntity> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            //TableOperation op = TableOperation.Retrieve<AzureUser>(Constants.Id, userId)
             TableOperation op = TableOperation.Retrieve<AzureUser>("personId", userId);
             var result = cloudTable.ExecuteAsync(op);
             UserEntity userEntity = result.Result.Result as UserEntity;
             return Task.FromResult(userEntity);
         }
 
-        public Task<UserEntity> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<UserEntity> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            TableQuery<AzureUser> query = new TableQuery<AzureUser>()
-                .Where(TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, normalizedUserName));
-            TableContinuationToken tableContinuationToken = new TableContinuationToken();
-            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
-            UserEntity userEntity = result.Result.FirstOrDefault() as UserEntity;
-            return Task.FromResult(userEntity);
+            var loginFilter = TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, normalizedUserName);
+            var query = new TableQuery<UserEntity>().Where(loginFilter);
+            TableContinuationToken tableContinuationToken = null;
+            UserEntity userEntity;
+            do
+            {
+                var segmentedResult = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                userEntity = segmentedResult.Results.FirstOrDefault();
+            } while (tableContinuationToken != null);
+
+            return await Task.FromResult(userEntity);
         }
 
         public Task<string> GetNormalizedUserNameAsync(UserEntity user, CancellationToken cancellationToken)

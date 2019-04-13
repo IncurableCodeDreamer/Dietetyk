@@ -24,25 +24,30 @@ namespace Dietician.Controllers
             _userRepository = new UserRepository(appConfiguration);
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
-            /* var model = new Registration()
-             {
-                 PersonalData = new PersonalDataSettings(),
-                 Menu = new MenuSettings(),
-                 Activity = new ActivitySettings()
-             };*/
-            return RedirectToAction("Register");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel loginModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(loginModel.Login, loginModel.Password, true , false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View();
         }
 
         public IActionResult Register()
         {
-           /* var model = new Registration()
-            {
-                PersonalData = new PersonalDataSettings(),
-                Menu = new MenuSettings(),
-                Activity = new ActivitySettings()
-            };*/
             return View();
         }
 
@@ -57,11 +62,11 @@ namespace Dietician.Controllers
                 
             }
 
-            /*if (userExist)
+            if (userExist)
             {
                 ModelState.AddModelError("userExist", "Użytkownik o podanym loginie już istnieje");
                 return View(registration);
-            }*/
+            }
 
             var user = new UserEntity { UserName = registration.Login };
             var result = await _userManager.CreateAsync(user, registration.Password);
