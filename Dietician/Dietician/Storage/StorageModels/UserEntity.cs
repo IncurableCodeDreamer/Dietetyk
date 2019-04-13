@@ -17,7 +17,6 @@ namespace Dietician.Storage.StorageModels
 
         public UserEntity()
         {
-
         }
 
         public UserEntity(string name, string lastname,
@@ -33,58 +32,38 @@ namespace Dietician.Storage.StorageModels
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
-            string personId = "";
-            string login = "";
-            string password = "";
-            string name = "";
-            string lastname = "";
-            int age = 0;
-            int height = 0;
-            Gender gender = 0;
-            int weight = 0;
-
             foreach (var prop in properties)
             {
                 switch (prop.Key.ToLower())
                 {
                     case "id":
-                        personId = prop.Value.StringValue;
+                        Id = prop.Value.StringValue;
                         break;
                     case "username":
-                        login = prop.Value.StringValue;
+                        UserName = prop.Value.StringValue;
                         break;
                     case "passwordhash":
-                        password = prop.Value.StringValue;
+                        PasswordHash = prop.Value.StringValue;
                         break;
                     case "name":
-                        name = prop.Value.StringValue;
+                        Name = prop.Value.StringValue;
                         break;
                     case "lastname":
-                        lastname = prop.Value.StringValue;
+                        Lastname = prop.Value.StringValue;
                         break;
                     case "age":
-                        age = (int)prop.Value.Int32Value;
+                        Age = (int)prop.Value.Int32Value;
                         break;
                     case "height":
-                        height = (int)prop.Value.Int32Value;
+                        Height = (int)prop.Value.Int32Value;
                         break;
                     case "weight":
-                        weight = (int)prop.Value.Int32Value;
+                        Weight = (int)prop.Value.Int32Value;
                         break;
                     case "gender":
-                        gender = prop.Value.StringValue==Gender.Kobieta.ToString() ? Gender.Kobieta:Gender.Mężczyzna;
+                        Gender = prop.Value.StringValue==Gender.Kobieta.ToString() ? Gender.Kobieta:Gender.Mężczyzna;
                         break;
                 }
-
-                Id = personId;
-                UserName = login;
-                PasswordHash = password;
-                Name = name;
-                Lastname = lastname;
-                Age = age;
-                Height = height;
-                Gender = gender;
-                Weight = weight;
             }
         }
 
