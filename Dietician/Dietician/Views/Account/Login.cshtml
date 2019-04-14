@@ -19,6 +19,7 @@
                 </div>
                 <div class="col">
                     @Html.EditorFor(m => m.Login, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Login)
                 </div>
             </div>
 
@@ -28,6 +29,7 @@
                 </div>
                 <div class="col">
                     @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Password)
                 </div>
             </div>
         </div>
@@ -49,5 +51,12 @@
 <style>
     .row {
         margin-bottom: 5px;
+    }
+    .field-validation-error {
+        color: red;
+        font-size: small;
+    }
+    .input-validation-error {
+        border-color: red;
     }
 </style>

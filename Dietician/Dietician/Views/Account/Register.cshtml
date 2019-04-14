@@ -13,7 +13,6 @@
         <h4>Utwórz nowe konto</h4>
     </div>
 
-    @Html.ValidationSummary()
     <div class="container mb-4">
         <div class="row" style="max-width:400px">
             <div class="col">
@@ -21,8 +20,8 @@
             </div>
             <div class="col">
                 @Html.EditorFor(m => m.Login, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Login)
             </div>
-            @*@Html.ValidationMessageFor(m => m.Login)*@
         </div>
 
         <div class="row" style="max-width:400px">
@@ -31,8 +30,8 @@
             </div>
             <div class="col">
                 @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Password)
             </div>
-            @*@Html.ValidationMessageFor(m => m.Password)*@
         </div>
 
         <div class="row" style="max-width:400px">
@@ -41,8 +40,9 @@
             </div>
             <div class="col">
                 @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
-            @*@Html.ValidationMessageFor(m => m.ConfirmPassword)*@
+            
         </div>
     </div>
 
@@ -79,5 +79,12 @@
 <style>
     .row {
         margin-bottom: 5px;
+    }
+    .field-validation-error {
+        color: red;
+        font-size: small;
+    }
+    .input-validation-error {
+        border-color: red;
     }
 </style>

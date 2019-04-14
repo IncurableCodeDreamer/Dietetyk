@@ -13,7 +13,14 @@ namespace Dietician.Controllers
 
         public UserEntity GetLoggedUser(IUserRepository _repository)
         {
-            UserEntity user = _repository.GetUserFromTable("SUPERUSER").Result;
+            UserEntity user = null;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var name = HttpContext.User.Identity.Name;
+                user = _repository.GetUserFromTable(name).Result;
+            }
+
             return user;
         }
     }

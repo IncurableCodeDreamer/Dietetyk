@@ -8,10 +8,10 @@ namespace Dietician.Models
 {
     public class LoginModel
     {
-        [Required, MinLength(4), MaxLength(20), Display(Name = "Login")]
+        [Required(ErrorMessage = "Pole jest wymagane"), Display(Name = "Login")]
         public string Login { get; set; }
 
-        [Required, MinLength(4), MaxLength(20), DataType(DataType.Password), Display(Name = "Hasło")]
+        [Required(ErrorMessage = "Pole jest wymagane"), DataType(DataType.Password), Display(Name = "Hasło")]
         public string Password { get; set; }
 
     }

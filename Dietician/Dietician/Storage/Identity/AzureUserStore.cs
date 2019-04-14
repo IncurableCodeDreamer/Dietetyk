@@ -61,15 +61,20 @@ namespace Dietician.Storage
 
         public Task<IdentityResult> DeleteAsync(UserEntity user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+
+            var result = DeleteAsync(user);
+            IdentityResult identityResult = new Result { Success = true, ErrorMessages = null };
+
+            return Task.FromResult(identityResult);
         }
 
         public Task<IdentityResult> UpdateAsync(UserEntity user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = UpdateAsync(user);
+            IdentityResult identityResult = new Result { Success = true, ErrorMessages = null };
+
+            return Task.FromResult(identityResult);
         }
-
-
 
         public Task<UserEntity> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Dietician.Models;
 using Dietician.Storage;
 using Dietician.Storage.Identity;
 using Dietician.Storage.StorageModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Dietician.Controllers
 {
@@ -23,6 +23,27 @@ namespace Dietician.Controllers
              _signInManager = signInManager;
             _userRepository = new UserRepository(appConfiguration);
         }
+        
+        public async Task<IActionResult> Logout()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var cookies = Request.Cookies.Keys;
+                foreach (var cookie in cookies)
+                {
+                    Response.Cookies.Delete(cookie, new Microsoft.AspNetCore.Http.CookieOptions()
+                    {
+                        Domain = Request.Host.Host
+                    });
+                }
+                //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                //var scheme = User.FindFirst("ADMIN2").Value;
+                //await HttpContext.SignOutAsync(User.Identity.Name);
+                //await _signInManager.SignOutAsync();
+            }
+            var s = HttpContext.User.Identity.Name;
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpGet]
         public IActionResult Login()
@@ -33,13 +54,26 @@ namespace Dietician.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-
+            
             if (ModelState.IsValid)
             {
+                bool userExist = await _userRepository.CheckIfUserExist(loginModel.Login);
+
+                if (!userExist)
+                {
+                    ModelState.AddModelError("Login", "Użytkownik o podanym loginie nie istnieje");
+                    return View(loginModel);
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(loginModel.Login, loginModel.Password, true , false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("Password", "Błędne hasło");
+                    return View(loginModel);
                 }
             }
 
@@ -64,7 +98,7 @@ namespace Dietician.Controllers
 
             if (userExist)
             {
-                ModelState.AddModelError("userExist", "Użytkownik o podanym loginie już istnieje");
+                ModelState.AddModelError("Login", "Użytkownik o podanym loginie już istnieje");
                 return View(registration);
             }
 
