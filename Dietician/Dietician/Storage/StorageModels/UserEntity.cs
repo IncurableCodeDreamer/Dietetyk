@@ -71,7 +71,7 @@ namespace Dietician.Storage.StorageModels
         {
             var result = new Dictionary<string, EntityProperty>
             {
-                {nameof(UserName), new EntityProperty(UserName)},
+                {nameof(UserName), new EntityProperty(UserName.ToUpper())},
                 {nameof(PasswordHash), new EntityProperty(PasswordHash)},
                 {nameof(Name), new EntityProperty(Name)},
                 {nameof(Lastname), new EntityProperty(Lastname)},

@@ -57,7 +57,7 @@ namespace Dietician.Controllers
             
             if (ModelState.IsValid)
             {
-                bool userExist = await _userRepository.CheckIfUserExist(loginModel.Login);
+                bool userExist = await _userRepository.CheckIfUserExist(loginModel.Login.ToUpper());
 
                 if (!userExist)
                 {
@@ -88,7 +88,7 @@ namespace Dietician.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(Registration registration)
         {
-            bool userExist = await _userRepository.CheckIfUserExist(registration.Login);
+            bool userExist = await _userRepository.CheckIfUserExist(registration.Login.ToUpper());
 
             if (!ModelState.IsValid)
             {
