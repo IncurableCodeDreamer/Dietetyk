@@ -88,13 +88,14 @@ namespace Dietician.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(Registration registration)
         {
-            bool userExist = await _userRepository.CheckIfUserExist(registration.Login.ToUpper());
-
+          
             if (!ModelState.IsValid)
             {
                 return View(registration);
                 
             }
+
+            bool userExist = await _userRepository.CheckIfUserExist(registration.Login.ToUpper());
 
             if (userExist)
             {
