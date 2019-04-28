@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dietician.Storage.StorageModels;
 
 namespace Dietician.Storage.Interfaces
 {
-    public class IIngredientsRepository
+    interface IIngredientsRepository
     {
+        Task InsertIngredientsIntoTable(IngredientsModel model);
+        Task<IngredientEntity> GetIIngredientsFromTable(string idIngredients);
     }
 }

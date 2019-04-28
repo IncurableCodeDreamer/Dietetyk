@@ -16,7 +16,7 @@ namespace Dietician.Storage.Repositories
         public MealRepository(IAppConfiguration configuration)
         {
             _tableStorage = new TableStorage(configuration);
-            _mealsTable = configuration.GetVariable("IndicatorsTable");
+            _mealsTable = configuration.GetVariable("MealTable");
         }
         public async Task InsertMealIntoTable(MealModel model)
         {
