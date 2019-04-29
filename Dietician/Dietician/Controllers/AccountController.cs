@@ -2,6 +2,7 @@
 using Dietician.Models;
 using Dietician.Storage;
 using Dietician.Storage.Identity;
+using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

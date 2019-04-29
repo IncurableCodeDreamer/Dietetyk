@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Dietician.Models;
 using Dietician.Storage.StorageModels;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Dietician.Storage
+namespace Dietician.Storage.Repositories
 {
     public class UserRepository: IUserRepository
     { 
@@ -24,7 +21,7 @@ namespace Dietician.Storage
             var userEntity = new UserEntity()
             {
                 PartitionKey = user.PartitionKey,
-                RowKey = user.Id.ToString()
+                RowKey = user.Id
             };
 
             var tableOperation = TableOperation.InsertOrMerge(userEntity);
@@ -39,7 +36,7 @@ namespace Dietician.Storage
                 .Where(TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, userName));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
             var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
-            UserEntity userEntity = result.Result.FirstOrDefault() as UserEntity;
+            UserEntity userEntity = result.Result.FirstOrDefault();
             return userEntity;
         }
 

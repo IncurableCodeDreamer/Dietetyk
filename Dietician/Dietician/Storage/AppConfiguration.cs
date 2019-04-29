@@ -11,7 +11,14 @@ namespace Dietician.Storage
         private readonly Dictionary<string, string> _configDictionary = new Dictionary<string, string>
 
         {
-            {"UserTable","userTable" }
+            {"UserTable","userTable" },
+            { "MealSettingsTable", "mealSettingsTable"},
+            {"IndicatorsTable","indicatorsTable"},
+            {"MealTable","mealTable"},
+            {"MealTypeTable","mealTypeTable"},
+            {"UserIndicatorsTable","userIndicatorsTable"},
+            {"UserMealTable","userMealTable"},
+            {"IngredientsTable","ingredientsTable"}
         };
 
         public AppConfiguration(IConfiguration configuration)
