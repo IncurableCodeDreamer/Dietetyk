@@ -6,7 +6,7 @@ using Dietician.Storage.StorageModels;
 
 namespace Dietician.Storage.Interfaces
 {
-    interface IUserMealRepository
+    public interface IUserMealRepository
     {
         Task InsertUserMealIntoTable(UserMealModel model);
         Task<UserMealEntity> GetUserMealFromTableFromMealID(string idMeal);

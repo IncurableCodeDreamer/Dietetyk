@@ -3,7 +3,7 @@ using Dietician.Storage.StorageModels;
 
 namespace Dietician.Storage.Interfaces
 {
-    interface IUserIndicatorsRepository
+    public interface IUserIndicatorsRepository
     {
         Task InsertUserIndicatorsIntoTable(UserIndicatorModel model);
         Task<UserIndicatorsEntity> GetUserIndicatorFromTableFromIdUser(string idUser);

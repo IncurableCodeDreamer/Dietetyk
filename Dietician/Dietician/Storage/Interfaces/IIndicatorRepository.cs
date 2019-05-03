@@ -6,7 +6,7 @@ using Dietician.Storage.StorageModels;
 
 namespace Dietician.Storage.Interfaces
 {
-    interface IIndicatorRepository
+    public interface IIndicatorRepository
     {
         Task InsertIndicatorsIntoTable(IndicatorModel model);
         Task<IndicatorEntity> GetIndicatorFromTable(string idIndicator);

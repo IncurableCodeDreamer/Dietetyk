@@ -17,7 +17,7 @@ namespace Dietician.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var name = HttpContext.User.Identity.Name;
+                var name = HttpContext.User.Identity.Name.ToUpper();
                 user = _repository.GetUserFromTable(name).Result;
             }
 

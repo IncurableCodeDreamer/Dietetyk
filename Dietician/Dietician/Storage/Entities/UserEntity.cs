@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using Dietician.Enums;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -11,23 +12,20 @@ namespace Dietician.Storage.StorageModels
         public string Name { get; set; }
         public string Lastname { get; set; }
         public int? Age { get; set; }
-        public int? Height { get; set; }
         public Gender Gender { get; set; }
-        public int? Weight { get; set; }
+        public Lifestyle LifeStyle { get; set; }
+        public int? IdMealSetting { get; set; }
 
         public UserEntity()
         {
         }
 
-        public UserEntity(string name, string lastname,
-          int age, int height, Gender gender, int weight)
+        public UserEntity(string name, string lastname, int age,  Gender gender)
         {
-            Name = name;
+            Name = name.ToUpper();
             Lastname = lastname;
             Age = age;
-            Height = height;
             Gender = gender;
-            Weight = weight;
         }
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
@@ -54,14 +52,14 @@ namespace Dietician.Storage.StorageModels
                     case "age":
                         Age = (int)prop.Value.Int32Value;
                         break;
-                    case "height":
-                        Height = (int)prop.Value.Int32Value;
-                        break;
-                    case "weight":
-                        Weight = (int)prop.Value.Int32Value;
-                        break;
                     case "gender":
-                        Gender = prop.Value.StringValue==Gender.Kobieta.ToString() ? Gender.Kobieta:Gender.Mężczyzna;
+                        Gender = (Gender)prop.Value.Int32Value;
+                        break;
+                    case "lifestyle":
+                        LifeStyle = (Lifestyle) prop.Value.Int32Value;
+                        break;
+                    case "idmealsettings":
+                        IdMealSetting = (int)prop.Value.Int32Value;
                         break;
                 }
             }
@@ -77,9 +75,9 @@ namespace Dietician.Storage.StorageModels
                 {nameof(Lastname), new EntityProperty(Lastname)},
                 {nameof(Age), new EntityProperty(Age)},
                 {nameof(Id), new EntityProperty(Id)},
-                {nameof(Weight), new EntityProperty(Weight)},
-                {nameof(Height), new EntityProperty(Height)},
-                {nameof(Gender), new EntityProperty(Gender.ToString())}
+                {nameof(Gender), new EntityProperty((int)Gender)},
+                {nameof(LifeStyle), new EntityProperty((int)LifeStyle)},
+                {nameof(IdMealSetting), new EntityProperty(IdMealSetting)}
             };
             return result;
         }

@@ -18,6 +18,7 @@ namespace Dietician.Storage.StorageModels
             int height = 0;
             DateTime date = new DateTime();
             int idIndicator = 0;
+
             foreach (var prop in properties)
             {
                 switch (prop.Key.ToLower())
@@ -46,9 +47,9 @@ namespace Dietician.Storage.StorageModels
             {
                 {nameof(IndicatorsModelData.IdIndicators), new EntityProperty(IndicatorsModelData.IdIndicators)},
                 {nameof(IndicatorsModelData.Height), new EntityProperty(IndicatorsModelData.Height)},
-            { nameof(IndicatorsModelData.Weight), new EntityProperty(IndicatorsModelData.Weight)},
-        {nameof(IndicatorsModelData.ChangeDate), new EntityProperty(IndicatorsModelData.ChangeDate)}
-    };
+                {nameof(IndicatorsModelData.Weight), new EntityProperty(IndicatorsModelData.Weight)},
+                {nameof(IndicatorsModelData.ChangeDate), new EntityProperty(IndicatorsModelData.ChangeDate)}
+            };
             return result;
         }
     }

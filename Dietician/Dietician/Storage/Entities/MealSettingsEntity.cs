@@ -19,6 +19,7 @@ namespace Dietician.Storage.StorageModels
             int mealCount = 0;
             string preferences = "";
             int ingredientsId = 0;
+
             foreach (var prop in properties)
             {
                 switch (prop.Key.ToLower())

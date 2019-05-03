@@ -5,34 +5,38 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Dietician.Storage.Repositories;
+using Dietician.Storage.Interfaces;
 
 namespace Dietician.Controllers
 {
     public class SettingsController : BaseController
     {
-        private readonly IUserRepository _repository;
+        private readonly IRepositoryWrapper _repository;
 
         public SettingsController(IAppConfiguration appConfiguration)
         {
-            _repository = new UserRepository(appConfiguration);
+            _repository = new RepositoryWrapper(appConfiguration);
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            UserEntity user = GetLoggedUser(_repository);
+            UserEntity user = GetLoggedUser(_repository.User);
+
             var model = new Settings()
             {
                 PersonalData = new PersonalDataSettings {
-                    Name=user.Name,
-                    Lastname=user.Lastname,
-                    Age=user.Age,
-                    Weight=user.Weight,
-                    Height=user.Height,
-                    Gender=user.Gender
+                    Name = user.Name,
+                    Lastname = user.Lastname,
+                    Age = user.Age,
+                    Gender = user.Gender
                 },
-                Menu = new MenuSettings(),
-                Activity = new ActivitySettings()
+                Menu = new MenuSettings {
+                    Preferences = Enums.DietPreferences.Brak
+                },
+                Activity = new ActivitySettings {
+                    LifeStyle = Enums.Lifestyle.Aktywny
+                }
             };
             return View(model);
         }
@@ -44,9 +48,9 @@ namespace Dietician.Controllers
 
             if (ModelState.IsValid)
             {
-                UserEntity user = GetLoggedUser(_repository);
+                UserEntity user = GetLoggedUser(_repository.User);
                 ChangePersonalData(user, settings.PersonalData);
-                _repository.UpdateUser(user);
+                _repository.User.UpdateUser(user);
             }
             
             return View(settings);
@@ -58,8 +62,6 @@ namespace Dietician.Controllers
             user.Lastname = personalData.Lastname;
             user.Age = personalData.Age;
             user.Gender = personalData.Gender;
-            user.Height = personalData.Height;
-            user.Weight = personalData.Weight;
 
             return user;
         }
