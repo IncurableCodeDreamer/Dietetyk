@@ -2,7 +2,7 @@
 
 namespace Dietician.Storage
 {
-    public interface IAppConfiguration
+    public interface IAppConfiguration:IConfiguration
     {
         string GetConnectionString(string name);
 
