@@ -15,7 +15,6 @@ namespace Dietician.Storage.Repositories
         private IIngredientsRepository _ingredients;
         private IMealRepository _meal;
         private IMealTypeRepository _mealType;
-        private IUserIndicatorsRepository _userIndicators;
         private IMealSettingRepository _mealSetting;
         
         public RepositoryWrapper(IAppConfiguration appConfiguration)
@@ -91,18 +90,6 @@ namespace Dietician.Storage.Repositories
                     _mealType = new MealTypeRepository(_appConfiguration);
                 }
                 return _mealType;
-            }
-        }
-
-        public IUserIndicatorsRepository UserIndicators
-        {
-            get
-            {
-                if (_userIndicators == null)
-                {
-                    _userIndicators = new UserIndicatorsRepository(_appConfiguration);
-                }
-                return _userIndicators;
             }
         }
 

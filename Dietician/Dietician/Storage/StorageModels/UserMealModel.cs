@@ -8,6 +8,11 @@ namespace Dietician.Storage.StorageModels
         public int IdUser { get; set; }
         public int IdMeal { get; set; }
 
+        public UserMealModel()
+        {
+
+        }
+
         public UserMealModel(int idUserMeal, int idUser, int idMeal)
         {
             this.IdUser = idUser;

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Dietician.Storage.Repositories;
 using Dietician.Storage.Interfaces;
+using System;
 
 namespace Dietician.Controllers
 {
@@ -22,20 +23,25 @@ namespace Dietician.Controllers
         public IActionResult Index()
         {
             UserEntity user = GetLoggedUser(_repository.User);
+            MealSettingsModel mealSettings = GetOrCreateUserMealSettings(user);
+            var indicators = _repository.Indicator.GetLastIndicatorFromTable(user.Id).Result;
 
             var model = new Settings()
             {
                 PersonalData = new PersonalDataSettings {
                     Name = user.Name,
                     Lastname = user.Lastname,
+                    Height = indicators!=null? indicators.IndicatorsModelData.Height: null,
+                    Weight = indicators != null ? indicators.IndicatorsModelData.Weight : null,
                     Age = user.Age,
                     Gender = user.Gender
                 },
                 Menu = new MenuSettings {
-                    Preferences = Enums.DietPreferences.Brak
+                    Preferences = mealSettings.Preferences,
+                    DietAim = mealSettings.DietAim
                 },
                 Activity = new ActivitySettings {
-                    LifeStyle = Enums.Lifestyle.Aktywny
+                    LifeStyle = user.LifeStyle
                 }
             };
             return View(model);
@@ -50,20 +56,59 @@ namespace Dietician.Controllers
             {
                 UserEntity user = GetLoggedUser(_repository.User);
                 ChangePersonalData(user, settings.PersonalData);
-                _repository.User.UpdateUser(user);
+                ChangeMenuSettings(user, settings.Menu);
+                AddIndicatorsToTable(user, settings.PersonalData);
             }
             
             return View(settings);
         }
 
-        public UserEntity ChangePersonalData(UserEntity user, PersonalDataSettings personalData)
+        private MealSettingsModel GetOrCreateUserMealSettings(UserEntity user)
+        {
+            MealSettingsModel mealSettings;
+
+            if (user.IdMealSetting == null)
+            {
+                mealSettings = _repository.MealSetting.InsertMealSettingsIntoTable(new MealSettingsModel()).Result;
+                user.IdMealSetting = mealSettings.IdMealSettings;
+                _repository.User.UpdateUser(user);
+            }
+            else
+            {
+                mealSettings = _repository.MealSetting.GetMealSettingFromTable(user.IdMealSetting).Result.MealSettingsModelData;
+            }
+            return mealSettings;
+        }
+
+        private void AddIndicatorsToTable(UserEntity user, PersonalDataSettings personalData)
+        {
+            IndicatorModel idicatorsModel = new IndicatorModel {
+                IdUser = user.Id,
+                Weight = personalData.Weight,
+                Height = personalData.Height,
+                ChangeDate = DateTime.Now
+            };
+            _repository.Indicator.InsertIndicatorsIntoTable(idicatorsModel);
+        }
+
+        private void ChangePersonalData(UserEntity user, PersonalDataSettings personalData)
         {
             user.Name = personalData.Name;
             user.Lastname = personalData.Lastname;
             user.Age = personalData.Age;
             user.Gender = personalData.Gender;
+            _repository.User.UpdateUser(user);
+        }
 
-            return user;
+        private void ChangeMenuSettings(UserEntity user, MenuSettings menuSettings)
+        {
+            MealSettingsEntity mealSettings = _repository.MealSetting.GetMealSettingFromTable(user.IdMealSetting).Result;
+            if (mealSettings.MealSettingsModelData != null)
+            {
+                mealSettings.MealSettingsModelData.DietAim = menuSettings.DietAim;
+                mealSettings.MealSettingsModelData.Preferences = menuSettings.Preferences;
+                _repository.MealSetting.UpdateMealSettings(mealSettings);
+            }
         }
     }
 }

@@ -12,6 +12,11 @@ namespace Dietician.Storage.StorageModels
         public DateTime MealDate { get; set; }
         public int MealTypeId { get; set; }
 
+        public MealModel()
+        {
+
+        }
+
         public MealModel(int idMeal, int jsonId, DateTime mealDate, int mealTypeId)
         {
             IdMeal = idMeal;

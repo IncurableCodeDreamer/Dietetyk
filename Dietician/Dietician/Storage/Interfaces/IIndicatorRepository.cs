@@ -9,6 +9,7 @@ namespace Dietician.Storage.Interfaces
     public interface IIndicatorRepository
     {
         Task InsertIndicatorsIntoTable(IndicatorModel model);
-        Task<IndicatorEntity> GetIndicatorFromTable(string idIndicator);
+        Task<List<IndicatorEntity>> GetIndicatorsFromTable(string idUser);
+        Task<IndicatorEntity> GetLastIndicatorFromTable(string idUser);
     }
 }

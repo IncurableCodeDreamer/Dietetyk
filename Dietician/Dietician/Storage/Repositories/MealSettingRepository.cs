@@ -18,18 +18,30 @@ namespace Dietician.Storage.Repositories
             _tableStorage = new TableStorage(configuration);
             _mealSettingTable = configuration.GetVariable("MealSettingsTable");
         }
-        public async Task InsertMealSettingsIntoTable(MealSettingsModel model)
+
+        public async Task<MealSettingsModel> InsertMealSettingsIntoTable(MealSettingsModel model)
         {
             var table = await _tableStorage.GetTableReference(_mealSettingTable);
+            model.IdMealSettings = Guid.NewGuid().ToString();
+
             var entity = new MealSettingsEntity()
             {
-                PartitionKey = model.IdMealSettings.ToString(),
+                PartitionKey = model.IdMealSettings,
                 RowKey = new Guid().ToString(),
                 MealSettingsModelData = model
             };
 
             var tableOperation = TableOperation.InsertOrMerge(entity);
             await table.ExecuteAsync(tableOperation);
+            
+            return model;
+        }
+
+        public async Task UpdateMealSettings(MealSettingsEntity model)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_mealSettingTable);
+            TableOperation op = TableOperation.Replace(model);
+            var result = cloudTable.ExecuteAsync(op);
         }
 
         public async Task<MealSettingsEntity> GetMealSettingFromTable(string idMealSettings)

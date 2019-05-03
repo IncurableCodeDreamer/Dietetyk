@@ -13,7 +13,6 @@ namespace Dietician.Storage.Interfaces
         IIngredientsRepository Ingredients { get; }
         IMealRepository Meal { get; }
         IMealTypeRepository MealType { get; }
-        IUserIndicatorsRepository UserIndicators { get; }
         IMealSettingRepository MealSetting { get; }
     }
 }

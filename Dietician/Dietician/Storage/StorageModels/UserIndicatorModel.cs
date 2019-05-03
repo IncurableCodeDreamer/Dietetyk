@@ -7,10 +7,15 @@ namespace Dietician.Storage.StorageModels
 {
     public class UserIndicatorModel
     {
-        public int IdUser { get; set; }
-        public int IdIndicators { get; set; }
+        public string IdUser { get; set; }
+        public string IdIndicators { get; set; }
 
-        public UserIndicatorModel(int userId, int indicatorId)
+        public UserIndicatorModel()
+        {
+
+        }
+
+        public UserIndicatorModel(string userId, string indicatorId)
         {
             this.IdIndicators = indicatorId;
             this.IdUser = userId;

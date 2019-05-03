@@ -13,7 +13,7 @@ namespace Dietician.Storage.StorageModels
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
-
+            string idUser = "";
             int weight = 0;
             int height = 0;
             DateTime date = new DateTime();
@@ -23,6 +23,9 @@ namespace Dietician.Storage.StorageModels
             {
                 switch (prop.Key.ToLower())
                 {
+                    case "idUser":
+                        idUser = prop.Value.ToString();
+                        break;
                     case "weight":
                         weight = (int)prop.Value.Int32Value;
                         break;
@@ -37,7 +40,7 @@ namespace Dietician.Storage.StorageModels
                         break;
                 }
 
-                IndicatorsModelData = new IndicatorModel(idIndicator, height,weight,date);
+                IndicatorsModelData = new IndicatorModel(idUser,idIndicator, height,weight,date);
             }
         }
 
@@ -45,6 +48,7 @@ namespace Dietician.Storage.StorageModels
         {
             var result = new Dictionary<string, EntityProperty>
             {
+                {nameof(IndicatorsModelData.IdUser), new EntityProperty(IndicatorsModelData.IdUser)},
                 {nameof(IndicatorsModelData.IdIndicators), new EntityProperty(IndicatorsModelData.IdIndicators)},
                 {nameof(IndicatorsModelData.Height), new EntityProperty(IndicatorsModelData.Height)},
                 {nameof(IndicatorsModelData.Weight), new EntityProperty(IndicatorsModelData.Weight)},

@@ -14,7 +14,7 @@ namespace Dietician.Storage.StorageModels
         public int? Age { get; set; }
         public Gender Gender { get; set; }
         public Lifestyle LifeStyle { get; set; }
-        public int? IdMealSetting { get; set; }
+        public string IdMealSetting { get; set; }
 
         public UserEntity()
         {
@@ -58,8 +58,8 @@ namespace Dietician.Storage.StorageModels
                     case "lifestyle":
                         LifeStyle = (Lifestyle) prop.Value.Int32Value;
                         break;
-                    case "idmealsettings":
-                        IdMealSetting = (int)prop.Value.Int32Value;
+                    case "idmealsetting":
+                        IdMealSetting = prop.Value.StringValue;
                         break;
                 }
             }

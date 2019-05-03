@@ -15,7 +15,7 @@ namespace Dietician.CosmosDB
         private readonly IIngredientsRepository _ingredientsRepository;
         private IIndicatorRepository _indicatorRepository;
 
-        public SetMealsForUser(ICosmosRepository cosmosRepository,IMealSettingRepository mealSetting, IIngredientsRepository ingredientsRepository, IIndicatorRepository indicatorRepository)
+        public SetMealsForUser(ICosmosRepository cosmosRepository, IMealSettingRepository mealSetting, IIngredientsRepository ingredientsRepository, IIndicatorRepository indicatorRepository)
         {
             _cosmosRepository = cosmosRepository;
             _mealSetting = mealSetting;
@@ -28,7 +28,7 @@ namespace Dietician.CosmosDB
             _updateList = new List<CosmosMealModel>();
             var list = _cosmosRepository.GetAllMeals().Meals;
             var user = _mealSetting.GetMealSettingFromTable(idForUser);
-            if (user.Result.MealSettingsModelData.Preferences.Contains("Wegetariańska"))
+            if (user.Result.MealSettingsModelData.Preferences.ToString().Contains("Wegetariańska"))
             {
                 foreach (var item in list)
                 {
@@ -60,7 +60,7 @@ namespace Dietician.CosmosDB
         public void PlanDiet(string idUser)
         {
             var user = _mealSetting.GetMealSettingFromTable(idUser);
-            var goal = user.Result.MealSettingsModelData.DietAim;
+            var goal = user.Result.MealSettingsModelData.DietAim.ToString();
             double cpmDaily = 0; //TODO:znalezc obliczanie CPM
 
             switch (goal)
