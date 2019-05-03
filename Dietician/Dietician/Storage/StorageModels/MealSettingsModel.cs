@@ -12,20 +12,18 @@ namespace Dietician.Storage.StorageModels
         public DietAim DietAim { get; set; }
         public int? MealCount { get; set; }
         public DietPreferences Preferences { get; set; }
-        public int? IngredientsId { get; set; }
 
         public MealSettingsModel()
         {
 
         }
 
-        public MealSettingsModel(string idMealSettings, DietAim dietAim, int? mealCount, DietPreferences preferences, int? ingredientsId)
+        public MealSettingsModel(string idMealSettings, DietAim dietAim, int? mealCount, DietPreferences preferences)
         {
             IdMealSettings = idMealSettings;
             DietAim = dietAim;
             MealCount = mealCount;
             Preferences = preferences;
-            IngredientsId = ingredientsId;
         }
     }
 }

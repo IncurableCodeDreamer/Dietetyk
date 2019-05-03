@@ -19,7 +19,6 @@ namespace Dietician.Storage.StorageModels
             DietAim dietAim = 0;
             int mealCount = 0;
             DietPreferences preferences = 0;
-            int ingredientsId = 0;
 
             foreach (var prop in properties)
             {
@@ -37,12 +36,9 @@ namespace Dietician.Storage.StorageModels
                     case "mealcount":
                         mealCount = (int)prop.Value.Int32Value;
                         break;
-                    case "ingredientsid":
-                        ingredientsId = (int)prop.Value.Int32Value;
-                        break;
                 }
 
-                MealSettingsModelData = new MealSettingsModel(idMealSetting, dietAim, mealCount,preferences,ingredientsId);
+                MealSettingsModelData = new MealSettingsModel(idMealSetting, dietAim, mealCount,preferences);
             }
         }
 
@@ -53,8 +49,7 @@ namespace Dietician.Storage.StorageModels
                 {nameof(MealSettingsModelData.IdMealSettings), new EntityProperty(MealSettingsModelData.IdMealSettings)},
                 {nameof(MealSettingsModelData.DietAim), new EntityProperty((int)MealSettingsModelData.DietAim)},
                 {nameof(MealSettingsModelData.MealCount), new EntityProperty(MealSettingsModelData.MealCount)},
-                {nameof(MealSettingsModelData.Preferences), new EntityProperty((int)MealSettingsModelData.Preferences)},
-                {nameof(MealSettingsModelData.IngredientsId), new EntityProperty(MealSettingsModelData.IngredientsId)}
+                {nameof(MealSettingsModelData.Preferences), new EntityProperty((int)MealSettingsModelData.Preferences)}
             };
             return result;
         }

@@ -14,46 +14,46 @@ namespace Dietician.Storage.StorageModels
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
 
-            int idIngredient = 0;
-            int milk = 0;
-            int eggs = 0;
-            int chocolate = 0;
-            int potatoes = 0;
-            int peanuts = 0;
-            int tomatoes = 0;
-            int soy = 0;
-            int wheat = 0;
+            string idIngredient = "";
+            bool milk = false;
+            bool eggs = false;
+            bool chocolate = false;
+            bool potatoes = false;
+            bool peanuts = false;
+            bool tomatoes = false;
+            bool soy = false;
+            bool wheat = false;
 
             foreach (var prop in properties)
             {
                 switch (prop.Key.ToLower())
                 {
                     case "idingredient":
-                        idIngredient = (int) prop.Value.Int32Value;
+                        idIngredient = prop.Value.StringValue;
                         break;
                     case "milk":
-                        milk = (int) prop.Value.Int32Value;
+                        milk = (bool)prop.Value.BooleanValue;
                         break;
                     case "eggs":
-                        eggs = (int) prop.Value.Int32Value;
+                        eggs = (bool)prop.Value.BooleanValue;
                         break;
                     case "chocolate":
-                        chocolate = (int) prop.Value.Int32Value;
+                        chocolate = (bool)prop.Value.BooleanValue;
                         break;
                     case "potatoes":
-                        potatoes = (int) prop.Value.Int32Value;
+                        potatoes = (bool)prop.Value.BooleanValue;
                         break;
                     case "peanuts":
-                        peanuts = (int) prop.Value.Int32Value;
+                        peanuts = (bool)prop.Value.BooleanValue;
                         break;
                     case "tomatoes":
-                        tomatoes = (int) prop.Value.Int32Value;
+                        tomatoes = (bool)prop.Value.BooleanValue;
                         break;
                     case "soy":
-                        soy = (int) prop.Value.Int32Value;
+                        soy = (bool)prop.Value.BooleanValue;
                         break;
                     case "wheat":
-                        wheat = (int) prop.Value.Int32Value;
+                        wheat = (bool) prop.Value.BooleanValue;
                         break;
                 }
 
@@ -68,6 +68,7 @@ namespace Dietician.Storage.StorageModels
             var result = new Dictionary<string, EntityProperty>
             {
                 {nameof(IngredientsModelData.IdIngredient), new EntityProperty(IngredientsModelData.IdIngredient)},
+                {nameof(IngredientsModelData.Chocolate), new EntityProperty(IngredientsModelData.Chocolate)},
                 {nameof(IngredientsModelData.Milk), new EntityProperty(IngredientsModelData.Milk)},
                 { nameof(IngredientsModelData.Eggs), new EntityProperty(IngredientsModelData.Eggs)},
                 {nameof(IngredientsModelData.Peanuts), new EntityProperty(IngredientsModelData.Peanuts)},

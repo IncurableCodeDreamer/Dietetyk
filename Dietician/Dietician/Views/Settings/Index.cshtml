@@ -15,6 +15,7 @@
         <h6>Jadłospis</h6>
         <div class="divider"></div>
         @Html.Partial("Menu", Model.Menu, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Menu" } })
+        @Html.Partial("Ingridients", Model.Ingridients, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Ingridients" } })
     </div>
     <div class="container mb-4">
         <h6>Aktywność</h6>

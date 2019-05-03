@@ -44,7 +44,9 @@ namespace Dietician.CosmosDB
                 _updateList = list;
             }
 
-            if (user.Result.MealSettingsModelData.IngredientsId==0)
+            //TODO uaktualnic warunek na podstawie nowych modeli
+            //if (user.Result.MealSettingsModelData.IngredientsId==0)
+            if(true)
             {
                 return _updateList;
             }

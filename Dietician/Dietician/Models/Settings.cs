@@ -10,5 +10,6 @@ namespace Dietician.Models
         public PersonalDataSettings PersonalData { get; set; }
         public MenuSettings Menu { get; set; }
         public ActivitySettings Activity { get; set; }
+        public IngridientsSettings Ingridients { get; set; }
     }
 }
