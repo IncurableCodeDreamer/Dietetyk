@@ -9,33 +9,29 @@
     <div class="container mb-4">
         <h6>Dane osobowe</h6>
         <div class="divider"></div>
-        @Html.Partial("PersonalData", Model.PersonalData)
+        @Html.Partial("PersonalData", Model.PersonalData, new ViewDataDictionary (ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "PersonalData" } })
     </div>
     <div class="container mb-4">
         <h6>Jadłospis</h6>
         <div class="divider"></div>
-        @Html.Partial("Menu", Model.Menu)
+        @Html.Partial("Menu", Model.Menu, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Menu" } })
     </div>
     <div class="container mb-4">
         <h6>Aktywność</h6>
         <div class="divider"></div>
-        @Html.Partial("ActivitySettings", Model.Activity)
+        @Html.Partial("ActivitySettings", Model.Activity, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Activity" } })
     </div>
     <div class="container mb-4">
         <input type="submit" value="Zapisz" class="btn btn-primary"/>
     </div>
 }
-    <style>
-        .divider {
-            height: 1px;
-            background-color: gray;
-            margin-bottom: 15px;
-            margin-top: 5px;
-        }
-        .row {
-            margin-bottom: 5px;
-        }
-        .btn-primary{
-            float:right;
-        }
-    </style>
+
+
+ <style>
+    .row {
+        max-width: 500px;
+    }
+   .input {
+       max-width: 400px;
+    }
+</style>

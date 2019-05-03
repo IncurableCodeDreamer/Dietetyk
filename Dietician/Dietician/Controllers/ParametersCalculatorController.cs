@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dietician.Controllers
 {
-    public class ParametersCalculatorController : Controller
+    public class ParametersCalculatorController : BaseController
     {
         // GET: /<controller>/
         public IActionResult Index()

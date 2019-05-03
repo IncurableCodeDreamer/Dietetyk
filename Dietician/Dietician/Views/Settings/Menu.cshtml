@@ -1,33 +1,39 @@
-﻿@model MenuSettings
+﻿@using Dietician.Enums
+@model MenuSettings
 
-<div class="row" style="max-width:400px">
+<div class="row">
     <div class="col">
         @Html.LabelFor(m => m.DietAim, "Cel diety")
     </div>
-    <div class="col">
+    <div class="col input">
         @Html.DropDownListFor(model =>
             model.DietAim,
-            new SelectList(new List<string>() {
-                "Wegetariańska", "Wegańska"
-            }), new { @class = "form-control" }
+            new SelectList(new Dictionary<string,string>() {
+                { "Redukcja", DietAim.Redukcja.ToString()},
+                { "Utrzymanie masy ciała", DietAim.Utrzymanie.ToString()},
+                { "Masa",DietAim.Masa.ToString() }
+            }, "Value", "Key"), 
+            new { @class = "form-control" }
         )
     </div>
 </div>
-<div class="row" style="max-width:400px">
+<div class="row" >
     <div class="col">
         @Html.LabelFor(m => m.Preferences, "Preferencje")
     </div>
-    <div class="col">
+    <div class="col input">
         @Html.DropDownListFor(model =>
-            model.DietAim,
-            new SelectList(new List<string>() {
-                "Brak", "Wegańska"
-            }), new { @class = "form-control" }
-        )
+            model.Preferences,
+            new SelectList(new Dictionary<string, string> () {
+                { "Brak", DietPreferences.Brak.ToString() },
+                { "Wegatariańska",DietPreferences.Wegetariańska.ToString() }
+            }, "Value","Key"), 
+            new { @class = "form-control" } )
     </div>
 </div>
-<div class="row" style="max-width:400px">
+<!--<div class="row" style="max-width:400px; display:none">
     <div class="col">
-        @Html.LabelFor(m => m.Ingidients, "Składniki wykluczone (opcjonalnie)")
+        Html.LabelFor(m => m.Ingidients, "Składniki wykluczone (opcjonalnie)")
     </div>
 </div>
+    -->

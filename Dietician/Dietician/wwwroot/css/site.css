@@ -7,6 +7,35 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.main{
+    margin-bottom:150px;
+}
+
+/* Custom styles */
+.divider {
+    height: 1px;
+    background-color: gray;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.btn-primary {
+    float: right;
+}
+
+.row {
+    margin-bottom: 5px;
+}
+
+.field-validation-error {
+    color: red;
+    font-size: small;
+}
+
+.input-validation-error {
+    border-color: red;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -32,18 +61,6 @@ html {
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
-}
-
-/* Custom styles */
-.divider {
-    height: 1px;
-    background-color: gray;
-    margin-bottom: 15px;
-    margin-top: 5px;
-}
-
-.btn-primary{
-    float:right;
 }
 
 /* Sticky footer styles
