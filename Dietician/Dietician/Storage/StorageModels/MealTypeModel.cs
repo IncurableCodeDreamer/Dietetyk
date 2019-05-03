@@ -11,6 +11,11 @@ namespace Dietician.Storage.StorageModels
         public string Name { get; set; }
         public string Step { get; set; }
 
+        public MealTypeModel()
+        {
+
+        }
+
         public MealTypeModel(int idMealType, string name, string step)
         {
             IdMealType = idMealType;

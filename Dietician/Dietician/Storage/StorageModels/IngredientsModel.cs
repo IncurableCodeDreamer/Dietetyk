@@ -7,17 +7,22 @@ namespace Dietician.Storage.StorageModels
 {
     public class IngredientsModel
     {
-        public int IdIngredient { get; set; }
-        public int Milk { get; set; }
-        public int Eggs { get; set; }
-        public int Chocolate { get; set; }
-        public int Potatoes { get; set; }
-        public int Peanuts { get; set; }
-        public int Tomatoes { get; set; }
-        public int Soy { get; set; }
-        public int Wheat { get; set; }
+        public string IdIngredient { get; set; }
+        public bool Milk { get; set; }
+        public bool Eggs { get; set; }
+        public bool Chocolate { get; set; }
+        public bool Potatoes { get; set; }
+        public bool Peanuts { get; set; }
+        public bool Tomatoes { get; set; }
+        public bool Soy { get; set; }
+        public bool Wheat { get; set; }
 
-        public IngredientsModel(int idIngredient, int milk, int eggs, int chocolate, int potatoes, int peanuts, int tomatoes, int soy, int wheat)
+        public IngredientsModel()
+        {
+
+        }
+
+        public IngredientsModel(string idIngredient, bool milk, bool eggs, bool chocolate, bool potatoes, bool peanuts, bool tomatoes, bool soy, bool wheat)
         {
             IdIngredient = idIngredient;
             Milk = milk;

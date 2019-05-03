@@ -18,19 +18,28 @@ namespace Dietician.Storage.Repositories
             _tableStorage = new TableStorage(configuration);
             _ingredientsTable = configuration.GetVariable("IngredientsTable");
         }
-        public async Task InsertIngredientsIntoTable(IngredientsModel model)
+        public async Task<IngredientsModel> InsertIngredientsIntoTable(IngredientsModel model)
         {
-        var table = await _tableStorage.GetTableReference(_ingredientsTable);
-        var entity = new IngredientEntity()
-        {
-            PartitionKey = model.IdIngredient.ToString(),
-            RowKey = new Guid().ToString(),
-            IngredientsModelData = model
-        };
+            var table = await _tableStorage.GetTableReference(_ingredientsTable);
+            model.IdIngredient = Guid.NewGuid().ToString();
+            var entity = new IngredientEntity()
+            {
+                PartitionKey = model.IdIngredient,
+                RowKey = new Guid().ToString(),
+                IngredientsModelData = model
+            };
 
-        var tableOperation = TableOperation.InsertOrMerge(entity);
-        await table.ExecuteAsync(tableOperation);
-    }
+            var tableOperation = TableOperation.InsertOrMerge(entity);
+            await table.ExecuteAsync(tableOperation);
+            return model;
+        }
+
+        public async Task UpdateIngridients(IngredientEntity model)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_ingredientsTable);
+            TableOperation op = TableOperation.Replace(model);
+            var result = cloudTable.ExecuteAsync(op);
+        }
 
         public async Task<IngredientEntity> GetIIngredientsFromTable(string idIngredients)
         {

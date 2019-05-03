@@ -23,7 +23,7 @@ namespace Dietician.Storage.Repositories
             var table = await _tableStorage.GetTableReference(_userMealTypeTable);
             var entity = new MealTypeEntity()
             {
-                PartitionKey = model.IdMealType.ToString(),
+                PartitionKey = Guid.NewGuid().ToString(),
                 RowKey = new Guid().ToString(),
                 MealTypeModelData = model
             };

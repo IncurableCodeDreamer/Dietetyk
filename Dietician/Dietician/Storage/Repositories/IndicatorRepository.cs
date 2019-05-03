@@ -23,7 +23,7 @@ namespace Dietician.Storage.Repositories
             var table = await _tableStorage.GetTableReference(_indicatorsTable);
             var entity = new IndicatorEntity()
             {
-                PartitionKey = model.IdIndicators.ToString(),
+                PartitionKey = Guid.NewGuid().ToString(),
                 RowKey = new Guid().ToString(),
                 IndicatorsModelData = model
             };
@@ -33,15 +33,27 @@ namespace Dietician.Storage.Repositories
 
         }
 
-        public async Task<IndicatorEntity> GetIndicatorFromTable(string idIndicator)
+        public async Task<List<IndicatorEntity>> GetIndicatorsFromTable(string idUser)
         {
             var cloudTable = await _tableStorage.GetTableReference(_indicatorsTable);
             TableQuery<IndicatorEntity> query = new TableQuery<IndicatorEntity>()
-                .Where(TableQuery.GenerateFilterCondition("IdIndicator", QueryComparisons.Equal, idIndicator));
+                .Where(TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
-            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
-            IndicatorEntity entity = result.Result.FirstOrDefault();
+            var result = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+            List<IndicatorEntity> entity = result.Results.ToList();
             return entity;
+        }
+
+        public async Task<IndicatorEntity> GetLastIndicatorFromTable(string idUser)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_indicatorsTable);
+            TableQuery<IndicatorEntity> query = new TableQuery<IndicatorEntity>()
+                .Where(TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser));
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+            var result = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+            List<IndicatorEntity> entityList = result.Results.ToList();
+            IndicatorEntity lastIndicators = entityList.OrderByDescending(x => x.IndicatorsModelData.ChangeDate).FirstOrDefault();
+            return lastIndicators;
         }
     }
 }

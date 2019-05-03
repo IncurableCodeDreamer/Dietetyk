@@ -33,7 +33,7 @@ namespace Dietician.Storage.Repositories
         {
             var cloudTable = await _tableStorage.GetTableReference(_userTable);
             TableQuery<UserEntity> query = new TableQuery<UserEntity>()
-                .Where(TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, userName));
+                .Where(TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, userName.ToUpper()));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
             var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
             UserEntity userEntity = result.Result.FirstOrDefault();

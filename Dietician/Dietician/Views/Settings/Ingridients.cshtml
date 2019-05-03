@@ -1,0 +1,44 @@
+﻿@using Dietician.Enums
+@model IngridientsSettings
+
+<div class="row">
+    <div class="col">
+        <label>Składniki alergiczne: </label>
+    </div>
+</div>
+    <div class="row">
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Chocolate, new { @checked = Model.Chocolate })
+            @Html.LabelFor(m => m.Chocolate, "Czekolada")
+        </div>
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Eggs, new { @checked = Model.Eggs })
+            @Html.LabelFor(m => m.Eggs, "Jaja")
+        </div>
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Milk, new { @checked = Model.Milk })
+            @Html.LabelFor(m => m.Milk, "Mleko")
+        </div>
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Peanuts, new { @checked = Model.Peanuts })
+            @Html.LabelFor(m => m.Peanuts, "Orzechy")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Potatoes, new { @checked = Model.Potatoes })
+            @Html.LabelFor(m => m.Potatoes, "Ziemniaki")
+        </div>
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Soy, new { @checked = Model.Soy })
+            @Html.LabelFor(m => m.Soy, "Soja")
+        </div>
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Tomatoes, new { @checked = Model.Tomatoes })
+            @Html.LabelFor(m => m.Tomatoes, "Pomidor")
+        </div>
+        <div class="col">
+            @Html.CheckBoxFor(m => m.Wheat, new { @checked = Model.Wheat })
+            @Html.LabelFor(m => m.Wheat, "Pszenica")
+        </div>
+    </div>

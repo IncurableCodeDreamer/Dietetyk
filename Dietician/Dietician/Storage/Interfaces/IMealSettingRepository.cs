@@ -8,7 +8,8 @@ namespace Dietician.Storage.Interfaces
 {
     public interface IMealSettingRepository
     {
-        Task InsertMealSettingsIntoTable(MealSettingsModel model);
+        Task<MealSettingsModel> InsertMealSettingsIntoTable(MealSettingsModel model);
         Task<MealSettingsEntity> GetMealSettingFromTable(string idMealSettings);
+        Task UpdateMealSettings(MealSettingsEntity model);
     }
 }

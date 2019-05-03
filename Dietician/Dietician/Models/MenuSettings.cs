@@ -10,6 +10,5 @@ namespace Dietician.Models
     {
         public DietAim DietAim { get; set; }
         public DietPreferences Preferences { get; set; }
-        //public List<string> Ingidients { get; set; }
     }
 }
