@@ -1,0 +1,103 @@
+﻿@using Dietician.CosmosDB
+@using Dietician.Enums
+@model AddMeal
+
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Name, "Nazwa")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Ingredients, "Składniki")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Prepare, "Przepis")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Prepare, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Type, "Typ")
+    </div>
+    <div class="col input">
+        @Html.DropDownListFor(model =>model.Type,
+             new SelectList(new Dictionary<string, string> () {
+                 { "Śniadanie", MealType.Sniadanie.ToString() },
+                 { "Drugie śniadanie", MealType.Sniadanie2.ToString() },
+                 { "Obiad", MealType.Obiad.ToString() },
+                 { "Podwieczorek", MealType.Podwieczorek.ToString() },
+                 { "Kolacja", MealType.Kolacja.ToString() },
+             }, "Value","Key"),
+             new { @class = "form-control" } )
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Kind, "Rodzaj")
+    </div>
+    <div class="col input">
+        @Html.DropDownListFor(model =>model.Kind,
+             new SelectList(new Dictionary<string, string> () {
+                 { "Brak", KindsOfDiet.Brak.ToString() },
+                 { "Wegatariańska", KindsOfDiet.Wegetariańska.ToString() }
+             }, "Value","Key"),
+             new { @class = "form-control" } )
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Portions, "Porcje")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Portions, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Calories, "Kalorie [kcal]")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Calories, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Proteins, "Białko [g]")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Proteins, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Carbohydrates, "Węglowodany [g]")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Carbohydrates, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @Html.LabelFor(m => m.Fat, "Tłuszcze [g]")
+    </div>
+    <div class="col input">
+        @Html.EditorFor(m => m.Fat, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>

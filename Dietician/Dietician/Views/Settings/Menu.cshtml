@@ -25,8 +25,8 @@
         @Html.DropDownListFor(model =>
             model.Preferences,
             new SelectList(new Dictionary<string, string> () {
-                { "Brak", DietPreferences.Brak.ToString() },
-                { "Wegatariańska", DietPreferences.Wegetariańska.ToString() }
+                { "Brak", KindsOfDiet.Brak.ToString() },
+                { "Wegatariańska", KindsOfDiet.Wegetariańska.ToString() }
             }, "Value","Key"), 
             new { @class = "form-control" } )
     </div>

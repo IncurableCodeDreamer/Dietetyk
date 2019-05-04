@@ -1,10 +1,160 @@
-﻿@{
+﻿@using Dietician.Enums;
+@using Dietician.Helpers;
+@model List<Meal>
+
+@{
     ViewData["Title"] = "Jadłospis";
 }
 
-@using (Html.BeginForm())
+@if (ViewBag.AddMealSuccess != null && ViewBag.AddMealSuccess)
 {
-    <div class="container">
-        @Html.Partial("recipe")
+    <div class="alert alert-success" role="alert">
+        Posiłek został dodany poprawnie.
     </div>
 }
+
+@if (ViewBag.ChangeMenuSuccess != null && ViewBag.ChangeMenuSuccess)
+{
+    <div class="alert alert-success" role="alert">
+        Jadłospis został zmieniony poprawnie.
+    </div>
+}
+
+<div id="menuModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 id="title" class="modal-title"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="form-control" role="form">
+                    <div class="container" id="modal-body-render">
+
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button id="btnAdd" type="button" class="btn btn-primary" data-type="" onclick="onSubmit()"></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="container-fluid ">
+        <button id="addMeal" class="btn btn-primary ml-1" onclick="renderModal('add')">Dodaj własny posiłek</button>
+        <button id="changeMeal" class="btn btn-primary ml-1" onclick="renderModal('change')">Zmień jadłospis</button>
+        <button class="btn btn-primary ml-1">Generuj jadłospis</button>
+        <button id="export" class="btn btn-secondary">Eksportuj do pdf</button>
+    </div>
+</div>
+
+<div class="row" style=" background-color:lightgray; padding:5px; margin:1px;">
+    <div class="container-fluid text-center" >
+
+        <ul class="list-inline" style="display: -webkit-box; margin:5px;">
+            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Poniedziałek.ToString()</a></li>
+            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Wtorek.ToString()</a></li>
+            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Środa.ToString()</a></li>
+            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Czwartek.ToString()</a></li>
+            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Piątek.ToString()</a></li>
+            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Sobota.ToString()</a></li>
+            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Niedziela.ToString()</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        @Html.Partial("_Recipe", Model)
+    </div>
+</div>
+
+
+
+<script>
+    var modalForm = '#form-control';
+
+    function addMeal() {
+        var data = $(modalForm).serialize();
+        var url = '/Menu/AddMeal';
+
+        $.ajax({
+            url: url,
+            data: data,
+            success: function (data) {
+                $('#modal-body-render').html(data);
+            },
+            error: function () {
+                alert("Wystąpił błąd");
+            }
+        }).done(function () {
+            $('#menuModal').modal('hide');
+        });
+
+    }
+
+    function changeMeal() {
+
+        var data = $(modalForm).serialize();
+        var url = '/Menu/ChangeMenu';
+
+        $.ajax({
+            url: url,
+            data: data,
+            success: function (data) {
+                $('#modal-body-render').html(data);
+            },
+            error: function () {
+                alert("Wystąpił błąd");
+            }
+        }).done(function () {
+            $('#menuModal').modal('hide');
+        });
+
+    }
+
+    function onSubmit() {
+        var type = $('#btnAdd')[0].dataset.type;
+        if (type == 'add') { 
+            addMeal();
+        }
+        else {
+            changeMeal();
+
+        }
+    }
+
+    function renderModal(type) {
+        url = '';
+        debugger
+        if (type == 'add') {
+            url = '/Menu/GetAddMealView';
+            debugger
+            $('#title')[0].innerText = "Dodaj posiłek";
+            $('#btnAdd')[0].innerText = "Dodaj";
+            $('#btnAdd')[0].dataset.type = "add";
+        } else {
+            url = '/Menu/GetChangeMenuView'
+            $('#title')[0].innerText = "Zmień jadłospis";
+            $('#btnAdd')[0].innerText = "Zmień";
+            $('#btnAdd')[0].dataset.type = "change";
+        }
+
+        $.ajax({
+            type: "Get",
+            url: url,
+            success: function (data) {
+                $('#modal-body-render').html(data);
+            },
+            error: function () {
+                alert("Wystąpił błąd");
+            }
+        }).done(function () {
+            $('#menuModal').modal('show');
+        });
+    }
+
+</script>

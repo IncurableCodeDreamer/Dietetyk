@@ -18,7 +18,7 @@ namespace Dietician.Storage.StorageModels
             string idMealSetting = "";
             DietAim dietAim = 0;
             int mealCount = 0;
-            DietPreferences preferences = 0;
+            KindsOfDiet preferences = 0;
 
             foreach (var prop in properties)
             {
@@ -31,7 +31,7 @@ namespace Dietician.Storage.StorageModels
                         dietAim = (DietAim)prop.Value.Int32Value;
                         break;
                     case "preferences":
-                        preferences = (DietPreferences)prop.Value.Int32Value;
+                        preferences = (KindsOfDiet)prop.Value.Int32Value;
                         break;
                     case "mealcount":
                         mealCount = (int)prop.Value.Int32Value;

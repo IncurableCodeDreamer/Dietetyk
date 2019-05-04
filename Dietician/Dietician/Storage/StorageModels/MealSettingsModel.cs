@@ -11,14 +11,14 @@ namespace Dietician.Storage.StorageModels
         public string IdMealSettings { get; set; }
         public DietAim DietAim { get; set; }
         public int? MealCount { get; set; }
-        public DietPreferences Preferences { get; set; }
+        public KindsOfDiet Preferences { get; set; }
 
         public MealSettingsModel()
         {
 
         }
 
-        public MealSettingsModel(string idMealSettings, DietAim dietAim, int? mealCount, DietPreferences preferences)
+        public MealSettingsModel(string idMealSettings, DietAim dietAim, int? mealCount, KindsOfDiet preferences)
         {
             IdMealSettings = idMealSettings;
             DietAim = dietAim;

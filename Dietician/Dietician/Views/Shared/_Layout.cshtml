@@ -29,16 +29,22 @@
                 </nav>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Index">Jadłospis</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Index">Jadłospis</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ParametersCalculator" asp-action="Index">Obliczanie parametrów</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Statistics" asp-action="Index">Statystyki</a>
-                        </li>
-                    </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Statistics" asp-action="Index">Statystyki</a>
+                            </li>
+                        }
+                        </ul>
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {

@@ -25,6 +25,11 @@ namespace Dietician.CosmosDB
             this.ImageUrl = imageUrl;
         }
 
+        public CosmosMealModel()
+        {
+
+        }
+
         [JsonProperty("Url")]
         public string ImageUrl { get; set; }
         [JsonProperty("Rodzaj")]

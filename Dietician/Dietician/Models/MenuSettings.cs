@@ -9,6 +9,7 @@ namespace Dietician.Models
     public class MenuSettings
     {
         public DietAim DietAim { get; set; }
-        public DietPreferences Preferences { get; set; }
+        public KindsOfDiet Preferences { get; set; }
+        public int MealCount { get; set; }
     }
 }

@@ -10,7 +10,6 @@ namespace Dietician.Controllers
 {
     public class BaseController : Controller
     {
-
         public UserEntity GetLoggedUser(IUserRepository _repository)
         {
             UserEntity user = null;

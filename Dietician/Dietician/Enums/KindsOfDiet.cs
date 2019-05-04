@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Dietician.Enums
 {
-    public enum DietPreferences
+    public enum KindsOfDiet
     {
         Brak,
         Wegetariańska

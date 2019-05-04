@@ -9,6 +9,7 @@ a.navbar-brand {
 
 .main{
     margin-bottom:150px;
+    overflow-x:hidden;
 }
 
 /* Custom styles */
@@ -17,6 +18,18 @@ a.navbar-brand {
     background-color: gray;
     margin-bottom: 15px;
     margin-top: 5px;
+}
+
+.tab {
+    margin: 5px 80px 5px 5px;
+}
+
+.modal-header {
+    background-color: cadetblue;
+}
+
+.modal-footer {
+    background-color: transparent;
 }
 
 .btn-primary {
