@@ -13,6 +13,32 @@ a.navbar-brand {
 }
 
 /* Custom styles */
+
+.btn-primary:focus, .btn-primary:active {
+    background-color: firebrick !important;
+    border-color: firebrick !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.btn-secondary:focus, .btn-secondary:active {
+    outline: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.btn-primary:hover {
+    background-color: red;
+    border-color: transparent;
+    background: red;
+}
+
+.btn-primary {
+    background-color: brown;
+    border: brown;
+}
+
 .divider {
     height: 1px;
     background-color: gray;

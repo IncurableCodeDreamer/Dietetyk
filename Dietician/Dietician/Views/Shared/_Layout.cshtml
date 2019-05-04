@@ -29,6 +29,9 @@
                 </nav>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Informacje o dietach</a>
+                        </li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -44,7 +47,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Statistics" asp-action="Index">Statystyki</a>
                             </li>
                         }
-                        </ul>
+                    </ul>
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -61,7 +64,7 @@
                     <div>
                         <ul class="navbar-nav flex-grow-1">
                             <li>
-                                <a class="nav-link text-info" asp-area="" asp-controller="Account" asp-action="Login">Zaloguj się</a>
+                                <a class="nav-link" style="color:#007bff" asp-area="" asp-controller="Account" asp-action="Login">Zaloguj się</a>
                             </li>
                         </ul>
                     </div>
