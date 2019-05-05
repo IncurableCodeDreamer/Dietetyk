@@ -9,7 +9,6 @@ namespace Dietician.Storage.Interfaces
     public interface IUserMealRepository
     {
         Task InsertUserMealIntoTable(UserMealModel model);
-        Task<UserMealEntity> GetUserMealFromTableFromMealID(string idMeal);
         Task<UserMealEntity> GetUserMealFromTableFromUserID(string idUser);
     }
 }

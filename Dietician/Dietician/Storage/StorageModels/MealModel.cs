@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dietician.Enums;
 
 namespace Dietician.Storage.StorageModels
 {
     public class MealModel
     {
-        public int IdMeal { get; set; }
-        public int JsonId { get; set; }
+        public string IdUser { get; set; }
+        public string JsonId { get; set; }
         public DateTime MealDate { get; set; }
-        public int MealTypeId { get; set; }
+        public MealType MealTypeId { get; set; }
 
         public MealModel()
         {
 
         }
 
-        public MealModel(int idMeal, int jsonId, DateTime mealDate, int mealTypeId)
+        public MealModel(string idUser, string jsonId, DateTime mealDate, MealType mealTypeId)
         {
-            IdMeal = idMeal;
+            IdUser = idUser;
             JsonId = jsonId;
             MealDate = mealDate;
             MealTypeId = mealTypeId;
