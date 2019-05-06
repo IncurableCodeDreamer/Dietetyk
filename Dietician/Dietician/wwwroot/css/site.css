@@ -7,6 +7,74 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.main{
+    margin-bottom:150px;
+    overflow-x:hidden;
+}
+
+/* Custom styles */
+
+.btn-primary:focus, .btn-primary:active {
+    background-color: firebrick !important;
+    border-color: firebrick !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.btn-secondary:focus, .btn-secondary:active {
+    outline: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.btn-primary:hover {
+    background-color: red;
+    border-color: transparent;
+    background: red;
+}
+
+.btn-primary {
+    background-color: brown;
+    border: brown;
+}
+
+.divider {
+    height: 1px;
+    background-color: gray;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.tab {
+    margin: 5px 80px 5px 5px;
+}
+
+.modal-header {
+    background-color: cadetblue;
+}
+
+.modal-footer {
+    background-color: transparent;
+}
+
+.btn-primary {
+    float: right;
+}
+
+.row {
+    margin-bottom: 5px;
+}
+
+.field-validation-error {
+    color: red;
+    font-size: small;
+}
+
+.input-validation-error {
+    border-color: red;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -32,18 +100,6 @@ html {
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
-}
-
-/* Custom styles */
-.divider {
-    height: 1px;
-    background-color: gray;
-    margin-bottom: 15px;
-    margin-top: 5px;
-}
-
-.btn-primary{
-    float:right;
 }
 
 /* Sticky footer styles

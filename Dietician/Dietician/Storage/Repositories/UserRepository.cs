@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Dietician.Models;
 using Dietician.Storage.StorageModels;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Dietician.Storage
+namespace Dietician.Storage.Repositories
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository: IUserRepository
     { 
         private readonly TableStorage _tableStorage;
         private readonly string _userTable;
+
         public UserRepository(IAppConfiguration configuration)
         {
             _tableStorage = new TableStorage(configuration);
             _userTable = configuration.GetVariable("UserTable");
         }
-        public async Task InsertUserIntoTable(PersonalData user)
+        public async Task InsertUserIntoTable(AzureUser user)
         {
             var table = await _tableStorage.GetTableReference(_userTable);
             var userEntity = new UserEntity()
             {
-                PartitionKey = user.Login,
-                RowKey = user.PersonId.ToString(),
-                UserModelData = user
+                PartitionKey = user.PartitionKey,
+                RowKey = user.Id
             };
 
             var tableOperation = TableOperation.InsertOrMerge(userEntity);
@@ -32,10 +29,28 @@ namespace Dietician.Storage
 
         }
 
+        public async Task<UserEntity> GetUserFromTable(string userName)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_userTable);
+            TableQuery<UserEntity> query = new TableQuery<UserEntity>()
+                .Where(TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, userName.ToUpper()));
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+            UserEntity userEntity = result.Result.FirstOrDefault();
+            return userEntity;
+        }
+
+        public async void UpdateUser(UserEntity user)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_userTable);
+            TableOperation op = TableOperation.Replace(user);
+            var result = cloudTable.ExecuteAsync(op);
+        }
+
         public async Task<bool> CheckIfUserExist(string login)
         {
             var table = await _tableStorage.GetTableReference(_userTable);
-            var loginFilter = TableQuery.GenerateFilterCondition("Login", QueryComparisons.Equal, login);
+            var loginFilter = TableQuery.GenerateFilterCondition("UserName", QueryComparisons.Equal, login);
             var query = new TableQuery<UserEntity>().Where(loginFilter);
             TableContinuationToken tableContinuationToken = null;
             UserEntity result;
@@ -67,6 +82,7 @@ namespace Dietician.Storage
 
             return result != null;
         }
+        
     }
 }
 

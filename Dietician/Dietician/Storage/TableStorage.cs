@@ -1,8 +1,11 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using Dietician.Storage.StorageModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dietician.Storage
@@ -15,6 +18,7 @@ namespace Dietician.Storage
         {
             Configuration = configuration;
         }
+
         public async Task<CloudTable> GetTableReference(string tableName)
         {
             var connection = Configuration.GetConnectionString("StorageConnectionString");
@@ -24,5 +28,6 @@ namespace Dietician.Storage
             await table.CreateIfNotExistsAsync();
             return table;
         }
+      
     }
 }

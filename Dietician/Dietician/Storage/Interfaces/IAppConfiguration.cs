@@ -2,14 +2,14 @@
 
 namespace Dietician.Storage
 {
-    public interface IAppConfiguration
+    public interface IAppConfiguration:IConfiguration
     {
         string GetConnectionString(string name);
 
         string GetVariable(string name);
 
-         string GetEnvironmentVariable(string name);
+        string GetEnvironmentVariable(string name);
 
-         IConfigurationSection GetSection(string key);
+        IConfigurationSection GetSection(string key);
     }
 }

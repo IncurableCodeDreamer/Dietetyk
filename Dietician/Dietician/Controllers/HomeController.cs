@@ -8,16 +8,11 @@ using Dietician.Models;
 
 namespace Dietician.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {
-            DietInfo dietinfo = new DietInfo
-            {
-                DietName = "Wegetariańska",
-                Info = "Najogólniej mówiąc, dieta wegetariańska to taka, która zakłada niejedzenia mięsa."
-            };
-            return View(dietinfo);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

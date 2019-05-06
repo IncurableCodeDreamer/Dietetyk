@@ -6,7 +6,7 @@ using System;
 
 namespace Dietician.Controllers
 {
-    public class ParametersCalculatorController : Controller
+    public class ParametersCalculatorController : BaseController
     {
         private ParameterService parameterService;
 

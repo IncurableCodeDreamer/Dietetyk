@@ -15,7 +15,7 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE="/>
     </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" type="text/css" />
 </head>
 <body>
     <header>
@@ -30,27 +30,49 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Index">Jadłospis</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Informacje o dietach</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Index">Jadłospis</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ParametersCalculator" asp-action="Index">Obliczanie parametrów</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Statistics" asp-action="Index">Statystyki</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Statistics" asp-action="Index">Statystyki</a>
+                            </li>
+                        }
                     </ul>
                 </div>
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Użytkownik</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-area="" asp-controller="Settings" asp-action="Index">Ustawienia</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="#" asp-action="#">Wyloguj</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Użytkownik</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-area="" asp-controller="Settings" asp-action="Index">Ustawienia</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Wyloguj</a>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div>
+                        <ul class="navbar-nav flex-grow-1">
+                            <li>
+                                <a class="nav-link" style="color:#007bff" asp-area="" asp-controller="Account" asp-action="Login">Zaloguj się</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container main">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()

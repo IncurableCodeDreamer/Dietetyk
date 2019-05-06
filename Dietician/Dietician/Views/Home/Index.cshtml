@@ -1,18 +1,264 @@
-﻿@model DietInfo
-
-@{
+﻿@{
     ViewData["Title"] = "Stron główna";
 }
 
 <div class="container">
-    <button type="button" class="btn w-100 mb-2" style="color:white; background-color:#29ca1f" data-toggle="collapse" data-target="#dietitem"> @Model.DietName </button>
-    <div id="dietitem" class="collapse mb-2">
-        @Model.Info
+    <div class="row">
+        <h4>Dieta</h4>
+    </div>
+    <div class="row">
+        Dieta oznacza specjalny sposób żywienia, który uwzględnia zarówno ilość jak i jakość spożywanych pokarmów.
+        Ma na celu dostarczenie niezbędnych składników pokarmowych
+        oraz dostosowanie ich podaży do możliwości trawienia, wchłaniania
+        i metabolizowania przez zmieniony chorobowo organizm.
+    </div>
+    <div class="row">
+        Modyfikacje diet polegają głównie na:
+    </div>
+    <div class="row">
+        <ul>
+            <li>ograniczeniu lub zwiększeniu jednego lub kilku składników w dziennej racji pokarmowej,</li>
+            <li>uwzględnieniu szczegółowych zaleceń obejmujących techniki kulinarne.</li>
+        </ul>
     </div>
 </div>
+
 <div class="container">
-    <button type="button" class="btn btn-info w-100 mb-2" data-toggle="collapse" data-target="#dietitem2"> @Model.DietName </button>
-    <div id="dietitem2" class="collapse mb-2">
-        @Model.Info
+    <div class="row">
+        <h4>Rodzaje diet</h4>
+    </div>
+</div>
+
+<div class="container">
+    <button type="button" class="btn w-100 mb-2 " style="color:white; background-color:gray" 
+            data-toggle="collapse" data-target="#dietitem"> Dieta podstawowa 
+    </button>
+    <div id="dietitem" class="collapse container mb-2">
+        <div class="row">
+        Dieta stosowana u ludzi, nie wymagających leczenia dietetycznego. Stosuje się ją zazwyczaj w sanatoriach i
+        szpitalach (np. oddziały urazowe). Dieta powinna pokrywać zapotrzebowanie na energię oraz wszystkie
+        składniki odżywcze potrzebne do prawidłowego funkcjonowania organizmu, utrzymania masy ciała i zachowania zdrowia.
+        </div>
+        <div class="row">Podstawy diety:</div>
+        <div class="row">
+            <ul>
+                <li>W każdym posiłku, w miarę możliwości, dieta powinna zawierać produkty ze wszystkich
+                    sześciu grup produktów spożywczych,</li>
+                <li>Białko powinno stanowić 15,5% sumy dobowego zapotrzebowania energetycznego,</li>
+                <li>Tłuszcz – 29,5% sumy dobowego zapotrzebowania energetycznego,</li>
+                <li>Węglowodany – 55% sumy dobowego zapotrzebowania energetycznego.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <button type="button" class="btn w-100 mb-2" style="color:white; background-color:gray"
+            data-toggle="collapse" data-target="#dietitem2">
+        Dieta bogatoresztkowa
+    </button>
+    <div id="dietitem2" class="collapse container mb-2">
+        <div class="row">
+            Dieta będąca bezpośrednią modyfikacją diety podstawowej, polegająca na zwiększeniu ilości błonnika pokarmowego do 40 -50 g.
+            Celem diety jest pobudzenie motoryki jelit i uregulowanie ich czynności bez stosowania środków farmakologicznych.
+            Stosuje się ją w zaparciach nawykowych, w postaci atonicznej oraz w zaburzeniach czynnościowych jelit.
+        </div>
+        <div class="row">Podstawy diety</div>
+        <div class="row">
+            <ul>
+                <li>Białko powinno stanowić 14,5% sumy dobowego zapotrzebowania energetycznego,</li>
+                <li>Tłuszcz – 29,5% sumy dobowego zapotrzebowania energetycznego,</li>
+                <li>Węglowodany – 56% sumy dobowego zapotrzebowania energetycznego.</li>
+            </ul>
+        </div>
+        <div class="row">
+            Ważną rolę w diecie bogatoresztkowej odgrywają suszone owoce – śliwki, rodzynki, figi, które zawierają około 5% ligniny, dzięki czemu
+            są bardzo skuteczne w zaparciach. W diecie bogatoresztkowej ograniczyć należy pokarmy zmniejszające perystaltykę. Są to:
+        </div>
+        <div class="row">
+            <ul>
+                <li>Kluski,</li>
+                <li>Białe pieczywo,</li>
+                <li>Kasza manna,</li>
+                <li>Ryż,</li>
+                <li>Banany,</li>
+                <li>Mąka ziemniaczana.</li>
+            </ul>
+        </div>
+        <div class="row">
+            W szczególności jednak należy wykluczyć:
+        </div>
+        <div class="row">
+            <ul>
+                <li>Suszone czarne jagody,</li>
+                <li>Mocną herbatę,</li>
+                <li>Suche pożywienie,</li>
+                <li>Wino czerwone wytrawne,</li>
+                <li>Wzdymające – groch, fasolka, bób, warzywa kapustne.</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+<div class="container">
+    <button type="button" class="btn w-100 mb-2" style="color:white; background-color:gray"
+            data-toggle="collapse" data-target="#dietitem3">
+        Dieta ubogoenergetyczna
+    </button>
+    <div id="dietitem3" class="collapse container mb-2">
+        <div class="row">
+            Dieta polega na redukcji kaloryczności diety w stosunku do indywidualnego zapotrzebowania energetycznego.
+            Stosuje się ją w celu redukcji masy ciała w przypadku otyłości i nadwagi.
+        </div>
+        <div class="row">Cele diety:</div>
+        <div class="row">
+            <ul>
+                <li>Redukcja masy ciała,</li>
+                <li>Ograniczenie uczucia głodu,</li>
+                <li>Zapewnienie prawidłowego funkcjonowania organizmu,</li>
+                <li>Utrzymanie dobrego samopoczucia pacjenta.</li>
+            </ul>
+        </div>
+        <div class="row">
+            Dieta ta powinna być ubogoenergetyczna i równocześnie zrównoważona pod
+            względem składników odżywczych. Dla osób otyłych źródłem energii obok pożywienia ma być nagromadzona tkanka
+            tłuszczowa. Zapotrzebowanie energetyczne oblicza się indywidualnie dla każdego pacjenta
+            biorąc pod uwagę wiek, płeć, aktywność fizyczną, podstawową przemianę materii. Osoby dorosłe na podstawowe procesy życiowe (w spoczynku) potrzebują:
+            kobiety – 0,95kcal/kg masy ciała/godz, mężczyźni – 1kcal/kg masy ciała/godz.
+        </div>
+
+        <div class="row">Podstawy diety:</div>
+
+        <div class="row">
+            <ul>
+                <li>
+                    Wartość energetyczna diety waha się zazwyczaj około 1000 – 1500kcal,
+                    nie powinna być mniejsza od 1000kcal,
+                </li>
+                <li>
+                    W diecie tej największym ograniczeniom podlegają tłuszcze,
+                    które pokrywają nie więcej niż 25% wartości kalorycznej diety,
+                </li>
+                <li>
+                    Zaleca się nie więcej niż 40g tłuszczu na dobę,
+                    z czego 25 – 30g to tłuszcz niewidoczny, pochodzący z produktów
+                    białkowych.
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            Posiłki w tego rodzaju diecie, w głownej mierze powinny stanowić sałatki, surówki oraz gotowane warzywa.
+            Z diety wykluczyć lub ograniczyć należy produkty zwierające cukry łatwo przyswajalne: cukier, miód, dżemy, słodycze,
+            ciastka, desery; nadmiar cukru prowadzi do syntezy trójglicerydów, zwiększając
+            ryzyko zmian miażdżycowych i choroby niedokrwiennej serca
+        </div>
+        <div class="row">
+            W diecie ubogoenergetycznej zalecane są:
+        </div>
+
+        <div class="row">
+            <ul>
+                <li>Warzywa i owoce w formie surówek,</li>
+                <li>Zupy czyste,</li>
+                <li>Warzywa gotowane,</li>
+                <li>Soki z warzyw i owoców bez dodatku cukru,</li>
+                <li>Napoje niesłodzone,</li>
+                <li>
+                    Przyprawy przyspieszające przemianę materii: kminek, kolendra,
+                    majeranek, ogórecznik, ruta, seler.
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+<div class="container">
+    <button type="button" class="btn w-100 mb-2 " style="color:white; background-color:gray"
+            data-toggle="collapse" data-target="#dietitem4">
+        Dieta łatwo strawna
+    </button>
+    <div id="dietitem4" class="collapse container mb-2">
+        <div class="row">
+            Dietę cechuje dobór łatwo strawnych produktów, potraw oraz technik obróbki kulinarnej, które pozwalają na uzyskanie łatwo
+            strawnych posiłków. Jest to dieta bazowa dla poniższych diet.
+            Celem diety jest dostarczenie choremu wszystkich niezbędnych składników pokarmowych
+            oraz graniczenie produktów i potraw ciężko strawnych.
+        </div>
+        <div class="row">Zastosowanie diety:</div>
+        <div class="row">
+            <ul>
+                <li>W chorobach czynnościowych przewodu pokarmowego,</li>
+                <li>W chorobie wrzodowej żołądka i dwunastnicy,</li>
+                <li>W chorobach jamy ustnej i przełyku,</li>
+                <li>W ostrym i przewlekłym zapaleniu żołądka,</li>
+                <li>W wyrównanych chorobach nerek i dróg moczowych,</li>
+                <li>W nowotworach przewodu pokarmowego,</li>
+                <li>W ostrych i przewlekłych chorobach układu oddechowego,</li>
+                <li>W okresie rekonwalescencji po zabiegach chirurgicznych,</li>
+                <li>W starszym wieku.</li>
+            </ul>
+        </div>
+        <div class="row">Podstawy diety:</div>
+        <div class="row">
+            <ul>
+                <li>Białko powinno stanowić 15,5% sumy dobowego zapotrzebowania energetycznego,</li>
+                <li>Tłuszcze powinny stanowić 29,5% sumy dobowego zapotrzebowania energetycznego,</li>
+                <li>Węglowodany powinny stanowić 55% sumy dobowego zapotrzebowania energetycznego,</li>
+                <li>
+                    Należy ograniczyć lub wykluczyć produkty i potrawy tłuste,
+                    smażonye, pieczone tradycyjnie, długo zalegające w żołądku, wzdymające,
+                    ostro przyprawione,
+                </li>
+                <li>
+                    Należy zmniejszyć podaż błonnika pokarmowego przez dobór odpowiednich
+                    warzyw i owoców, sporządzania przecierów i soków, obieranie, gotowanie,
+                    stosowanie oczyszczonych produktów zbożowych. Zalecana ilość błonnika
+                    w diecie to wartość do 25g,
+                </li>
+                <li>
+                    Należy stosować 4 – 5 posiłków w ciągu dnia regularnie w określonych
+                    godzinach i w niewielkich objętościach. Ostatni posiłek powinien zostać skonsumowany 2 godz przed snem.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <button type="button" class="btn w-100 mb-2 " style="color:white; background-color:gray"
+            data-toggle="collapse" data-target="#dietitem5">
+        Dieta wegetariańska
+    </button>
+    <div id="dietitem5" class="collapse container mb-2">
+        <div class="row">
+            Dieta bezmięsna niesie ze sobą cały wachlarz korzyści dla zdrowia. Zachwalają ją nie tylko entuzjaści tego modelu żywienia, ale i specjaliści z dziedziny medycyny. Prawidłowo skomponowana, pełnowartościowa dieta wegetariańska, pomaga zapobiegać wielu chorób. Dieta wegetariańska zmniejsza bowiem ryzyko wystąpienia: otyłości, cukrzycy typu 2.,choroby niedokrwiennej serca, nadciśnienia tętniczego. Przejście na dietę wegetariańską, może być bardzo prostym i przyjemnym sposobem na zdrowe odchudzanie. Przede wszystkim dlatego, że wykluczenie mięsa i jego przetworów eliminuje z diety całkiem sporo przetworzonego jedzenia, konserwantów i innych niezdrowych dodatków.
+            Decydując się na wegetarianizm, wybiera się przede wszystkim produkty świeże – warzywa i owoce oraz zboża. Dzięki temu eliminuje się zbędne i niezdrowe tłuszcze z diety i oprócz miłego działania dietetycznego, zyskuje bardzo pozytywny wpływ na zdrowie.
+        </div>
+        <div class="row">
+            Wady diety wegetariańskiej
+            <ul>
+                <li>  Zbyt niska podaż energii. Niebezpieczna szczególnie dla osób wiodących bardzo aktywny tryb życia, w tym sportowców.</li>
+                <li>
+                    Niedobór witamin: B12 i D – szczególnie w przypadku diet restrykcyjnych takich, jak dieta wegańska, frutarianizm czy inne odmiany o charakterze monodiety. </li>
+                <li>  Mała dostępność naturalnych składników mineralnych: żelaza, wapnia oraz cynku.</li>
+                <li>   Niska wartość biologiczna spożywanego białka.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <button type="button" class="btn w-100 mb-2 " style="color:white; background-color:gray"
+            data-toggle="collapse" data-target="#dietitem6">
+        Dieta wegańska
+    </button>
+    <div id="dietitem6" class="collapse container mb-2">
+        <div class="row">
+            Weganizm zakłada spożywanie produktów wyłącznie pochodzenia roślinnego. U podstawy piramidy żywieniowej wegan znajdują się produkty na bazie zbóż, takich jak: pszenica, ryż, żyto, proso, owies, oraz owoce i warzywa. Środkowy poziom piramidy stanowią rośliny strączkowe, orzechy, grzyby, rośliny oleiste (siemię lniane, słonecznik, sezam i pestki dyni) i glony morskie. W tej grupie można znaleźć również zamienniki mleka krowiego czy koziego, tj. mleko roślinne - najczęsciej sojowe albo ryżowe, a także sera, który można zastąpić tofu (serem twarogowym otrzymywanym z mleka sojowego). Te produkty należy jeść z umiarem. Na szczycie piramidy znajdują się produkty, których spożycie należy ograniczyć (ale nie wykluczyć!), tj. cukier, miód (jeśli ktoś uznaje, że to nie jest produkt pochodzenia zwierzęcego) oraz kawa i herbata.
+        </div>
+        <div class="row">
+            Dieta wegańska zmniejsza ryzyko wystąpienia otyłości, nadciśnienia, chorób układu krążenia, cukrzycy (typu II), chorób nowotworowych (m.in. jelita grubego, sutka i płuc), kamicy żółciowej i pęcherzyka żółciowego, zaparć, hemoroidów oraz próchnicy zębów.
+            Niestety, nieprawidłowo skomponowana może doprowadzić do niedoborów energetycznych, a także wielu składników odżywczych: białka, witaminy B12, witaminy D, wapnia, żelaza i cynku. 
+        </div>
     </div>
 </div>

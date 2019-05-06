@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dietician.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +8,8 @@ namespace Dietician.Models
 {
     public class MenuSettings
     {
-        public string DietAim { get; set; }
-        public string Preferences { get; set; }
-        public List<string> Ingidients { get; set; }
+        public DietAim DietAim { get; set; }
+        public KindsOfDiet Preferences { get; set; }
+        public int MealCount { get; set; }
     }
 }
