@@ -177,9 +177,7 @@
                 </div>
             </div>
         </div>
-
-        
-                  @Html.ActionLink("Oblicz parametry", "CalculateParameters")   
+        @Html.ActionLink("Oblicz parametry", "CalculateParameters", new { fat = Model.FatLevel, param = Model.Params } ) 
     </form>
 
 </div>

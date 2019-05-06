@@ -2,7 +2,6 @@
 using Dietician.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Dietician.Controllers
 {
@@ -24,14 +23,14 @@ namespace Dietician.Controllers
             return View(model);
         }
 
-        public IActionResult CalculateParameters(Parameters parameters)
+        public IActionResult CalculateParameters(Parameters model)
         {
-            parameters.ParameterResults.Bmi = parameterService.CalculateBMI(parameters.PresonalData);
-            parameters.ParameterResults.BmiLabel = parameterService.GetBMILabel(parameters.ParameterResults);
-            //parameters.ParameterResults.Whr = parameterService.onItemSelected(id);
-            parameters.ParameterResults.FatLevel = parameterService.CalculateBF(parameters);
-            parameters.ParameterResults.Whr = parameterService.CalculateWHR(parameters);
-            return View(parameters);
+            model.ParameterResults.Bmi = parameterService.CalculateBMI(model.PresonalData);
+            model.ParameterResults.BmiLabel = parameterService.GetBMILabel(model.ParameterResults);
+            //model.ParameterResults.Whr = parameterService.onItemSelected(id);
+            model.ParameterResults.FatLevel = parameterService.CalculateBF(model);
+            model.ParameterResults.Whr = parameterService.CalculateWHR(model);
+            return View(model);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Dietician.Services
     {
         public double CalculateBMI(PersonalDataSettings person)
         {
-            return person.Weight/((person.Height/100)*(person.Height/100));
+            return person.Weight.Value/((person.Height.Value/100)*(person.Height.Value/100));
         }
 
         public string GetBMILabel(ParameterResults results)
@@ -73,12 +73,12 @@ namespace Dietician.Services
             if (parameters.PresonalData.Gender == Gender.Kobieta)
             {
                 double sum = parameters.FatLevel.ChestFold + parameters.FatLevel.BellyFold + parameters.FatLevel.ThighFold;
-                bd = 1.0099421 - (0.0009929 * sum) + (0.0000023 * Math.Pow(sum, 2)) - (0.0001392 * parameters.PresonalData.Age);
+                bd = 1.0099421 - (0.0009929 * sum) + (0.0000023 * Math.Pow(sum, 2)) - (0.0001392 * parameters.PresonalData.Age.Value);
             }
             else
             {
                 double sum = parameters.FatLevel.TricepsFold + parameters.FatLevel.HipFold + parameters.FatLevel.ThighFold;
-                bd = 1.10938 - (0.0008267 * sum) + (0.0000016 * Math.Pow(sum, 2)) - (0.0002574 * parameters.PresonalData.Age);
+                bd = 1.10938 - (0.0008267 * sum) + (0.0000016 * Math.Pow(sum, 2)) - (0.0002574 * parameters.PresonalData.Age.Value);
             }
             return Math.Round((495 / bd) - 450);
         }
