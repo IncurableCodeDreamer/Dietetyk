@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dietician.Enums;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -14,22 +15,22 @@ namespace Dietician.Storage.StorageModels
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
 
-            int idMeal=0;
-            int jsonId = 0;
+            string idMeal="";
+            string jsonId = "";
             DateTime mealDate = new DateTime();
-           int mealTypeId=0;
+           MealType mealTypeId=0;
             foreach (var prop in properties)
             {
                 switch (prop.Key.ToLower())
                 {
                     case "idmeal":
-                        idMeal = (int)prop.Value.Int32Value;
+                        idMeal = prop.Value.StringValue;
                         break;
                     case "jsonid":
-                        jsonId = (int)prop.Value.Int32Value;
+                        jsonId = prop.Value.StringValue;
                         break;
                     case "mealtypeid":
-                        mealTypeId = (int)prop.Value.Int32Value;
+                        mealTypeId = (MealType) prop.Value.Int32Value;
                         break;
                     case "mealdate":
                         mealDate = (DateTime)prop.Value.DateTime;
@@ -44,10 +45,10 @@ namespace Dietician.Storage.StorageModels
         {
             var result = new Dictionary<string, EntityProperty>
             {
-                {nameof(MealsModelData.IdMeal), new EntityProperty(MealsModelData.IdMeal)},
+                {nameof(MealsModelData.IdUser), new EntityProperty(MealsModelData.IdUser)},
                 {nameof(MealsModelData.JsonId), new EntityProperty(MealsModelData.JsonId)},
                 { nameof(MealsModelData.MealDate), new EntityProperty(MealsModelData.MealDate)},
-                {nameof(MealsModelData.MealTypeId), new EntityProperty(MealsModelData.MealTypeId)}
+                {nameof(MealsModelData.MealTypeId), new EntityProperty((int)MealsModelData.MealTypeId)}
             };
             return result;
         }

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dietician.Enums;
 using Newtonsoft.Json;
 
 namespace Dietician.CosmosDB
 {
     public class CosmosMealModel
     {
-        public CosmosMealModel(string name, string ingredients, string type, string kind, string portions, string prepare, string url, double calories, double proteins, double carbohydrates, double fat, string imageUrl)
+        public CosmosMealModel(string guid,string name, string ingredients, MealType type, string kind, string portions, string prepare, string url, double calories, double proteins, double carbohydrates, double fat, string imageUrl)
         {
-
+            this.Guid = guid;
             this.Name = name;
             this.Ingredients = ingredients;
             this.Portions = portions;
@@ -30,12 +31,40 @@ namespace Dietician.CosmosDB
 
         }
 
+        public void ChangeType(CosmosMealModel model, string type)
+        {
+
+            if (type.Equals("sn"))
+            {
+                model.Type = MealType.Sniadanie;
+            }
+
+            if (type.Equals("ds"))
+            {
+                model.Type = MealType.Sniadanie2;
+            }
+
+            if (type.Equals("ob"))
+            {
+                model.Type = MealType.Obiad;
+            }
+
+            if (type.Equals("pd"))
+            {
+                model.Type = MealType.Podwieczorek;
+            }
+
+            if (type.Equals("kl"))
+            {
+                model.Type = MealType.Kolacja;
+            }
+        }
         [JsonProperty("Url")]
         public string ImageUrl { get; set; }
         [JsonProperty("Rodzaj")]
-        public string Kind { get; set; }
+        public MealType Type { get; set; }
         [JsonProperty("Typ")]
-        public string Type { get; set; }
+        public string Kind { get; set; }
         [JsonProperty("Tłuszcze")]
         public double Fat { get; set; }
         [JsonProperty("Weglowodany")]
@@ -54,6 +83,8 @@ namespace Dietician.CosmosDB
         public string Ingredients { get; set; }
         [JsonProperty("Nazwa")]
         public string Name { get; set; }
+        [JsonProperty("Guid")]
+        public string Guid { get; set; }
     }
 
     public class MealList
