@@ -118,7 +118,7 @@
                 @Html.LabelFor(m => m.FatLevel, "Procentowa zawartość tkanki tłuszczowej")
             </div>
             <div class="col">
-                @if (@Model.FatLevel != 0 && !(Double.IsNaN(@Model.FatLevel)))
+                @if (@Model.FatLevel > 0 && !(Double.IsNaN(@Model.FatLevel)))
                 {
                     @Model.FatLevel
                 }
