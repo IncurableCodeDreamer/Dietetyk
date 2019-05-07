@@ -40,7 +40,7 @@ namespace Dietician.Storage.StorageModels
                         break;
                 }
 
-                IndicatorsModelData = new IndicatorModel(idUser,idIndicator, height,weight,date);
+                IndicatorsModelData = new IndicatorModel(idUser,idIndicator,height,weight,date);
             }
         }
 

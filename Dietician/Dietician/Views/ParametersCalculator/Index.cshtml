@@ -6,15 +6,24 @@
 
 @using (Html.BeginForm("Index", "ParametersCalculator", FormMethod.Post))
 {
-    <div class="container">
-        @Html.Partial("Parameters", Model, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Parameters" } })
-    </div>
-
-    <input type="submit" value="Oblicz parametry" class="btn btn-primary" />
-}
-    @if (Model.ShowResults)
-    {
+    <div class="row">
         <div class="container">
+            @Html.Partial("Parameters", Model, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Parameters" } })
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="container" style="max-width:250px">
+            <input type="submit" value="Oblicz parametry" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+@if (Model.ShowResults)
+{
+    <div class="row">
+        <div class="container" style="margin-top:30px">
             @Html.Partial("Results", Model.ParameterResults, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Results" } })
         </div>
-    }
+    </div>
+}
