@@ -1,184 +1,180 @@
-﻿@model Parameters
+﻿@using Dietician.Enums;
+@model Parameters
 
 <div class="container">
 
-    <form>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.PresonalData.Height, "Wzrost [cm]")
-                </div>
-                <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.PresonalData.Height, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.PresonalData.Height, "Wzrost [cm]")
+            </div>
+            <div class="col" style="max-width:410px">
+                @Html.EditorFor(m => m.PresonalData.Height, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.PresonalData.Weight, "Waga [kg]")
-                </div>
-                <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.PresonalData.Weight, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.PresonalData.Weight, "Waga [kg]")
+            </div>
+            <div class="col" style="max-width:410px">
+                @Html.EditorFor(m => m.PresonalData.Weight, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.PresonalData.Age, "Wiek")
-                </div>
-                <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.PresonalData.Age, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.PresonalData.Age, "Wiek")
+            </div>
+            <div class="col" style="max-width:410px">
+                @Html.EditorFor(m => m.PresonalData.Age, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.PresonalData.Gender, "Wybierz płeć")
-                </div>
-                <div class="col">
-                    <div class="row">
-                        <div class="col-10">
-                            @Html.RadioButtonFor(m => m.PresonalData.Gender, "1") Kobieta
-                        </div>
-                        <div class="col-7">
-                            @Html.RadioButtonFor(m => m.PresonalData.Gender, "2") Mężczyzna
-                        </div>
-                    </div>
-                </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.PresonalData.Gender, "Wybierz płeć")
             </div>
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.FatLevel.LifeStyle, "Wybierz tryb życia")
-                </div>
-                <div class="col" style="max-width:410px">
-                    @Html.DropDownListFor(m =>
-                       m.FatLevel.LifeStyle,
-                        new SelectList(new List<string>() {
-                            "Nieaktywny (brak ćwiczeń)",
-                            "Mało aktywny (lekkie ćwiczenia)",
-                            "Średnio aktywny (wysiłek 3–5 razy tygodniowo)",
-                            "Aktywny (wysiłek 6–7 razy w tygodniu)",
-                            "Bardzo aktywny (ćwiczenia i praca fizyczna)"
-                        }), new { @class = "form-control" }
-                    )
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.FatLevel.HipSize, "Obwód bioder [cm]")
-                </div>
-                <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.FatLevel.HipSize, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.FatLevel.WaistSize, "Obwód talii [cm]")
-                </div>
-                <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.FatLevel.WaistSize, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.FatLevel.ThighFold, "Pomiar fałdu na udzie [mm]")
-                </div>
-                <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.FatLevel.ThighFold, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-        </div>
-
-        @if (Model.PresonalData.Gender == Gender.Kobieta)
-        {
-            <div class="form-group">
+            <div class="col">
                 <div class="row">
-                    <div class="col-2">
-                        @Html.LabelFor(m => m.FatLevel.ChestFold, "Pomiar fałdu na klatce [mm]")
+                    <div class="col-10">
+                        @Html.RadioButtonFor(m => m.PresonalData.Gender, "2") Kobieta
                     </div>
-                    <div class="col" style="max-width:410px">
-                        @Html.EditorFor(m => m.FatLevel.ChestFold, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-2">
-                        @Html.LabelFor(m => m.FatLevel.BellyFold, "Pomiar fałdu przy pępku [mm]")
-                    </div>
-                    <div class="col" style="max-width:410px">
-                        @Html.EditorFor(m => m.FatLevel.BellyFold, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-2">
-                        @Html.LabelFor(m => m.FatLevel.TricepsFold, "Pomiar fałdu na tricepsie [mm]")
-                    </div>
-                    <div class="col" style="max-width:410px">
-                        @Html.EditorFor(m => m.FatLevel.TricepsFold, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-2">
-                        @Html.LabelFor(m => m.FatLevel.HipFold, "Pomiar fałdu na biodrze [mm]")
-                    </div>
-                    <div class="col" style="max-width:410px">
-                        @Html.EditorFor(m => m.FatLevel.HipFold, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-            </div>
-        }
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    @Html.LabelFor(m => m.Params.IfSelected, "Wybierz parametry do obliczenia")
-                </div>
-                <div class="col">
-                    <div class="flex-sm-grow-1">
-                        @Html.EditorFor(m => m.Params.IfSelected)
-                        @Html.LabelFor(m => m.Params.Name, "BMI")
-                    </div>
-                    <div class="flex-sm-grow-1">
-                        @Html.CheckBoxFor(m => m.Params.IfSelected)
-                        @Html.LabelFor(m => m.Params.Name, "CPM")
-                    </div>
-                    <div class="flex-sm-grow-1">
-                        @Html.CheckBoxFor(m => m.Params.IfSelected)
-                        @Html.LabelFor(m => m.Params.Name, "Poziom tkanki tłuszczwej")
+                    <div class="col-7">
+                        @Html.RadioButtonFor(m => m.PresonalData.Gender, "1") Mężczyzna
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <input type="submit" value="Oblicz parametry" class="btn btn-primary" />
-    </form>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.FatLevel.LifeStyle, "Wybierz tryb życia")
+            </div>
+            <div class="col" style="max-width:410px">
+                @Html.DropDownListFor(m =>
+                    m.FatLevel.LifeStyle,
+                    new SelectList(new Dictionary<string, string>() {
+            { "Nieaktywny (brak ćwiczeń)" ,Lifestyle.Nieaktywny.ToString() },
+            { "Mało aktywny (lekkie ćwiczenia)",Lifestyle.MaloAktywny.ToString() },
+            { "Średnio aktywny (wysiłek 3–5 razy tygodniowo)", Lifestyle.SrednioAktywny.ToString() },
+            { "Aktywny (wysiłek 6–7 razy w tygodniu)", Lifestyle.Aktywny.ToString() },
+            { "Bardzo aktywny (ćwiczenia i praca fizyczna)", Lifestyle.BardzoAktywny.ToString() }
+            }, "Value", "Key"), new { @class = "form-control" })                
+            </div>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.FatLevel.HipSize, "Obwód bioder [cm]")
+            </div>
+            <div class="col" style="max-width:410px">
+                @Html.EditorFor(m => m.FatLevel.HipSize, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.FatLevel.WaistSize, "Obwód talii [cm]")
+            </div>
+            <div class="col" style="max-width:410px">
+                @Html.EditorFor(m => m.FatLevel.WaistSize, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.FatLevel.ThighFold, "Pomiar fałdu na udzie [mm]")
+            </div>
+            <div class="col" style="max-width:410px">
+                @Html.EditorFor(m => m.FatLevel.ThighFold, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+    </div>
+
+    @if (Model.PresonalData.Gender == Gender.Kobieta)
+    {
+        <div class="form-group">
+            <div class="row">
+                <div class="col-2">
+                    @Html.LabelFor(m => m.FatLevel.ChestFold, "Pomiar fałdu na klatce [mm]")
+                </div>
+                <div class="col" style="max-width:410px">
+                    @Html.EditorFor(m => m.FatLevel.ChestFold, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-2">
+                    @Html.LabelFor(m => m.FatLevel.BellyFold, "Pomiar fałdu przy pępku [mm]")
+                </div>
+                <div class="col" style="max-width:410px">
+                    @Html.EditorFor(m => m.FatLevel.BellyFold, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <div class="row">
+                <div class="col-2">
+                    @Html.LabelFor(m => m.FatLevel.TricepsFold, "Pomiar fałdu na tricepsie [mm]")
+                </div>
+                <div class="col" style="max-width:410px">
+                    @Html.EditorFor(m => m.FatLevel.TricepsFold, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-2">
+                    @Html.LabelFor(m => m.FatLevel.HipFold, "Pomiar fałdu na biodrze [mm]")
+                </div>
+                <div class="col" style="max-width:410px">
+                    @Html.EditorFor(m => m.FatLevel.HipFold, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+    }
+
+    @*<div class="form-group">
+        <div class="row">
+            <div class="col-2">
+                @Html.LabelFor(m => m.Params.IfSelected, "Wybierz parametry do obliczenia")
+            </div>
+            <div class="col">
+                <div class="flex-sm-grow-1">
+                    @Html.EditorFor(m => m.Params.IfSelected)
+                    @Html.LabelFor(m => m.Params.Name, "BMI")
+                </div>
+                <div class="flex-sm-grow-1">
+                    @Html.CheckBoxFor(m => m.Params.IfSelected)
+                    @Html.LabelFor(m => m.Params.Name, "CPM")
+                </div>
+                <div class="flex-sm-grow-1">
+                    @Html.CheckBoxFor(m => m.Params.IfSelected)
+                    @Html.LabelFor(m => m.Params.Name, "Poziom tkanki tłuszczwej")
+                </div>
+            </div>
+        </div>
+    </div>*@
 </div>
+

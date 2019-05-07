@@ -14,7 +14,7 @@ namespace Dietician.Storage.StorageModels
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
             string idUser = "";
-            int weight = 0;
+            double weight = 0;
             int height = 0;
             DateTime date = new DateTime();
             int idIndicator = 0;
@@ -27,7 +27,7 @@ namespace Dietician.Storage.StorageModels
                         idUser = prop.Value.ToString();
                         break;
                     case "weight":
-                        weight = (int)prop.Value.Int32Value;
+                        weight = (double)prop.Value.DoubleValue;
                         break;
                     case "height":
                         height = (int)prop.Value.Int32Value;

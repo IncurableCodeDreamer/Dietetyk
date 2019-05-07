@@ -1,31 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Dietician.Models;
+using Dietician.Services;
 
 namespace Dietician
 {
     public class ParametersCalc
     {
-        public static double CountCPM(double weight, double height, int age, Gender sex, double pal)
+        public static double CountCPM(PersonalDataSettings data)
         {
+            double pal = ParameterService.onItemSelected(data.Lifestyle);
 
-            double cpm;
-
-            if (sex == Gender.Kobieta)
+            if (data.Gender == Gender.Kobieta)
             {
-                double ppm = 665.09 + (9.56 * weight) + (1.85 * height) - (4.67 * age);
-                cpm = ppm * pal;
+                return (665.09 + (9.56 * data.Weight.Value) + (1.85 * data.Height.Value) - (4.67 * data.Age.Value))* pal;
             }
             else
             {
-                double PPM = 66.47 + (13.75 * weight) + (5 * height) - (6.75 * age);
-                cpm = PPM * pal;
+                return (66.47 + (13.75 * data.Weight.Value) + (5 * data.Height.Value) - (6.75 * data.Age.Value)) * pal;
             }
-            return cpm;
         }
-
-
 
         public static double ProteinsMinCalculate(double cpm)
         {
