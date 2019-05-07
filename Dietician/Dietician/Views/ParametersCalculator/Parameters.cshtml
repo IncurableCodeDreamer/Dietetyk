@@ -44,15 +44,14 @@
         <div class="row">
             <div class="col-2">
                 @Html.LabelFor(m => m.PresonalData.Gender, "Wybierz płeć")
-                @Html.ValidationMessageFor(m => m.PresonalData.Gender)
             </div>
             <div class="col">
                 <div class="row">
                     <div class="col-10">
-                        @Html.RadioButtonFor(m => m.PresonalData.Gender, "2") Kobieta                         
+                        @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Kobieta.ToString()) Kobieta
                     </div>
                     <div class="col-7">
-                        @Html.RadioButtonFor(m => m.PresonalData.Gender, "1") Mężczyzna
+                        @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Mężczyzna.ToString()) Mężczyzna
                     </div>
                 </div>
             </div>
@@ -63,7 +62,6 @@
         <div class="row">
             <div class="col-2">
                 @Html.LabelFor(m => m.FatLevel.LifeStyle, "Wybierz tryb życia")
-                @Html.ValidationMessageFor(m => m.FatLevel.LifeStyle)
             </div>
             <div class="col" style="max-width:410px">
                 @Html.DropDownListFor(m =>
@@ -117,7 +115,7 @@
     </div>
 
     @if (Model.PresonalData.Gender == Gender.Kobieta)
-    {
+                        {
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
