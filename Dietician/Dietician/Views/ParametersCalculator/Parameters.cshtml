@@ -1,6 +1,7 @@
 ﻿@using Dietician.Enums;
 @model Parameters
 
+    @Html.ValidationSummary(true)
 <div class="container">
 
     <div class="form-group">
@@ -10,6 +11,7 @@
             </div>
             <div class="col" style="max-width:410px">
                 @Html.EditorFor(m => m.PresonalData.Height, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.PresonalData.Height)
             </div>
         </div>
     </div>
@@ -21,6 +23,7 @@
             </div>
             <div class="col" style="max-width:410px">
                 @Html.EditorFor(m => m.PresonalData.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.PresonalData.Weight)
             </div>
         </div>
     </div>
@@ -32,6 +35,7 @@
             </div>
             <div class="col" style="max-width:410px">
                 @Html.EditorFor(m => m.PresonalData.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.PresonalData.Age)
             </div>
         </div>
     </div>
@@ -40,11 +44,12 @@
         <div class="row">
             <div class="col-2">
                 @Html.LabelFor(m => m.PresonalData.Gender, "Wybierz płeć")
+                @Html.ValidationMessageFor(m => m.PresonalData.Gender)
             </div>
             <div class="col">
                 <div class="row">
                     <div class="col-10">
-                        @Html.RadioButtonFor(m => m.PresonalData.Gender, "2") Kobieta
+                        @Html.RadioButtonFor(m => m.PresonalData.Gender, "2") Kobieta                         
                     </div>
                     <div class="col-7">
                         @Html.RadioButtonFor(m => m.PresonalData.Gender, "1") Mężczyzna
@@ -58,17 +63,18 @@
         <div class="row">
             <div class="col-2">
                 @Html.LabelFor(m => m.FatLevel.LifeStyle, "Wybierz tryb życia")
+                @Html.ValidationMessageFor(m => m.FatLevel.LifeStyle)
             </div>
             <div class="col" style="max-width:410px">
                 @Html.DropDownListFor(m =>
-                    m.FatLevel.LifeStyle,
-                    new SelectList(new Dictionary<string, string>() {
+         m.FatLevel.LifeStyle,
+         new SelectList(new Dictionary<string, string>() {
             { "Nieaktywny (brak ćwiczeń)" ,Lifestyle.Nieaktywny.ToString() },
             { "Mało aktywny (lekkie ćwiczenia)",Lifestyle.MaloAktywny.ToString() },
             { "Średnio aktywny (wysiłek 3–5 razy tygodniowo)", Lifestyle.SrednioAktywny.ToString() },
             { "Aktywny (wysiłek 6–7 razy w tygodniu)", Lifestyle.Aktywny.ToString() },
             { "Bardzo aktywny (ćwiczenia i praca fizyczna)", Lifestyle.BardzoAktywny.ToString() }
-            }, "Value", "Key"), new { @class = "form-control" })                
+ }, "Value", "Key"), new { @class = "form-control" })
             </div>
         </div>
     </div>
@@ -77,9 +83,11 @@
         <div class="row">
             <div class="col-2">
                 @Html.LabelFor(m => m.FatLevel.HipSize, "Obwód bioder [cm]")
+
             </div>
             <div class="col" style="max-width:410px">
                 @Html.EditorFor(m => m.FatLevel.HipSize, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.FatLevel.HipSize)
             </div>
         </div>
     </div>
@@ -91,6 +99,7 @@
             </div>
             <div class="col" style="max-width:410px">
                 @Html.EditorFor(m => m.FatLevel.WaistSize, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.FatLevel.WaistSize)
             </div>
         </div>
     </div>
@@ -102,6 +111,7 @@
             </div>
             <div class="col" style="max-width:410px">
                 @Html.EditorFor(m => m.FatLevel.ThighFold, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.FatLevel.ThighFold)
             </div>
         </div>
     </div>
@@ -115,6 +125,7 @@
                 </div>
                 <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.FatLevel.ChestFold, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.FatLevel.ChestFold)
                 </div>
             </div>
         </div>
@@ -126,6 +137,7 @@
                 </div>
                 <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.FatLevel.BellyFold, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.FatLevel.BellyFold)
                 </div>
             </div>
         </div>
@@ -150,31 +162,32 @@
                 </div>
                 <div class="col" style="max-width:410px">
                     @Html.EditorFor(m => m.FatLevel.HipFold, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.FatLevel.HipFold)
                 </div>
             </div>
         </div>
     }
 
     @*<div class="form-group">
-        <div class="row">
-            <div class="col-2">
-                @Html.LabelFor(m => m.Params.IfSelected, "Wybierz parametry do obliczenia")
+            <div class="row">
+                <div class="col-2">
+                    @Html.LabelFor(m => m.Params.IfSelected, "Wybierz parametry do obliczenia")
+                </div>
+                <div class="col">
+                    <div class="flex-sm-grow-1">
+                        @Html.EditorFor(m => m.Params.IfSelected)
+                        @Html.LabelFor(m => m.Params.Name, "BMI")
+                    </div>
+                    <div class="flex-sm-grow-1">
+                        @Html.CheckBoxFor(m => m.Params.IfSelected)
+                        @Html.LabelFor(m => m.Params.Name, "CPM")
+                    </div>
+                    <div class="flex-sm-grow-1">
+                        @Html.CheckBoxFor(m => m.Params.IfSelected)
+                        @Html.LabelFor(m => m.Params.Name, "Poziom tkanki tłuszczwej")
+                    </div>
+                </div>
             </div>
-            <div class="col">
-                <div class="flex-sm-grow-1">
-                    @Html.EditorFor(m => m.Params.IfSelected)
-                    @Html.LabelFor(m => m.Params.Name, "BMI")
-                </div>
-                <div class="flex-sm-grow-1">
-                    @Html.CheckBoxFor(m => m.Params.IfSelected)
-                    @Html.LabelFor(m => m.Params.Name, "CPM")
-                </div>
-                <div class="flex-sm-grow-1">
-                    @Html.CheckBoxFor(m => m.Params.IfSelected)
-                    @Html.LabelFor(m => m.Params.Name, "Poziom tkanki tłuszczwej")
-                </div>
-            </div>
-        </div>
-    </div>*@
+        </div>*@
 </div>
 

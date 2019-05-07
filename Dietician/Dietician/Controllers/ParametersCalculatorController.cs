@@ -24,22 +24,29 @@ namespace Dietician.Controllers
         [HttpPost]
         public IActionResult Index(Parameters Parameters)
         {
-            ParameterResults results = new ParameterResults()
+            if (ModelState.IsValid)
             {
-                Bmi = ParameterService.CalculateBMI(Parameters.PresonalData),                
-                FatLevel = ParameterService.CalculateBF(Parameters),                 
-            };
+                ParameterResults results = new ParameterResults()
+                {
+                    Bmi = ParameterService.CalculateBMI(Parameters.PresonalData),
+                    FatLevel = ParameterService.CalculateBF(Parameters),
+                };
 
-            results.Cmp = ParametersCalc.CountCPM(Parameters.PresonalData);
-            results.Carbohydrate = ParametersCalc.CarbohydratesMinCalculate(results.Cmp);
-            results.Protein = ParametersCalc.ProteinsMinCalculate(results.Cmp);
-            results.Fat = ParametersCalc.FatsMinCalculate(results.Cmp);
-            results.Whr = ParameterService.CalculateWHR(Parameters, results);
-            results.BmiLabel = ParameterService.GetBMILabel(results);
+                results.Cmp = ParametersCalc.CountCPM(Parameters.PresonalData);
+                results.Carbohydrate = ParametersCalc.CarbohydratesMinCalculate(results.Cmp);
+                results.Protein = ParametersCalc.ProteinsMinCalculate(results.Cmp);
+                results.Fat = ParametersCalc.FatsMinCalculate(results.Cmp);
+                results.Whr = ParameterService.CalculateWHR(Parameters, results);
+                results.BmiLabel = ParameterService.GetBMILabel(results);
 
-            Parameters.ParameterResults = results;
-            Parameters.ShowResults = true;
-            return View(Parameters);
+                Parameters.ParameterResults = results;
+                Parameters.ShowResults = true;
+                return View(Parameters);
+            }
+            else
+            {
+                return View(Parameters);
+            }
         }
     }
 }
