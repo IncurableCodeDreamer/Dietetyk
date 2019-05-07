@@ -1,8 +1,7 @@
 ﻿@model Parameters
 
 <div class="container">
-
-    <form>
+ 
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
@@ -61,15 +60,15 @@
                 </div>
                 <div class="col" style="max-width:410px">
                     @Html.DropDownListFor(m =>
-                       m.FatLevel.LifeStyle,
-                        new SelectList(new List<string>() {
+        m.FatLevel.LifeStyle,
+         new SelectList(new List<string>() {
                             "Nieaktywny (brak ćwiczeń)",
                             "Mało aktywny (lekkie ćwiczenia)",
                             "Średnio aktywny (wysiłek 3–5 razy tygodniowo)",
                             "Aktywny (wysiłek 6–7 razy w tygodniu)",
                             "Bardzo aktywny (ćwiczenia i praca fizyczna)"
-                        }), new { @class = "form-control" }
-                    )
+         }), new { @class = "form-control" }
+     )
                 </div>
             </div>
         </div>
@@ -177,7 +176,5 @@
                 </div>
             </div>
         </div>
-        @Html.ActionLink("Oblicz parametry", "CalculateParameters", new { fat = Model.FatLevel, param = Model.Params } ) 
-    </form>
-
 </div>
+

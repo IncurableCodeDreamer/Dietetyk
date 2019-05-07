@@ -4,16 +4,17 @@
     ViewData["Title"] = "Obliczanie parametrów";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "ParametersCalculator", FormMethod.Post))
 {
     <div class="container">
         @Html.Partial("Parameters", Model, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Parameters" } })
     </div>
 
-    @if (Model.ShowResults)
+    <input type="submit" value="Oblicz parametry" class="btn btn-primary" />
+}
+    @*@if (Model.ShowResults)
     {
         <div class="container">
-            @Html.Partial("Results", Model, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Parameters" } })
+            @Html.Partial("Results", Model, new ViewDataDictionary(ViewContext.ViewData) { TemplateInfo = { HtmlFieldPrefix = "Results" } })
         </div>
-    }
-}
+    }*@

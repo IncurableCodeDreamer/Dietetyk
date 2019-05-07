@@ -9,7 +9,7 @@ namespace Dietician.Controllers
     {
         private ParameterService parameterService;
 
-        public IActionResult Index(IFormCollection collection)
+        public IActionResult Index()
         {
             var model = new Parameters()
             {
@@ -23,14 +23,15 @@ namespace Dietician.Controllers
             return View(model);
         }
 
-        public IActionResult CalculateParameters(Parameters model)
+        [HttpPost]
+        public IActionResult Index(Parameters Parameters)
         {
-            model.ParameterResults.Bmi = parameterService.CalculateBMI(model.PresonalData);
-            model.ParameterResults.BmiLabel = parameterService.GetBMILabel(model.ParameterResults);
+            Parameters.ParameterResults.Bmi = parameterService.CalculateBMI(Parameters.PresonalData);
+            Parameters.ParameterResults.BmiLabel = parameterService.GetBMILabel(Parameters.ParameterResults);
             //model.ParameterResults.Whr = parameterService.onItemSelected(id);
-            model.ParameterResults.FatLevel = parameterService.CalculateBF(model);
-            model.ParameterResults.Whr = parameterService.CalculateWHR(model);
-            return View(model);
+            Parameters.ParameterResults.FatLevel = parameterService.CalculateBF(Parameters);
+            Parameters.ParameterResults.Whr = parameterService.CalculateWHR(Parameters);
+            return View(Parameters);
         }
     }
 }
