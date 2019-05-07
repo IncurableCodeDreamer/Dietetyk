@@ -33,7 +33,7 @@ namespace Dietician.Controllers
             results.Cmp = ParametersCalc.CountCPM(Parameters.PresonalData);
             results.Carbohydrate = ParametersCalc.CarbohydratesMinCalculate(results.Cmp);
             results.Protein = ParametersCalc.ProteinsMinCalculate(results.Cmp);
-            results.Protein = ParametersCalc.FatsMinCalculate(results.Cmp);
+            results.Fat = ParametersCalc.FatsMinCalculate(results.Cmp);
             results.Whr = ParameterService.CalculateWHR(Parameters, results);
             results.BmiLabel = ParameterService.GetBMILabel(results);
 
