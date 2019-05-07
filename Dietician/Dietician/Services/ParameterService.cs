@@ -1,16 +1,17 @@
-﻿using Dietician.Models;
+﻿using Dietician.Enums;
+using Dietician.Models;
 using System;
 
 namespace Dietician.Services
 {
-    public class ParameterService
+    public static class ParameterService
     {
-        public double CalculateBMI(PersonalDataSettings person)
+        public static double CalculateBMI(PersonalDataSettings person)
         {
-            return person.Weight.Value/((person.Height.Value/100)*(person.Height.Value/100));
+            return person.Weight.Value/((person.Height.Value/(double)100)*(person.Height.Value/(double)100));       
         }
 
-        public string GetBMILabel(ParameterResults results)
+        public static string GetBMILabel(ParameterResults results)
         {
             if (results.Bmi < 18.5)
             {                
@@ -34,40 +35,40 @@ namespace Dietician.Services
             }
         }
 
-        public double onItemSelected(int id)
+        public static double onItemSelected(Lifestyle id)
         {
             switch (id)
             {
-                case 0:
+                case Lifestyle.Nieaktywny:
                     return 1.2;
-                case 1:
+                case Lifestyle.MaloAktywny:
                     return 1.4;
-                case 2:
+                case Lifestyle.SrednioAktywny:
                     return 1.6;
-                case 3:
+                case Lifestyle.Aktywny:
                     return 1.8;
-                case 4:
+                case Lifestyle.BardzoAktywny:
                     return 2;
                 default:
                     return 1.2;
             }
         }
 
-        public double CalculateWHR(Parameters parameters)
+        public static double CalculateWHR(Parameters parameters, ParameterResults results)
         {
-            double WHR = parameters.FatLevel.WaistSize/parameters.FatLevel.HipSize;
+            double WHR = (double)parameters.FatLevel.WaistSize / (double)parameters.FatLevel.HipSize;
             if ((parameters.PresonalData.Gender == Gender.Kobieta && WHR > 0.88) || (parameters.PresonalData.Gender == Gender.Mężczyzna && WHR > 1))
             {
-                parameters.ParameterResults.WhrLabel = "Typ androidalny";
+                results.WhrLabel = "Typ androidalny";
             }
             else
             {
-                parameters.ParameterResults.WhrLabel = "Typ gynoidalny";
+                results.WhrLabel = "Typ gynoidalny";
             }
             return WHR;
         }
 
-        public double CalculateBF(Parameters parameters)
+        public static double CalculateBF(Parameters parameters)
         {
             double bd;
             if (parameters.PresonalData.Gender == Gender.Kobieta)

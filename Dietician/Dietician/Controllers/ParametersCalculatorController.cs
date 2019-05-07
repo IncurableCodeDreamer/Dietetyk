@@ -1,13 +1,11 @@
 ﻿using Dietician.Models;
 using Dietician.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dietician.Controllers
 {
     public class ParametersCalculatorController : BaseController
-    {
-        private ParameterService parameterService;
+    {     
 
         public IActionResult Index()
         {
@@ -26,11 +24,21 @@ namespace Dietician.Controllers
         [HttpPost]
         public IActionResult Index(Parameters Parameters)
         {
-            Parameters.ParameterResults.Bmi = parameterService.CalculateBMI(Parameters.PresonalData);
-            Parameters.ParameterResults.BmiLabel = parameterService.GetBMILabel(Parameters.ParameterResults);
-            //model.ParameterResults.Whr = parameterService.onItemSelected(id);
-            Parameters.ParameterResults.FatLevel = parameterService.CalculateBF(Parameters);
-            Parameters.ParameterResults.Whr = parameterService.CalculateWHR(Parameters);
+            ParameterResults results = new ParameterResults()
+            {
+                Bmi = ParameterService.CalculateBMI(Parameters.PresonalData),                
+                FatLevel = ParameterService.CalculateBF(Parameters),                 
+            };
+
+            results.Cmp = ParametersCalc.CountCPM(Parameters.PresonalData);
+            results.Carbohydrate = ParametersCalc.CarbohydratesMinCalculate(results.Cmp);
+            results.Protein = ParametersCalc.ProteinsMinCalculate(results.Cmp);
+            results.Protein = ParametersCalc.FatsMinCalculate(results.Cmp);
+            results.Whr = ParameterService.CalculateWHR(Parameters, results);
+            results.BmiLabel = ParameterService.GetBMILabel(results);
+
+            Parameters.ParameterResults = results;
+            Parameters.ShowResults = true;
             return View(Parameters);
         }
     }

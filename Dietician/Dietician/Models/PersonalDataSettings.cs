@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Dietician.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dietician.Models
 {
@@ -10,6 +11,7 @@ namespace Dietician.Models
         public int? Height { get; set; }
         [Required]
         public Gender Gender { get; set; }
-        public int? Weight { get; set; }
+        public double? Weight { get; set; }
+        public Lifestyle Lifestyle { get; set; }
     }
 }

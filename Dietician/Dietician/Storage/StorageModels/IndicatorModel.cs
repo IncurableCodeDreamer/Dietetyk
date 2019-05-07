@@ -9,7 +9,7 @@ namespace Dietician.Storage.StorageModels
     {
         public int IdIndicators { get; set; }
         public int? Height { get; set; }
-        public int? Weight { get; set; }
+        public double? Weight { get; set; }
         public string IdUser { get; set; }
         public DateTime ChangeDate { get; set; }
 
@@ -18,7 +18,7 @@ namespace Dietician.Storage.StorageModels
 
         }
         
-        public IndicatorModel(string idUser, int indicatorsId, int? height, int? weight, DateTime date)
+        public IndicatorModel(string idUser, int indicatorsId, int? height, double? weight, DateTime date)
         {
             this.IdUser = idUser;
             this.IdIndicators = indicatorsId;
