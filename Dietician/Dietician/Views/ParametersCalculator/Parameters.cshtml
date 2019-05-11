@@ -1,7 +1,9 @@
 ﻿@using Dietician.Enums;
+
 @model Parameters
 
-    @Html.ValidationSummary(true)
+@Html.ValidationSummary(true)
+@{ bool gender = (Model.PresonalData.Gender == Gender.Kobieta);}
 <div class="container">
 
     <div class="form-group">
@@ -10,7 +12,7 @@
                 @Html.LabelFor(m => m.PresonalData.Height, "Wzrost [cm]")
             </div>
             <div class="col" style="max-width:410px">
-                @Html.EditorFor(m => m.PresonalData.Height, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.PresonalData.Height, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(m => m.PresonalData.Height)
             </div>
         </div>
@@ -22,7 +24,7 @@
                 @Html.LabelFor(m => m.PresonalData.Weight, "Waga [kg]")
             </div>
             <div class="col" style="max-width:410px">
-                @Html.EditorFor(m => m.PresonalData.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.PresonalData.Weight, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(m => m.PresonalData.Weight)
             </div>
         </div>
@@ -34,7 +36,7 @@
                 @Html.LabelFor(m => m.PresonalData.Age, "Wiek")
             </div>
             <div class="col" style="max-width:410px">
-                @Html.EditorFor(m => m.PresonalData.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.PresonalData.Age, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(m => m.PresonalData.Age)
             </div>
         </div>
@@ -48,10 +50,10 @@
             <div class="col">
                 <div class="row">
                     <div class="col-10">
-                        @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Kobieta.ToString()) Kobieta
+                        @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Kobieta.ToString(), new { htmlAttributes = new { @id = "female" } }) Kobieta
                     </div>
                     <div class="col-7">
-                        @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Mężczyzna.ToString()) Mężczyzna
+                        @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Mężczyzna.ToString(), new { htmlAttributes = new { @id = "male" } }) Mężczyzna
                     </div>
                 </div>
             </div>
@@ -84,7 +86,7 @@
 
             </div>
             <div class="col" style="max-width:410px">
-                @Html.EditorFor(m => m.FatLevel.HipSize, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.FatLevel.HipSize, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(m => m.FatLevel.HipSize)
             </div>
         </div>
@@ -96,7 +98,7 @@
                 @Html.LabelFor(m => m.FatLevel.WaistSize, "Obwód talii [cm]")
             </div>
             <div class="col" style="max-width:410px">
-                @Html.EditorFor(m => m.FatLevel.WaistSize, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.FatLevel.WaistSize, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(m => m.FatLevel.WaistSize)
             </div>
         </div>
@@ -108,21 +110,20 @@
                 @Html.LabelFor(m => m.FatLevel.ThighFold, "Pomiar fałdu na udzie [mm]")
             </div>
             <div class="col" style="max-width:410px">
-                @Html.EditorFor(m => m.FatLevel.ThighFold, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.FatLevel.ThighFold, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(m => m.FatLevel.ThighFold)
             </div>
         </div>
     </div>
 
-    @if (Model.PresonalData.Gender == Gender.Kobieta)
-                        {
+    <div id="woman">
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
                     @Html.LabelFor(m => m.FatLevel.ChestFold, "Pomiar fałdu na klatce [mm]")
                 </div>
                 <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.FatLevel.ChestFold, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(m => m.FatLevel.ChestFold, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                     @Html.ValidationMessageFor(m => m.FatLevel.ChestFold)
                 </div>
             </div>
@@ -134,21 +135,21 @@
                     @Html.LabelFor(m => m.FatLevel.BellyFold, "Pomiar fałdu przy pępku [mm]")
                 </div>
                 <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.FatLevel.BellyFold, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(m => m.FatLevel.BellyFold, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                     @Html.ValidationMessageFor(m => m.FatLevel.BellyFold)
                 </div>
             </div>
         </div>
-    }
-    else
-    {
+    </div>
+
+    <div id="man">
         <div class="form-group">
             <div class="row">
                 <div class="col-2">
                     @Html.LabelFor(m => m.FatLevel.TricepsFold, "Pomiar fałdu na tricepsie [mm]")
                 </div>
                 <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.FatLevel.TricepsFold, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(m => m.FatLevel.TricepsFold, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 </div>
             </div>
         </div>
@@ -159,11 +160,10 @@
                     @Html.LabelFor(m => m.FatLevel.HipFold, "Pomiar fałdu na biodrze [mm]")
                 </div>
                 <div class="col" style="max-width:410px">
-                    @Html.EditorFor(m => m.FatLevel.HipFold, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(m => m.FatLevel.HipFold, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                     @Html.ValidationMessageFor(m => m.FatLevel.HipFold)
                 </div>
             </div>
         </div>
-    }
+    </div>
 </div>
-
