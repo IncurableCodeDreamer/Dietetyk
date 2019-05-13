@@ -39,16 +39,23 @@ namespace Dietician.Controllers
             UserEntity user = GetLoggedUser(_repository.User);
             var indicatorModels = GetIndicatorsData(startDate, endDate, user);
 
+            if (indicatorModels==null|| indicatorModels.Count==0)
+            {
+                return Json(new { success = false });
+            }
+
             var weightData = GetWeightData(indicatorModels);
             var heightData = GetHeightData(indicatorModels);
             var bmiData = GetBmiData(indicatorModels);
+            var datesData = GetDateNames(indicatorModels);
 
             return Json (new
             {
-                success =true,
-                weightDataset =weightData,
-                heightDataset = heightData,
-                bmiDataset = bmiData
+                success = true,
+                weightDataset = weightData.ToArray(),
+                heightDataset = heightData.ToArray(),
+                bmiDataset = bmiData.ToArray(),
+                datesDataset=datesData.ToArray()
             });
         }
 
@@ -57,6 +64,7 @@ namespace Dietician.Controllers
             var indicators = _repository.Indicator.GetIndicatorsFromTable(user.Id).Result.ToList();
             var indicatorsData = indicators.Select(x => x.IndicatorsModelData)
                  .Where(x => (x.ChangeDate > startDate && x.ChangeDate < endDate))
+                 .OrderBy(x => x.ChangeDate)
                  .ToList();
 
             IndicatorModel lastData = new IndicatorModel() { Weight = 0, Height = 0 };
@@ -72,10 +80,10 @@ namespace Dietician.Controllers
             return indicatorsData;
         }
 
-        private List<string> GetDateNames()
+        private List<string> GetDateNames(List<IndicatorModel> indicatorModels)
         {
-            //TODO get x label names
-            return null;
+            List<string> datesName = indicatorModels.Select(x => String.Format("{0:dd.MM}", x.ChangeDate)).ToList();
+            return datesName;
         }
 
         private List<double> GetWeightData(List<IndicatorModel> indicatorModels)
@@ -101,10 +109,9 @@ namespace Dietician.Controllers
                     Weight = indicator.Weight,
                     Height = indicator.Height
                 };
-
                 bmiData.Add(ParameterService.CalculateBMI(ps));
             }
-            return null;
+            return bmiData;
         }
 
     }

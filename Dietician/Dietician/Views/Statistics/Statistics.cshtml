@@ -1,20 +1,19 @@
-﻿<div class="container">
+﻿
+<div class="row" style="display:flex;align-items:center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div id="dataViewer" class="container">
+
     <div id="chartContainer" hidden="hidden">
-        <canvas id="lineChart"></canvas>
+        <canvas id="weightChart"></canvas>
     </div>
 
     <div id="noData" class="noData col-xs-12 center-block text-center" hidden="hidden">
         <label class="col-xs-12 center-block text-center">Brak danych</label>
     </div>
 
-    <div class="spinner-border" role="status" hidden="hidden">
-        <span class="sr-only">Loading...</span>
-    </div>
-
 </div>
-
-@*<div id="chartContainer">
-    <div class="row">
-            <canvas id="lineChart" ></canvas>
-    </div>
-</div>*@

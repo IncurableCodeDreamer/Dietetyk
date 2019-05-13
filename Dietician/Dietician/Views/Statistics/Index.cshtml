@@ -33,66 +33,58 @@
             return date;
         }
 
-        function getDatasets(date) {
+         async function getDatasets(date) {
 
             var url = "/Statistics/GetDatasets";
             var datasets = null;
-            debugger
 
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    date: date
-                },
-                success: function (data) {
-                    debugger
-                    if (data.success) {
-                        debugger
+            return $.ajax({
+                 type: "GET",
+                 url: url,
+                 data: {
+                     date: date
+                 },
+                 success: function (data) {
+                     if (data.success) {
+                         return data;
+                     }
+                 },
+                 error: function () {
+                     alert("Wystąpił błąd");
+                 }
 
-                    }
-
-                },
-                error: function () {
-                    alert("Wystąpił błąd");
-                }
-
-            });
-
-            debugger
-            return datasets;
+             });
 
         }
 
         function setVisible(isAnyData) {
             if (isAnyData) {
+                debugger
                 $("#chartContainer")[0].hidden = false;
                 $("#noData")[0].hidden = true;
             } else {
+                debugger
                 $("#chartContainer")[0].hidden = true;
                 $("#noData")[0].hidden = false;
             }
         }
 
-        async function setCharts(datasets) {
-            var ctx = $("#lineChart");
-
+        async function setCharts(dataset, ctx) {
+            debugger
             var lineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
+                    labels: dataset.datesDataset,
                     datasets: [{
-                        label: "ChartExample",
-                        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-                        //    backgroundColor:
-                        //borderColor:
-                        //borderWidth:
+                        label: 'Masa ciała [kg] ',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 133)',
+                        data: dataset.weightDataset
                     }]
-
                 },
                 options: {
                     maintainAspectRatio: false,
-                    //scales: { xAxes: [(ticks: { beginAtZero: true })] },
-                    legend: { display: false }
+                    legend: { display: true }
 
                 }
             });
@@ -104,12 +96,13 @@
 
             var date = getDate(event);
             debugger
-            var datasets = getDatasets(date);
+            var promise = await getDatasets(date);
 
-            if (datasets != null) {
-                await setCharts(datasets);
+            if (promise.success) {
+                var ctx = $("#weightChart");
+                debugger
+                await setCharts(promise, ctx);
                 setVisible(true);
-                
             } else {
                 setVisible(false);
             }
@@ -119,10 +112,16 @@
 
         function isLoading(isLoading) {
             if (isLoading) {
+                debugger
+                $("#dataViewer")[0].hidden = !isLoading;
+                $(".spinner-border")[0].hidden = !isLoading;
                 $(".spinner-border").show();
 
             } else {
+                debugger
+                $(".spinner-border")[0].hidden = isLoading;
                 $(".spinner-border").hide();
+                $("#dataViewer")[0].hidden = isLoading;
             }
         }
 
@@ -131,9 +130,8 @@
     <style>
         #chartContainer {
             margin-left:20px;
-            width: 400px;
-            height: 400px;
-            border: 1px solid;
+            width: 90%;
+            height: 550px;
             padding: 1px;
         }
     </style>
