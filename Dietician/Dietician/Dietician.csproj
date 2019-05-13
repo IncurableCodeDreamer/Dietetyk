@@ -7,6 +7,10 @@
 
 
   <ItemGroup>
+    <PackageReference Include="BootstrapMvc.Bootstrap3" Version="2.7.0" />
+    <PackageReference Include="Chart.js" Version="2.8.0" />
+    <PackageReference Include="jQuery" Version="3.4.1" />
+    <PackageReference Include="jQuery-datetimepicker" Version="2.4.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.3.0" />

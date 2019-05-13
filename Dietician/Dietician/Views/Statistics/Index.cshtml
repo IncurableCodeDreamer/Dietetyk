@@ -3,5 +3,137 @@
 }
 
 <div class="container">
-    @Html.Partial("statistics")
+    <div class="row">
+        <div class="col-sm-6">
+            Wybierz datę
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="height:70px;">
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker'>
+                    <input type="month" id="dateInput" class="form-control" value="@ViewBag.DefaultDate" onchange="renderChart(event)"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@Html.Partial("Statistics")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () { });
+
+        function getDate(event) {
+            let dataRegexp = new RegExp("^[0-9]{4}[-]{1}[0-9]{2}$");
+            var date = event.currentTarget.value;
+            var isDateValid = dataRegexp.test(date);
+            return date;
+        }
+
+        function getDatasets(date) {
+
+            var url = "/Statistics/GetDatasets";
+            var datasets = null;
+            debugger
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    date: date
+                },
+                success: function (data) {
+                    debugger
+                    if (data.success) {
+                        debugger
+
+                    }
+
+                },
+                error: function () {
+                    alert("Wystąpił błąd");
+                }
+
+            });
+
+            debugger
+            return datasets;
+
+        }
+
+        function setVisible(isAnyData) {
+            if (isAnyData) {
+                $("#chartContainer")[0].hidden = false;
+                $("#noData")[0].hidden = true;
+            } else {
+                $("#chartContainer")[0].hidden = true;
+                $("#noData")[0].hidden = false;
+            }
+        }
+
+        async function setCharts(datasets) {
+            var ctx = $("#lineChart");
+
+            var lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: "ChartExample",
+                        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+                        //    backgroundColor:
+                        //borderColor:
+                        //borderWidth:
+                    }]
+
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    //scales: { xAxes: [(ticks: { beginAtZero: true })] },
+                    legend: { display: false }
+
+                }
+            });
+        }
+
+        async function renderChart(event) {
+
+            isLoading(true);
+
+            var date = getDate(event);
+            debugger
+            var datasets = getDatasets(date);
+
+            if (datasets != null) {
+                await setCharts(datasets);
+                setVisible(true);
+                
+            } else {
+                setVisible(false);
+            }
+
+            isLoading(false);
+        }
+
+        function isLoading(isLoading) {
+            if (isLoading) {
+                $(".spinner-border").show();
+
+            } else {
+                $(".spinner-border").hide();
+            }
+        }
+
+    </script>
+
+    <style>
+        #chartContainer {
+            margin-left:20px;
+            width: 400px;
+            height: 400px;
+            border: 1px solid;
+            padding: 1px;
+        }
+    </style>

@@ -13,6 +13,13 @@ a.navbar-brand {
 }
 
 /* Custom styles */
+.noData {
+    margin: 2px;
+    padding: 5px;
+    background-color: gray;
+    border-radius: 5px;
+    color: white;
+}
 
 .btn-primary:focus, .btn-primary:active {
     background-color: firebrick !important;
