@@ -4,17 +4,37 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col">
             Wybierz datę
         </div>
+        <div class="col">
+            Wybierz rodzaj wykresu
+        </div>
+        <div class="col">
+        </div>
     </div>
+
     <div class="row">
-        <div class="col-sm-6" style="height:70px;">
+        <div class="col" style="height:70px;">
             <div class="form-group">
                 <div class='input-group date' id='datetimepicker'>
-                    <input type="month" id="dateInput" class="form-control" value="@ViewBag.DefaultDate" onchange="renderChart(event)"/>
+                    <input type="month" id="dateInput" class="form-control" value="@ViewBag.DefaultDate" />
                 </div>
             </div>
+        </div>
+        <div class="col" style="height:70px;">
+            <div class="form-group">
+                <select id='kindOfChart'
+                        class="form-control"
+                        asp-items="@(new SelectList(new Dictionary<string, string> () {
+                            { "Masa ciała", "Waga" },
+                            { "Bmi", "Bmi" },
+                            { "Wzrost",  "Wzrost" }}
+                            , "Value","Key"))"></select>
+            </div>
+        </div>
+        <div class="col">
+            <input type="button" class="btn btn-primary" value="Generuj" onclick="renderChart()"/>
         </div>
     </div>
 
@@ -26,11 +46,18 @@
 
         $(document).ready(function () { });
 
-        function getDate(event) {
+        function getDate() {
+            debugger
             let dataRegexp = new RegExp("^[0-9]{4}[-]{1}[0-9]{2}$");
-            var date = event.currentTarget.value;
+            var date = $("#dateInput")[0].value;
             var isDateValid = dataRegexp.test(date);
-            return date;
+
+            validateDate(isDateValid);
+
+            if (isDateValid) {
+                return date;
+            }
+
         }
 
          async function getDatasets(date) {
@@ -69,18 +96,13 @@
             }
         }
 
-        async function setCharts(dataset, ctx) {
+        async function drawCharts(dataset, labels, ctx) {
             debugger
             var lineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dataset.datesDataset,
-                    datasets: [{
-                        label: 'Masa ciała [kg] ',
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 133)',
-                        data: dataset.weightDataset
-                    }]
+                    labels: labels,
+                    datasets: [dataset]
                 },
                 options: {
                     maintainAspectRatio: false,
@@ -90,27 +112,65 @@
             });
         }
 
-        async function renderChart(event) {
+        function chooseCharts(data) {
 
-            isLoading(true);
-
-            var date = getDate(event);
+            var kindOfCharts = $('#kindOfChart')[0].value;
+            var dataset = null;
             debugger
-            var promise = await getDatasets(date);
-
-            if (promise.success) {
-                var ctx = $("#weightChart");
-                debugger
-                await setCharts(promise, ctx);
-                setVisible(true);
+            if (kindOfCharts == "Waga") {
+                dataset = {
+                    label: 'Masa ciała [kg] ',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 133)',
+                    data: data.weightDataset
+                };
+            } else if (kindOfCharts == "Bmi") {
+                dataset = {
+                    label: 'BMI',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 133)',
+                    data: data.bmiDataset
+                };
             } else {
-                setVisible(false);
+                dataset = {
+                    label: 'Wzrost [cm]',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 133)',
+                    data: data.heightDataset
+                };
             }
 
-            isLoading(false);
+            return dataset;
         }
 
-        function isLoading(isLoading) {
+
+        async function renderChart() {
+            debugger
+            var date = getDate();
+            debugger
+            if (date != null) {
+
+                showLoading(true);
+
+                debugger
+                var promise = await getDatasets(date);
+
+                if (promise.success) {
+                    var ctx = $("#weightChart");
+                    debugger
+                    var labels = promise.datesDataset;
+                    var dataset = await chooseCharts(promise);
+                    await drawCharts(dataset, labels, ctx);
+                    setVisible(true);
+                } else {
+                    setVisible(false);
+                }
+
+                showLoading(false);
+            }
+        }
+
+        function showLoading(isLoading) {
             if (isLoading) {
                 debugger
                 $("#dataViewer")[0].hidden = !isLoading;
@@ -123,6 +183,16 @@
                 $(".spinner-border").hide();
                 $("#dataViewer")[0].hidden = isLoading;
             }
+        }
+
+        function validateDate(isValid) {
+            debugger
+            if (!isValid) {
+                $("#dateInput").addClass("is-invalid");
+            } else {
+                $("#dateInput").removeClass("is-invalid");
+            }
+
         }
 
     </script>
