@@ -58,20 +58,19 @@
     <div class="container-fluid text-center" >
 
         <ul class="list-inline" style="display: -webkit-box; margin:5px;">
-            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Poniedziałek.ToString()</a></li>
-            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Wtorek.ToString()</a></li>
-            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Środa.ToString()</a></li>
-            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Czwartek.ToString()</a></li>
-            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Piątek.ToString()</a></li>
-            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Sobota.ToString()</a></li>
-            <li class="tab"><a href="#">@Dietician.Enums.DayOfWeek.Niedziela.ToString()</a></li>
+            <li class="tab day-div">@Dietician.Enums.DayOfWeek.Poniedziałek.ToString()</li>
+            <li class="tab day-div">@Dietician.Enums.DayOfWeek.Wtorek.ToString()</li>
+            <li class="tab day-div">@Dietician.Enums.DayOfWeek.Środa.ToString()</li>
+            <li class="tab day-div">@Dietician.Enums.DayOfWeek.Czwartek.ToString()</li>
+            <li class="tab day-div">@Dietician.Enums.DayOfWeek.Piątek.ToString()</li>
+            <li class="tab day-div">@Dietician.Enums.DayOfWeek.Sobota.ToString()</li>
+            <li class="tab day-div">@Dietician.Enums.DayOfWeek.Niedziela.ToString()</li>
         </ul>
     </div>
     <div class="row">
         @Html.Partial("_Recipe", Model)
     </div>
 </div>
-
 
 
 <script>
@@ -159,3 +158,9 @@
 
 </script>
 
+<style>
+    .day-div{
+        margin-left: 18px;
+    }
+
+</style>
