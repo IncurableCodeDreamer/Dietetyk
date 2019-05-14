@@ -61,23 +61,55 @@ namespace Dietician.Controllers
 
         private List<IndicatorModel> GetIndicatorsData(DateTime startDate, DateTime endDate, UserEntity user)
         {
+            List<IndicatorModel> allDataFromMonth = new List<IndicatorModel>();
             var indicators = _repository.Indicator.GetIndicatorsFromTable(user.Id).Result.ToList();
             var indicatorsData = indicators.Select(x => x.IndicatorsModelData)
-                 .Where(x => (x.ChangeDate > startDate && x.ChangeDate < endDate))
+                 .Where(x => (x.ChangeDate >= startDate && x.ChangeDate <= endDate))
                  .OrderBy(x => x.ChangeDate)
                  .ToList();
 
-            IndicatorModel lastData = new IndicatorModel() { Weight = 0, Height = 0 };
-
-            for(int i = 1; i <= DateTime.DaysInMonth(endDate.Year, endDate.Month); i++)
+            if (indicatorsData.Count == 0 || indicatorsData == null)
             {
-                //if ()
-                //{
-                //TODO interpolate indicators
-                //}
+                return indicatorsData;
             }
 
-            return indicatorsData;
+            var lastData = indicators.Select(x => x.IndicatorsModelData)
+                 .Where(x => (x.ChangeDate < startDate))
+                 .OrderByDescending(x => x.ChangeDate).ToList();
+
+            var lastIndicator = lastData.Count > 0 ? lastData.First() : new IndicatorModel() {
+                Weight=0,
+                Height=0
+            };
+
+
+            for (int i = 1; i <= DateTime.DaysInMonth(startDate.Year, startDate.Month); i++)
+            {
+                var dataFromDay = indicators.FirstOrDefault(x => x.IndicatorsModelData.ChangeDate.Day == i);
+                if (dataFromDay!=null)
+                {
+                    allDataFromMonth.Add(dataFromDay.IndicatorsModelData);
+                    lastIndicator = new IndicatorModel()
+                    {
+                        Weight = dataFromDay.IndicatorsModelData.Weight,
+                        Height=dataFromDay.IndicatorsModelData.Height
+                    };
+                }
+                else
+                {
+                    var changeDate = new DateTime(startDate.Year, startDate.Month, i, 0, 0, 0);
+                    lastIndicator= new IndicatorModel()
+                    {
+                        ChangeDate=changeDate,
+                        Weight = lastIndicator.Weight,
+                        Height = lastIndicator.Height
+                    };
+
+                    allDataFromMonth.Add(lastIndicator);
+                }
+            }
+
+            return allDataFromMonth;
         }
 
         private List<string> GetDateNames(List<IndicatorModel> indicatorModels)
@@ -88,13 +120,13 @@ namespace Dietician.Controllers
 
         private List<double> GetWeightData(List<IndicatorModel> indicatorModels)
         {
-            List<double> weightData = indicatorModels.Select(x => (double)x.Weight).ToList();
+            List<double> weightData = indicatorModels.Select(x => x.Weight!=null? (double)x.Weight:0).ToList();
             return weightData;
         }
 
         private List<double> GetHeightData(List<IndicatorModel> indicatorModels)
         {
-            List<double> heightData = indicatorModels.Select(x => (double)x.Height).ToList();
+            List<double> heightData = indicatorModels.Select(x => x.Height != null ? (double)x.Height : 0).ToList();
             return heightData;
         }
 
@@ -106,8 +138,8 @@ namespace Dietician.Controllers
             {
                 PersonalDataSettings ps = new PersonalDataSettings()
                 {
-                    Weight = indicator.Weight,
-                    Height = indicator.Height
+                    Weight = indicator.Weight!=null? indicator.Weight:0,
+                    Height = indicator.Height != null ? indicator.Height : 0
                 };
                 bmiData.Add(ParameterService.CalculateBMI(ps));
             }
