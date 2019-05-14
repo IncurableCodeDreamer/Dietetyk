@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dietician.Controllers
 {
     public class ParametersCalculatorController : BaseController
-    {     
-
+    {    
         public IActionResult Index()
         {
             var model = new Parameters()

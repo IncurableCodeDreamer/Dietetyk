@@ -1,1 +1,50 @@
 ﻿@model List<Meal>
+
+@{ var mealList = Model.GroupBy(x => x.MealType).OrderBy(x => x.Key).ToList();}
+
+<div class="container">
+    @foreach (var mealType in mealList)
+    {
+        <hr class="hr-width"/>
+        <div class="row week-div">
+            @foreach(var meal in mealType.Select(x => x.CosmosMeal))
+            {
+            <div class="col-xs-3">
+                <div class="day">
+                    <h6> @mealType.Key.ToString() </h6>
+                </div>
+                <a class="thumbnail day">
+                    <img src="http://placehold.it/125x125"/>
+                </a>
+                <div class="day meal-width">
+                    <h6>Składniki: </h6>
+                    @meal.Ingredients
+                </div>
+                <div class="day meal-width">
+                    <h6>Sposób przygotowania: </h6>
+                    @meal.Prepare
+                </div>
+            </div>
+            }          
+        </div>
+    }
+
+</div>
+
+<style>
+    .hr-width{
+        width: 100%;
+    }
+
+    .week-div {
+        margin: 0 10px 0 20px;
+    }
+
+    .day {
+        margin: 0 15px 0 10px;
+    }
+
+    .meal-width{
+        width: 140px;
+    }
+</style>
