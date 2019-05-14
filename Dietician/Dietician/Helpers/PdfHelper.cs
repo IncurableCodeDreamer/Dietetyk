@@ -20,7 +20,7 @@ namespace Dietician.Helpers
                 GlobalSettings =
                 {
                     ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Landscape,
+                    Orientation = Orientation.Portrait,
                     PaperSize = PaperKind.A4,
                     Margins = new MarginSettings { Top = 20, Right = 10 },
                     DocumentTitle = "PDF Report",
