@@ -2,15 +2,22 @@
 
 <div class="container" style="margin-top:30px">
     <hr />
-    
+    @{char none = '-'; }
     <div class="form-group">
         <div class="row">
             <div class="col-2">
                 @Html.LabelFor(m => m.BmiLabel, "Twoje BMI") 
             </div>
             <div class="col">
-                @Model.Bmi  <br/>
-                @Model.BmiLabel
+                @if (@Model.Bmi != 0 && !(Double.IsNaN(@Model.Bmi)))
+                {
+                    @Model.Bmi <br />
+                    @Model.BmiLabel
+                }
+                else
+                {
+                    @none;
+                }
             </div>
         </div>
     </div>
@@ -21,7 +28,14 @@
                 @Html.LabelFor(m => m.Cmp, "Dzienne spożycie kalorii")
             </div>
             <div class="col">
-                @Model.Cmp
+                @if(@Model.Cmp != 0 && !(Double.IsNaN(@Model.Cmp)))
+                {
+                @Model.Cmp 
+                }
+                else
+                {
+                    @none;
+                }
             </div>
         </div>
     </div>
@@ -32,7 +46,14 @@
                 @Html.LabelFor(m => m.Protein, "Białko [g]")
             </div>
             <div class="col">
-                @Model.Protein
+                @if (@Model.Protein != 0 && !(Double.IsNaN(@Model.Protein)))
+                {
+                    @Model.Protein
+                }
+                else
+                {
+                    @none;
+                }
             </div>
         </div>
     </div>
@@ -43,7 +64,14 @@
                 @Html.LabelFor(m => m.Carbohydrate, "Węglowodany [g]")
             </div>
             <div class="col">
-                @Model.Carbohydrate
+                @if (@Model.Carbohydrate != 0 && !(Double.IsNaN(@Model.Carbohydrate)))
+                {
+                    @Model.Carbohydrate
+                }
+                else
+                {
+                    @none;
+                }
             </div>
         </div>
     </div>
@@ -53,7 +81,14 @@
                 @Html.LabelFor(m => m.Fat, "Tłuszcz [g]")
             </div>
             <div class="col">
-               @Model.Fat
+                @if (@Model.Fat != 0 && !(Double.IsNaN(@Model.Fat)))
+                {
+                    @Model.Fat
+                }
+                else
+                {
+                    @none;
+                }
             </div>
         </div>
     </div>
@@ -64,8 +99,15 @@
                 @Html.LabelFor(m => m.Whr, "WHR")
             </div>
             <div class="col">
-                @Model.Whr <br />
-                @Model.WhrLabel
+                @if (@Model.Whr != 0 && !(Double.IsNaN(@Model.Whr)))
+                {
+                    @Model.Whr <br />
+                    @Model.WhrLabel
+                }
+                else
+                {
+                    @none;
+                }
             </div>
         </div>
     </div>
@@ -76,7 +118,14 @@
                 @Html.LabelFor(m => m.FatLevel, "Procentowa zawartość tkanki tłuszczowej")
             </div>
             <div class="col">
-                @Model.FatLevel
+                @if (@Model.FatLevel > 0 && !(Double.IsNaN(@Model.FatLevel)))
+                {
+                    @Model.FatLevel
+                }
+                else
+                {
+                    @none;
+                }
             </div>
         </div>
     </div>
