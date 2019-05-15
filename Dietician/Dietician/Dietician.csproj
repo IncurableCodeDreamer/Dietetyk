@@ -5,8 +5,21 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="lib\**" />
+    <Content Remove="Interfaces\**" />
+    <Content Remove="lib\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="lib\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="DinkToPdfIncludesDependencies" Version="1.0.8" />
     <PackageReference Include="BootstrapMvc.Bootstrap3" Version="2.7.0" />
     <PackageReference Include="Chart.js" Version="2.8.0" />
     <PackageReference Include="jQuery" Version="3.4.1" />
@@ -15,12 +28,17 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.3.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+    <PackageReference Include="WkHtmlToPdf" Version="1.0.2" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\libwkhtmltox.dll" />
   </ItemGroup>
 
 </Project>

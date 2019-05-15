@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dietician.Storage;
+﻿using Dietician.Storage;
 using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.WindowsAzure.Storage;
 
 namespace Dietician
 {
@@ -46,7 +41,8 @@ namespace Dietician
             IdentityServiceCollectionExtensions.AddIdentity<UserEntity>(services)
                 .AddUserStore<AzureUserStore>()
                 .AddDefaultTokenProviders();
-
+                        
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddScoped<IAppConfiguration, AppConfiguration>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

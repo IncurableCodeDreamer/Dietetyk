@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using Dietician.CosmosDB;
 using Dietician.Enums;
+using Dietician.Helpers;
 using Dietician.Models;
 using Dietician.Storage;
 using Dietician.Storage.Interfaces;
 using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -19,6 +21,40 @@ namespace Dietician.Controllers
         public MenuController(IAppConfiguration appConfiguration)
         {
             _repository = new RepositoryWrapper(appConfiguration);
+        }
+
+        public FileResult ExportToPdf(List<Meal> meals = null)
+        {
+            List<Meal> mealsList = new List<Meal>();
+            Array values = Enum.GetValues(typeof(MealType));
+            Random random = new Random();
+
+            for (int i = 0; i < 10; i++)
+            {
+                mealsList.Add(new Meal()
+                {
+                    Date = DateTime.Now.AddDays(i),
+                    CosmosMeal = new CosmosMealModel()
+                    {
+                        Calories = 24,
+                        Carbohydrates = 10,
+                        Fat = 10,
+                        Guid = "guid",
+                        Ingredients = "mleko, jaja, costam",
+                        Kind = "typ",
+                        Name = "owsianka",
+                        Portions = "porcje",
+                        Prepare = "nalej mleka do miski, dodaj płatki, wymieszaj w 30 stopniach przez 20 minut i wsio",
+                        Proteins = 20,
+                        Type = (MealType)values.GetValue(random.Next(values.Length)),
+                    },
+                    MealType = (MealType)values.GetValue(random.Next(values.Length)),
+                    JsonId = 1
+                });
+            }
+
+            var pdfByteArray = PdfHelper.WritePdf(mealsList);
+            return File(pdfByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, "Jadłospis-" + DateTime.Now.ToShortDateString() + ".pdf");                  
         }
 
         public IActionResult Index()
