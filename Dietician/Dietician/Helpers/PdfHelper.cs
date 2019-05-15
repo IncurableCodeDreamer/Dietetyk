@@ -33,11 +33,12 @@ namespace Dietician.Helpers
                         PagesCount = true,
                         HtmlContent = html,
                         WebSettings = { DefaultEncoding = "utf-8",  LoadImages = true, EnableIntelligentShrinking = true, EnableJavascript = false },
+                        HeaderSettings = { FontName = "Calibri", FontSize = 10, Right = "Dietician", Line = true },    
                         FooterSettings = { FontName = "Calibri", FontSize = 10, Right = "Strona [page] z [toPage]", Line = true, Spacing = 3.0 }
                     }
                 }
             });
-        }
+        }   
 
         public static byte[] WritePdf(List<Meal> records)
         {
