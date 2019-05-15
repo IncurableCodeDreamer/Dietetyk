@@ -1,13 +1,19 @@
 ﻿
-<div class="container">
-    @*@{
-        var db = Database.Open("SmallBakery");
-        var dbdata = db.Query("SELECT Name, Price FROM Product");
-        var myChart = new Chart(width: 600, height: 400)
-           .AddTitle("Product Sales")
-           .AddSeries(chartType: "Pie",
-              xValue: dbdata, xField: "Name",
-              yValues: dbdata, yFields: "Price")
-           .Write();
-    }*@
+<div class="row" style="display:flex; align-items:center">
+    <div class="spinner-border" role="status"  hidden="hidden">
+        <span class="sr-only"></span>
+    </div>
+</div>
+
+
+<div id="dataViewer" class="container">
+
+    <div id="chartContainer" hidden="hidden">
+        <canvas id="weightChart"></canvas>
+    </div>
+
+    <div id="noData" class="noData col-xs-12 center-block text-center" hidden="hidden">
+        <label class="col-xs-12 center-block text-center">Brak danych</label>
+    </div>
+
 </div>

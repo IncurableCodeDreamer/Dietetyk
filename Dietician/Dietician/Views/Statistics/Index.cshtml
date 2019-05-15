@@ -3,5 +3,205 @@
 }
 
 <div class="container">
-    @Html.Partial("statistics")
+    <div class="row">
+        <div class="col">
+            Wybierz datę
+        </div>
+        <div class="col">
+            Wybierz rodzaj wykresu
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col" style="height:70px;">
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker'>
+                    <input type="month" id="dateInput" class="form-control" value="@ViewBag.DefaultDate" />
+                </div>
+            </div>
+        </div>
+        <div class="col" style="height:70px;">
+            <div class="form-group">
+                <select id='kindOfChart'
+                        class="form-control"
+                        asp-items="@(new SelectList(new Dictionary<string, string> () {
+                            { "Masa ciała", "Waga" },
+                            { "Bmi", "Bmi" },
+                            { "Wzrost",  "Wzrost" }}
+                            , "Value","Key"))"></select>
+            </div>
+        </div>
+        <div class="col">
+            <input type="button" class="btn btn-primary" value="Generuj" onclick="renderChart()"/>
+        </div>
+    </div>
+
 </div>
+
+@Html.Partial("Statistics")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () { });
+
+        function getDate() {
+            debugger
+            let dataRegexp = new RegExp("^[0-9]{4}[-]{1}[0-9]{2}$");
+            var date = $("#dateInput")[0].value;
+            var isDateValid = dataRegexp.test(date);
+
+            validateDate(isDateValid);
+
+            if (isDateValid) {
+                return date;
+            }
+
+        }
+
+         async function getDatasets(date) {
+
+            var url = "/Statistics/GetDatasets";
+            var datasets = null;
+
+            return $.ajax({
+                 type: "GET",
+                 url: url,
+                 data: {
+                     date: date
+                 },
+                 success: function (data) {
+                     if (data.success) {
+                         return data;
+                     }
+                 },
+                 error: function () {
+                     alert("Wystąpił błąd");
+                 }
+
+             });
+
+        }
+
+        function setVisible(isAnyData) {
+            if (isAnyData) {
+                debugger
+                $("#chartContainer")[0].hidden = false;
+                $("#noData")[0].hidden = true;
+            } else {
+                debugger
+                $("#chartContainer")[0].hidden = true;
+                $("#noData")[0].hidden = false;
+            }
+        }
+
+        async function drawCharts(dataset, labels, ctx) {
+            debugger
+            var lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [dataset]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    legend: { display: true }
+
+                }
+            });
+        }
+
+        function chooseCharts(data) {
+
+            var kindOfCharts = $('#kindOfChart')[0].value;
+            var dataset = null;
+            debugger
+            if (kindOfCharts == "Waga") {
+                dataset = {
+                    label: 'Masa ciała [kg] ',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 133)',
+                    data: data.weightDataset
+                };
+            } else if (kindOfCharts == "Bmi") {
+                dataset = {
+                    label: 'BMI',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 133)',
+                    data: data.bmiDataset
+                };
+            } else {
+                dataset = {
+                    label: 'Wzrost [cm]',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 133)',
+                    data: data.heightDataset
+                };
+            }
+
+            return dataset;
+        }
+
+
+        async function renderChart() {
+            debugger
+            var date = getDate();
+            debugger
+            if (date != null) {
+
+                showLoading(true);
+
+                debugger
+                var promise = await getDatasets(date);
+
+                if (promise.success) {
+                    var ctx = $("#weightChart");
+                    debugger
+                    var labels = promise.datesDataset;
+                    var dataset = await chooseCharts(promise);
+                    await drawCharts(dataset, labels, ctx);
+                    setVisible(true);
+                } else {
+                    setVisible(false);
+                }
+
+                showLoading(false);
+            }
+        }
+
+        function showLoading(isLoading) {
+            if (isLoading) {
+                debugger
+                $("#dataViewer")[0].hidden = !isLoading;
+                $(".spinner-border")[0].hidden = !isLoading;
+                $(".spinner-border").show();
+
+            } else {
+                debugger
+                $(".spinner-border")[0].hidden = isLoading;
+                $(".spinner-border").hide();
+                $("#dataViewer")[0].hidden = isLoading;
+            }
+        }
+
+        function validateDate(isValid) {
+            debugger
+            if (!isValid) {
+                $("#dateInput").addClass("is-invalid");
+            } else {
+                $("#dateInput").removeClass("is-invalid");
+            }
+
+        }
+
+    </script>
+
+    <style>
+        #chartContainer {
+            margin-left:20px;
+            width: 90%;
+            height: 550px;
+            padding: 1px;
+        }
+    </style>
