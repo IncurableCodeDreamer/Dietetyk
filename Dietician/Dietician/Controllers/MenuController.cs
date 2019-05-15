@@ -8,6 +8,7 @@ using Dietician.Storage;
 using Dietician.Storage.Interfaces;
 using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -53,7 +54,7 @@ namespace Dietician.Controllers
             }
 
             var pdfByteArray = PdfHelper.WritePdf(mealsList);
-            return File(pdfByteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+            return File(pdfByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, "Jadłospis-" + DateTime.Now.ToShortDateString() + ".pdf");                  
         }
 
         public IActionResult Index()
