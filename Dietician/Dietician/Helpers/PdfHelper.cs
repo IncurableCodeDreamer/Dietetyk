@@ -4,6 +4,7 @@ using IPdfConverter = DinkToPdf.Contracts.IConverter;
 using DinkToPdf;
 using Dietician.Models;
 using System.Linq;
+using System;
 
 namespace Dietician.Helpers
 {
@@ -22,8 +23,8 @@ namespace Dietician.Helpers
                     ColorMode = ColorMode.Color,
                     Orientation = Orientation.Portrait,
                     PaperSize = PaperKind.A4,
-                    Margins = new MarginSettings { Top = 20, Right = 10 },
-                    DocumentTitle = "PDF Report",
+                    Margins = new MarginSettings { Top = 20, Right = 20, Left = 20, Bottom = 20 },
+                    DocumentTitle = "Jadłospis-" + DateTime.Now.ToShortDateString(),
                 },
                 Objects =
                 {
@@ -31,8 +32,8 @@ namespace Dietician.Helpers
                     {
                         PagesCount = true,
                         HtmlContent = html,
-                        WebSettings = { DefaultEncoding = "utf-8", EnableJavascript = false },
-                        FooterSettings = { FontName = "Arial", FontSize = 9, Right = "Strona [page] z [toPage]", Line = true, Spacing = 3.0 }
+                        WebSettings = { DefaultEncoding = "utf-8",  LoadImages = true, EnableIntelligentShrinking = true, EnableJavascript = false },
+                        FooterSettings = { FontName = "Calibri", FontSize = 10, Right = "Strona [page] z [toPage]", Line = true, Spacing = 3.0 }
                     }
                 }
             });
@@ -65,7 +66,7 @@ namespace Dietician.Helpers
 
                 foreach (var mealDay in meals)
                 {
-                    foreach (var meal in mealDay.Select(x => x.CosmosMeal))
+                    foreach (var meal in mealDay.OrderBy(x => x.MealType).Select(x => x.CosmosMeal))
                     {
                         sb.AppendFormat(@"
                                 <h3 align='center'> {0} </h3>
