@@ -19,7 +19,8 @@ namespace Dietician.Storage
             {"MealTypeTable","mealTypeTable"},
             {"UserIndicatorsTable","userIndicatorsTable"},
             {"UserMealTable","userMealTable"},
-            {"IngredientsTable","ingredientsTable"}
+            {"IngredientsTable","ingredientsTable"},
+            {"FoodTable","foodTable"}
         };
 
         public AppConfiguration(IConfiguration configuration)
