@@ -12,21 +12,19 @@ namespace Dietician.CosmosDB
     public class SetMealsForUser
     {
 
-        private readonly ICosmosRepository _cosmosRepository;
-        private List<CosmosMealModel> _updateList;
+        private List<FoodModel> _updateList;
         private IRepositoryWrapper _wrapper;
 
 
-        public SetMealsForUser(ICosmosRepository cosmosRepository, IRepositoryWrapper wrapper)
+        public SetMealsForUser(IRepositoryWrapper wrapper)
         {
-            _cosmosRepository = cosmosRepository;
             _wrapper = wrapper;
         }
-        private List<CosmosMealModel> UpdateList(string idForUser)
+        private async Task<List<FoodModel>> UpdateListAsync(string idForUser)
         {
 
-            _updateList = new List<CosmosMealModel>();
-            var list = _cosmosRepository.GetAllMeals().Meals;
+            _updateList = new List<FoodModel>();
+            var list =await _wrapper.Food.GetAllFoodsFromTable();
             var user = _wrapper.MealSetting.GetMealSettingFromTable(idForUser);
             if (user.Result.MealSettingsModelData.Preferences.ToString().Contains("Wegetariańska"))
             {
@@ -45,21 +43,79 @@ namespace Dietician.CosmosDB
             }
 
             //TODO uaktualnic warunek na podstawie nowych modeli
-            //if (user.Result.MealSettingsModelData.IngredientsId==0)
-            if (true)
+            var ingredients = await _wrapper.Ingredients.GetIIngredientsFromTable(idForUser);
+            if (ingredients.IngredientsModelData.Chocolate==true)
             {
-                return _updateList;
+               var l1 = _updateList.Where(o => o.Ingredients.Contains("czekol")).ToList();
+                foreach(var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
+            }
+            if (ingredients.IngredientsModelData.Eggs == true)
+            {
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("jaj")).ToList();
+                foreach (var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
+            }
+            if (ingredients.IngredientsModelData.Milk == true)
+            {
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("mlek")).ToList();
+                foreach (var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
+            }
+            if (ingredients.IngredientsModelData.Peanuts == true)
+            {
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("orze")).ToList();
+                foreach (var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
+            }
+            if (ingredients.IngredientsModelData.Potatoes == true)
+            {
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("ziemni")).ToList();
+                foreach (var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
+            }
+            if (ingredients.IngredientsModelData.Soy == true)
+            {
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("soj")).ToList();
+                foreach (var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
+            }
+            if (ingredients.IngredientsModelData.Tomatoes == true)
+            {
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("pomid")).ToList();
+                foreach (var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
+            }
+            if (ingredients.IngredientsModelData.Wheat == true)
+            {
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("pszen")).ToList();
+                foreach (var item in l1)
+                {
+                    _updateList.Remove(item);
+                }
             }
             else
             {
-                var ingredients = _wrapper.Ingredients.GetIIngredientsFromTable(idForUser);
-                //TODO: ustalić jak zapiszemy skladniki zeby je wyrzucic - enum? int to nie najlepsza opcja
                 return _updateList;
             }
-
+            return _updateList;
         }
 
-        public void PlanDiet(string idUser, double cpmDaily, DateTime date)
+        public void PlanDiet(string idUser, double cpmDaily, DateTime date, int variable)
         {
             var userSetting = _wrapper.MealSetting.GetMealSettingFromTable(idUser).Result.MealSettingsModelData;
             var goal = userSetting.DietAim.ToString();
@@ -93,17 +149,17 @@ namespace Dietician.CosmosDB
 
             int a, b, c, d, e;
 
-            var breakfastList = new List<CosmosMealModel>();
-            var secondBreakfastList = new List<CosmosMealModel>();
-            var dinnerList = new List<CosmosMealModel>();
-            var supperList = new List<CosmosMealModel>();
-            var dessertList = new List<CosmosMealModel>();
+            var breakfastList = new List<FoodModel>();
+            var secondBreakfastList = new List<FoodModel>();
+            var dinnerList = new List<FoodModel>();
+            var supperList = new List<FoodModel>();
+            var dessertList = new List<FoodModel>();
 
-            var breakfast = new CosmosMealModel();
-            var secondBreakfast = new CosmosMealModel();
-            var dinner = new CosmosMealModel();
-            var dessert = new CosmosMealModel();
-            var supper = new CosmosMealModel();
+            var breakfast = new FoodModel();
+            var secondBreakfast = new FoodModel();
+            var dinner = new FoodModel();
+            var dessert = new FoodModel();
+            var supper = new FoodModel();
             foreach (var dailyMeal in _updateList)
             {
                 switch (dailyMeal.Type)
@@ -155,11 +211,11 @@ namespace Dietician.CosmosDB
 
                 }
 
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dessert.Guid, date, dessert.Type));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dessert.Guid, date, dessert.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type,variable));
             }
             else
             {
@@ -187,10 +243,10 @@ namespace Dietician.CosmosDB
                                         supper.Carbohydrates;
 
                 }
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type,variable));
             }
         }
     }

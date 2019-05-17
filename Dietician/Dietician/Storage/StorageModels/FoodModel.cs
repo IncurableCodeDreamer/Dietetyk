@@ -38,6 +38,10 @@ namespace Dietician.Storage.StorageModels
             this.Type = type;
             this.Kind = kind;
             this.ImageUrl = imageUrl;
-        }    
+        }
+
+        public FoodModel()
+        {
+        }
     }
 }

@@ -12,14 +12,15 @@ namespace Dietician.Storage.StorageModels
         public string JsonId { get; set; }
         public DateTime MealDate { get; set; }
         public MealType MealTypeId { get; set; }
-
+        public int Variant { get; set; }
         public MealModel()
         {
 
         }
 
-        public MealModel(string idUser, string jsonId, DateTime mealDate, MealType mealTypeId)
+        public MealModel(string idUser, string jsonId, DateTime mealDate, MealType mealTypeId, int variant)
         {
+            Variant = variant;
             IdUser = idUser;
             JsonId = jsonId;
             MealDate = mealDate;

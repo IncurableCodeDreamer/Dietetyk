@@ -1,4 +1,7 @@
-﻿using Dietician.Storage.StorageModels;
+﻿using Dietician.Storage.Entities;
+using Dietician.Storage.Interfaces;
+using Dietician.Storage.StorageModels;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dietician.Storage.Repositories
 {
-    public class ShoppingListRepository
+    public class ShoppingListRepository:IShoppingListRepository
     {
         private readonly TableStorage _tableStorage;
         private readonly string _shopTable;
@@ -19,29 +22,45 @@ namespace Dietician.Storage.Repositories
         public async Task InsertFoodIntoTable(ShoppingListModel model)
         {
             var table = await _tableStorage.GetTableReference(_shopTable);
-            var entity = new FoodEntity()
+            var entity = new ShoppingListEntity()
             {
                 PartitionKey = Guid.NewGuid().ToString(),
                 RowKey = new Guid().ToString(),
-                FoodModelData = model
+                ShopModelData = model
             };
 
             var tableOperation = TableOperation.InsertOrMerge(entity);
             await table.ExecuteAsync(tableOperation);
 
         }
-        // to do poprawy-juz zrobie jak dostane laptopa
-        public async Task<List<FoodEntity>> GetAllFoodsFromTable(string idUser)
+
+        public async Task<List<ShoppingListEntity>> GetAllFoodsFromTable(string idUser)
         {
             var cloudTable = await _tableStorage.GetTableReference(_shopTable);
-            TableQuery<FoodEntity> query = new TableQuery<FoodEntity>()
+            TableQuery<ShoppingListEntity> query = new TableQuery<ShoppingListEntity>()
                 .Where(TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
             var result = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
-            List<FoodEntity> entity = result.Results.ToList();
+            List<ShoppingListEntity> entity = result.Results.ToList();
             return entity;
+        }
+        public async Task RemoveFood(ShoppingListModel model)
+        {
+            var table = await _tableStorage.GetTableReference(_shopTable);
+            var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, model.UserId);
+            var ingFilter = TableQuery.GenerateFilterCondition("Ingredient", QueryComparisons.Equal, model.Ingredient);
+            var filter = TableQuery.CombineFilters(idUserFilter, TableOperators.And, ingFilter);
+            var query = new TableQuery<ShoppingListEntity>().Where(filter);
+            TableContinuationToken tableContinuationToken = null;
+            ShoppingListEntity result;
+            do
+            {
+                var segmentedResult = await table.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                result = segmentedResult.Results.FirstOrDefault();
+            } while (tableContinuationToken != null);
+            await table.ExecuteAsync(TableOperation.Delete(result));
         }
     }
 }
-    }
-}
+    

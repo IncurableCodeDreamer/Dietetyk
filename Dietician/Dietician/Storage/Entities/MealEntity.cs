@@ -19,10 +19,14 @@ namespace Dietician.Storage.StorageModels
             string jsonId = "";
             DateTime mealDate = new DateTime();
            MealType mealTypeId=0;
+            int variant = 0;
             foreach (var prop in properties)
             {
                 switch (prop.Key.ToLower())
                 {
+                    case "variant":
+                        variant = (int)prop.Value.Int32Value;
+                        break;
                     case "idmeal":
                         idMeal = prop.Value.StringValue;
                         break;
@@ -37,7 +41,7 @@ namespace Dietician.Storage.StorageModels
                         break;
                 }
 
-                MealsModelData = new MealModel(idMeal, jsonId, mealDate, mealTypeId);
+                MealsModelData = new MealModel(idMeal, jsonId, mealDate, mealTypeId,variant);
             }
         }
 
@@ -48,6 +52,7 @@ namespace Dietician.Storage.StorageModels
                 {nameof(MealsModelData.IdUser), new EntityProperty(MealsModelData.IdUser)},
                 {nameof(MealsModelData.JsonId), new EntityProperty(MealsModelData.JsonId)},
                 { nameof(MealsModelData.MealDate), new EntityProperty(MealsModelData.MealDate)},
+                { nameof(MealsModelData.Variant), new EntityProperty(MealsModelData.Variant)},
                 {nameof(MealsModelData.MealTypeId), new EntityProperty((int)MealsModelData.MealTypeId)}
             };
             return result;

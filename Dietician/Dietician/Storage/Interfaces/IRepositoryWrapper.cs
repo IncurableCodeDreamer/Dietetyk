@@ -14,5 +14,6 @@ namespace Dietician.Storage.Interfaces
         IMealRepository Meal { get; }
         IMealTypeRepository MealType { get; }
         IMealSettingRepository MealSetting { get; }
+        IFoodRepository Food { get; }
     }
 }
