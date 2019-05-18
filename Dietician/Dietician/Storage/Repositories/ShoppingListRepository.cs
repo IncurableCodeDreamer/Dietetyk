@@ -17,7 +17,7 @@ namespace Dietician.Storage.Repositories
         public ShoppingListRepository(IAppConfiguration configuration)
         {
             _tableStorage = new TableStorage(configuration);
-            _shopTable = configuration.GetVariable("shopingTable");
+            _shopTable = configuration.GetVariable("shoppingTable");
         }
         public async Task InsertFoodIntoTable(ShoppingListModel model)
         {
@@ -38,11 +38,19 @@ namespace Dietician.Storage.Repositories
         {
             var cloudTable = await _tableStorage.GetTableReference(_shopTable);
             TableQuery<ShoppingListEntity> query = new TableQuery<ShoppingListEntity>()
-                .Where(TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser));
+                .Where(TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idUser));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
             var result = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
             List<ShoppingListEntity> entity = result.Results.ToList();
             return entity;
+            /*jak ne zadziala uzyj tego i to mozna tez sprawdzic dla FoodRepository
+             *  ShoppingListEntity result;
+            do
+            {
+                var segmentedResult = await table.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                result.AddRange(segmentedResult.Results);
+            } while (tableContinuationToken != null);*/
         }
         public async Task RemoveFood(ShoppingListModel model)
         {
