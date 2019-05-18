@@ -23,7 +23,7 @@ namespace Dietician.Controllers
             _repository = new RepositoryWrapper(appConfiguration);
         }
 
-        public FileResult ExportToPdf(List<Meal> meals = null)
+        public FileResult ExportToPdf(List<Meal> meals)
         {
             List<Meal> mealsList = new List<Meal>();
             Array values = Enum.GetValues(typeof(MealType));

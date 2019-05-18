@@ -1,11 +1,21 @@
 ﻿using Dietician.Models;
 using Dietician.Services;
+using Dietician.Storage;
+using Dietician.Storage.Interfaces;
+using Dietician.Storage.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dietician.Controllers
 {
     public class ParametersCalculatorController : BaseController
-    {    
+    {
+        private readonly IRepositoryWrapper _repository;
+
+        public ParametersCalculatorController(IAppConfiguration appConfiguration)
+        {
+            _repository = new RepositoryWrapper(appConfiguration);
+        }
+
         public IActionResult Index()
         {
             var model = new Parameters()
