@@ -4,20 +4,36 @@
     ViewData["Title"] = "Lista zakupów";
 }
 
-<div class="container">
-    @foreach (string item in Model.Item)
+<div class="container width-cont">
+    @if (Model.Item.Count != 0)
     {
-        <div class="row">
-            <div class="col">
-                @item
+        @foreach (var item in Model.Item)
+        {
+            <div class="row">
+                <div class="col">
+                    @item.Ingredient
+                </div>
+                <div class="col">
+                    <input type="button" id="deleteIte" class="form-control btn-shopping" onclick="location.href='@Url.Action("RemoveItem", "ShoppingList", @item.Ingredient)'" value="Usuń" />
+                </div>
             </div>
-            <div class="col">
-                <input type="button" id="deleteIte," class="form-control" onclick="location.href='@Url.Action("RemoveItem", "ShoppingList",@item)'" value="Usuń" />
-            </div>
-        </div>
+        }
     }
-
-    <div class="col">
-        <input type="button" class="btn btn-primary" value="Dodaj" onclick="location.href='@Url.Action("AddItem", "ShoppingList", Model.Item)'">
+    <div class="row">
+        <div class="col">
+            @Html.EditorFor(m => m.Item, new { htmlAttributes = new { @class = "form-control", @type = "string" } })
+        </div>
+        <div class="col">
+            <input type="button" class="form-control btn-shopping" value="Dodaj" onclick="addItem()" />
     </div>
 </div>
+
+<style>
+    .btn-shopping {
+        width: 100px;
+    }
+
+    .width-cont {
+        width: 75%;
+    }
+</style>

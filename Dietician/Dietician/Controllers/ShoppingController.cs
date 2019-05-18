@@ -21,15 +21,18 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             ShoppingList list = new ShoppingList();
-            List<string> items = new List<string>();
+            List<ShoppingListModel> items = new List<ShoppingListModel>();
 
             for (int i = 0; i < 10; i++)
             {
-                items.Add("item" + i);
+                ShoppingListModel x = new ShoppingListModel(user.Id, "item");
+                items.Add(x);
             };
 
+            //list.Item = items;
+           var list2 = _repository.ShoppingList.GetAllFoodsFromTable(user.Id).Result;
+
             list.Item = items;
-          // var x = _repository.ShoppingList.GetAllFoodsFromTable(user.Id);
             return View(list);
         }
 

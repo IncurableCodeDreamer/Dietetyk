@@ -89,14 +89,16 @@ namespace Dietician.Controllers
                 });
             }
 
-            return View(dailyMeals); 
+                     return View(dailyMeals); 
         }
         
         public ActionResult AddMeal(AddMeal meal)
-        {
+        {           
             if (ModelState.IsValid)
             {
-                //TODO addmeal to db
+                UserEntity user = GetLoggedUser(_repository.User);
+                //MealModel m = new MealModel(user.Id, 1, DateTime.Now, meal.Type, meal.Portions);
+                //_repository.Meal.InsertMealIntoTable(m); //TODO addmeal to db
             }
             return PartialView("_AddMealModal", meal);
         }
@@ -142,6 +144,8 @@ namespace Dietician.Controllers
         private List<Meal> GetDailyMealsForUser(UserEntity user, DateTime date)
         {
             List<Meal> dailyMeals = new List<Meal>();
+            SetMealsForUser setMeals = new SetMealsForUser(_repository);
+            //setMeals.PlanDiet(user.Id,  )
             //TODO implement
             return dailyMeals;
         }

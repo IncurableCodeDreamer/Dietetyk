@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Dietician.Storage.StorageModels;
+using System.Collections.Generic;
 
 namespace Dietician.Models
 {
     public class ShoppingList
     {
-        public List<string> Item { get; set; }
+        public List<ShoppingListModel> Item { get; set; }
     }
 }
