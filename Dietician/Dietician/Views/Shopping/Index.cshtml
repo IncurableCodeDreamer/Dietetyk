@@ -1,0 +1,23 @@
+﻿@model ShoppingList
+
+@{
+    ViewData["Title"] = "Lista zakupów";
+}
+
+<div class="container">
+    @foreach (string item in Model.Item)
+    {
+        <div class="row">
+            <div class="col">
+                @item
+            </div>
+            <div class="col">
+                <input type="button" id="deleteIte," class="form-control" onclick="location.href='@Url.Action("RemoveItem", "ShoppingList",@item)'" value="Usuń" />
+            </div>
+        </div>
+    }
+
+    <div class="col">
+        <input type="button" class="btn btn-primary" value="Dodaj" onclick="location.href='@Url.Action("AddItem", "ShoppingList", Model.Item)'">
+    </div>
+</div>
