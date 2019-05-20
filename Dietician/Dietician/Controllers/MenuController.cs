@@ -90,7 +90,7 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             SetMealsForUser setMeals = new SetMealsForUser(_repository);
-            await setMeals.PlanDiet(user, 2000, DateTime.Now, 1);
+            await setMeals.PlanDiet(user, 2000, DateTime.Now, 1);//yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy?
 
             return RedirectToAction("Index");
         }
