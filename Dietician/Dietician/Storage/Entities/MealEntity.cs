@@ -17,7 +17,7 @@ namespace Dietician.Storage.StorageModels
 
             string idMeal="";
             string jsonId = "";
-            DateTime mealDate = new DateTime();
+            int number = 0;
            MealType mealTypeId=0;
             int variant = 0;
             foreach (var prop in properties)
@@ -36,12 +36,12 @@ namespace Dietician.Storage.StorageModels
                     case "mealtypeid":
                         mealTypeId = (MealType) prop.Value.Int32Value;
                         break;
-                    case "mealdate":
-                        mealDate = (DateTime)prop.Value.DateTime;
+                    case "mealnumber":
+                        number = (int)prop.Value.Int32Value;
                         break;
                 }
 
-                MealsModelData = new MealModel(idMeal, jsonId, mealDate, mealTypeId,variant);
+                MealsModelData = new MealModel(idMeal, jsonId, number, mealTypeId,variant);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Dietician.Storage.StorageModels
             {
                 {nameof(MealsModelData.IdUser), new EntityProperty(MealsModelData.IdUser)},
                 {nameof(MealsModelData.JsonId), new EntityProperty(MealsModelData.JsonId)},
-                { nameof(MealsModelData.MealDate), new EntityProperty(MealsModelData.MealDate)},
+                { nameof(MealsModelData.MealNumber), new EntityProperty(MealsModelData.MealNumber)},
                 { nameof(MealsModelData.Variant), new EntityProperty(MealsModelData.Variant)},
                 {nameof(MealsModelData.MealTypeId), new EntityProperty((int)MealsModelData.MealTypeId)}
             };
