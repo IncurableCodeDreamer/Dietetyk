@@ -11,6 +11,7 @@ using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace Dietician.Controllers
 {
@@ -103,7 +104,7 @@ namespace Dietician.Controllers
 
         public ActionResult ChangeMenu(ChangeMenu menu)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid )
             {
                 //TODO change menu
             }
@@ -122,23 +123,9 @@ namespace Dietician.Controllers
         {
             ChangeMenu model = new ChangeMenu();
             UserEntity user = GetLoggedUser(_repository.User);
-            model.MealTypes = GetMealsType(user);
             return PartialView("_ChangeMenuModal",model);
         }
-
-        private List<SelectListItem> GetMealsType(UserEntity user)
-        {
-            List<SelectListItem> mealsType = new List<SelectListItem>();
-            //TODO implement - wybrac mealtypes ktore chcemy uwzglednic
-            mealsType.Add(new SelectListItem(MealType.Sniadanie.ToString(),MealType.Sniadanie.ToString()));
-            mealsType.Add(new SelectListItem(MealType.Sniadanie2.ToString(), MealType.Sniadanie2.ToString()));
-            mealsType.Add(new SelectListItem(MealType.Obiad.ToString(), MealType.Obiad.ToString()));
-            mealsType.Add(new SelectListItem(MealType.Podwieczorek.ToString(), MealType.Podwieczorek.ToString()));
-            mealsType.Add(new SelectListItem(MealType.Kolacja.ToString(), MealType.Kolacja.ToString()));
-            
-            return mealsType;
-        }
-
+        
         private List<Meal> GetDailyMealsForUser(UserEntity user, DateTime date)
         {
             List<Meal> dailyMeals = new List<Meal>();

@@ -1,46 +1,56 @@
 ﻿@using Dietician.Enums
 @model ChangeMenu
 
+<div class="container">
 
-<div class="row">
-    <div class="col">
-        @Html.Label("Wybierz dzień")
-    </div>
-    <div class="col input">
-        @Html.DropDownListFor(model =>model.DayOfWeek,
-             new SelectList(new Dictionary<string, string> () {
-                 { "Poniedziałek", @Dietician.Enums.DayOfWeek.Poniedziałek.ToString() },
-                 { "Wtorek", @Dietician.Enums.DayOfWeek.Wtorek.ToString() },
-                 { "Środa", @Dietician.Enums.DayOfWeek.Środa.ToString() },
-                 { "Czwartek", @Dietician.Enums.DayOfWeek.Czwartek.ToString() },
-                 { "Piątek", @Dietician.Enums.DayOfWeek.Piątek.ToString() },
-                 { "Sobota", @Dietician.Enums.DayOfWeek.Sobota.ToString() },
-                 { "Niedziela", @Dietician.Enums.DayOfWeek.Niedziela.ToString() },
-             }, "Value","Key"),
-             new { @class = "form-control" } )
-    </div>
-</div>
-
-<div class="row">
-    <div class="col">
-        @Html.CheckBoxFor(m => m.AllDay, new { @checked = Model.AllDay })
-        @Html.LabelFor(m => m.AllDay, "Cały dzień")
-    </div>
-</div>
-
-<div class="divider"></div>
-
-<div>
-    @for (var i = 0; i < Model.MealTypes.Count; i++)
-    {
-        <div class="row">
-            <div class="col">
-                @*@Html.CheckBox(Model.MealTypes.ElementAt(i).Value, new { @checked = Model.MealTypes.ElementAt(i).Selected })*@
-                @*@Html.CheckBoxFor(m=>Model.MealTypes.ElementAt(i).Selected, new { @checked = Model.MealTypes.ElementAt(i).Selected })*@
-                <input type="checkbox" name="mealTypes" value="@Model.MealTypes.ElementAt(i).Selected" id="@Model.MealTypes.ElementAt(i).Value" />
-                @Html.LabelFor(m => Model.MealTypes.ElementAt(i).Text, Model.MealTypes.ElementAt(i).Text.ToString())
-            </div>
+    <div class="row days">
+        <div class="col">
+            @Html.Label("Wybierz dzień")
         </div>
-    }
+
+        <div class="divider"></div>
+
+    </div>
+
+
+
+    <table>
+        <tbody>
+            <tr class="row">
+                <td>@Html.CheckBoxFor(m => Model.Monday, new { @checked = Model.Monday })</td>
+                <td>@Html.LabelFor(m => Model.Monday, "Poniedziałek")</td>
+            </tr>
+            <tr class="row">
+                <td>@Html.CheckBoxFor(m => Model.Tuesday, new { @checked = Model.Tuesday })</td>
+                <td>@Html.LabelFor(m => Model.Tuesday, "Wtorek")</td>
+            </tr>
+            <tr class="row">
+                <td>@Html.CheckBoxFor(m => Model.Thursday, new { @checked = Model.Thursday })</td>
+                <td>@Html.LabelFor(m => Model.Thursday, "Środa")</td>
+            </tr>
+            <tr class="row">
+                <td>@Html.CheckBoxFor(m => Model.Wednesday, new { @checked = Model.Wednesday })</td>
+                <td>@Html.LabelFor(m => Model.Wednesday, "Czwartek")</td>
+            </tr>
+            <tr class="row">
+                <td>@Html.CheckBoxFor(m => Model.Friday, new { @checked = Model.Friday })</td>
+                <td>@Html.LabelFor(m => Model.Friday, "Piątek")</td>
+            </tr>
+            <tr class="row">
+                <td>@Html.CheckBoxFor(m => Model.Saturday, new { @checked = Model.Saturday })</td>
+                <td>@Html.LabelFor(m => Model.Saturday, "Sobota")</td>
+            </tr>
+            <tr class="row">
+                <td>@Html.CheckBoxFor(m => Model.Sunday, new { @checked = Model.Sunday })</td>
+                <td>@Html.LabelFor(m => Model.Sunday, "Niedziela")</td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
 
+<style>
+    td {
+        padding-left: 15px;
+    }
+</style>
