@@ -9,5 +9,6 @@ namespace Dietician.Storage.Interfaces
         Task InsertFoodIntoTable(FoodModel model);
         Task<List<FoodModel>> GetAllFoodsFromTable();
         Task<FoodModel> GetOneFood(string idFood);
+        Task<FoodWithDayModel> GetOneFoodWithDay(string idFood, int day);
         }
 }
