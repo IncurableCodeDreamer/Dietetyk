@@ -32,15 +32,21 @@ namespace Dietician.Storage.Repositories
             await table.ExecuteAsync(tableOperation);
         }
 
-        public async Task<MealEntity> GetIMealFromTable(string idMeal)
+        public async Task<List<MealModel>> GetIMealFromTable(string idMeal)
         {
             var cloudTable = await _tableStorage.GetTableReference(_mealsTable);
             TableQuery<MealEntity> query = new TableQuery<MealEntity>()
                 .Where(TableQuery.GenerateFilterCondition("IdMeal", QueryComparisons.Equal, idMeal));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
-            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
-            var entity = result.Result.FirstOrDefault();
-            return entity;
+            
+            List<MealModel> result = new List<MealModel>();
+            do
+            {
+                var segmentedResult = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                result.AddRange(segmentedResult.Results.Select(s => s.MealsModelData));
+            } while (tableContinuationToken != null);
+            return result;
         }
     }
 }

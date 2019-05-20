@@ -6,7 +6,8 @@ namespace Dietician.Storage.Interfaces
 {
     public interface IFoodRepository
     {
-        Task InsertFoodIntoTable(FoodModel model);       
+        Task InsertFoodIntoTable(FoodModel model);
         Task<List<FoodModel>> GetAllFoodsFromTable();
-    }
+        Task<FoodModel> GetOneFood(string idFood);
+        }
 }

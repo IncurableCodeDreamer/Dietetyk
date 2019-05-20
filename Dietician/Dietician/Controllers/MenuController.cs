@@ -8,7 +8,6 @@ using Dietician.Storage;
 using Dietician.Storage.Interfaces;
 using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -60,36 +59,10 @@ namespace Dietician.Controllers
         public IActionResult Index()
         {
             UserEntity user = GetLoggedUser(_repository.User);
-            //TODO change date
-            List<Meal> dailyMeals = GetDailyMealsForUser(user, DateTime.Now);
-            Array values = Enum.GetValues(typeof(MealType));
-            Random random = new Random();
-
-            for (int i = 0; i < 10; i++)
-            {
-                dailyMeals.Add(new Meal()
-                {
-                    Date = DateTime.Now.AddDays(i),
-                    CosmosMeal = new CosmosMealModel()
-                    {
-                        Calories = 24,
-                        Carbohydrates = 10,
-                        Fat = 10,
-                        Guid = "guid",
-                        Ingredients = "mleko, jaja, costam",
-                        Kind = "typ",
-                        Name = "owsianka",
-                        Portions = "porcje",
-                        Prepare = "nalej mleka do miski, dodaj płatki, wymieszaj w 30 stopniach przez 20 minut i wsio",
-                        Proteins = 20,
-                        Type = (MealType)values.GetValue(random.Next(values.Length)),
-                    },
-                    MealType = (MealType)values.GetValue(random.Next(values.Length)),
-                    JsonId = 1
-                });
-            }
-
-                     return View(dailyMeals); 
+            //TO DO add variant, day przy zmianie
+            List<FoodModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
+        
+            return View(dailyMeals);
         }
         
         public ActionResult AddMeal(AddMeal meal)
@@ -110,6 +83,15 @@ namespace Dietician.Controllers
                 //TODO change menu
             }
             return PartialView("_ChangeMenuModal", menu);
+        }
+
+        public IActionResult GenerateMeals()
+        {
+            UserEntity user = GetLoggedUser(_repository.User);
+            SetMealsForUser setMeals = new SetMealsForUser(_repository);
+            await setMeals.PlanDiet(user.IdMealSetting, 2000, DateTime.Now, 1);
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -141,12 +123,17 @@ namespace Dietician.Controllers
             return mealsType;
         }
 
-        private List<Meal> GetDailyMealsForUser(UserEntity user, DateTime date)
+        private async System.Threading.Tasks.Task<List<FoodModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
         {
-            List<Meal> dailyMeals = new List<Meal>();
-            SetMealsForUser setMeals = new SetMealsForUser(_repository);
-            //setMeals.PlanDiet(user.Id,  )
-            //TODO implement
+            List<FoodModel> dailyMeals = new List<FoodModel>();
+            var userMeals = await _repository.Meal.GetIMealFromTable(user.Id);
+           foreach(var item in userMeals)
+           {
+                var id = item.JsonId;
+                var meal = await _repository.Food.GetOneFood(id);
+                dailyMeals.Add(meal);
+           }
+
             return dailyMeals;
         }
     }
