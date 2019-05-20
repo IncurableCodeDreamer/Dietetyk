@@ -36,7 +36,7 @@ namespace Dietician.Storage.Repositories
         {
             var cloudTable = await _tableStorage.GetTableReference(_mealsTable);
             TableQuery<MealEntity> query = new TableQuery<MealEntity>()
-                .Where(TableQuery.GenerateFilterCondition("IdMeal", QueryComparisons.Equal, idMeal));
+                .Where(TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idMeal));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
 
             List<MealModel> result = new List<MealModel>();
