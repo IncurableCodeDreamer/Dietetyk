@@ -110,7 +110,7 @@ namespace Dietician.CosmosDB
             return _updateList;
         }
 
-        public async Task<IActionResult> PlanDiet(UserEntity user, double cpmDaily, DateTime date, int variable)
+        public async Task<IActionResult> PlanDiet(UserEntity user, double cpmDaily, int dayNumber, int variable)
         {
             var userSetting = _wrapper.MealSetting.GetMealSettingFromTable(user.IdMealSetting).Result.MealSettingsModelData;
             List<FoodModel> _updateList = new List<FoodModel>();
@@ -207,11 +207,11 @@ namespace Dietician.CosmosDB
 
                 }
 
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, date, breakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, date, secondBreakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, date, dinner.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dessert.Guid, date, dessert.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, date, supper.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dessert.Guid, dayNumber, dessert.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable));
             }
             else
             {
@@ -239,10 +239,10 @@ namespace Dietician.CosmosDB
                                         supper.Carbohydrates;
 
                 }
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, date, breakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, date, secondBreakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, date, dinner.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, date, supper.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable));
             }
             return null;
         }
