@@ -67,8 +67,7 @@ namespace Dietician.Storage.Repositories
                 result.AddRange(segmentedResult.Results.Select(s => s.MealsModelData));
             } while (tableContinuationToken != null);
             return result;
-        }
-    
+        }    
 
         public async Task<List<MealModel>> GetMealToOneVariantFromTableAsync(string idMeal, string variant)
         {
@@ -87,7 +86,6 @@ namespace Dietician.Storage.Repositories
             } while (tableContinuationToken != null);
             return result;
         }
-
 
         public async Task RemoveMealToOneDayFromTable(string idMeal, string day, string variant)
         {

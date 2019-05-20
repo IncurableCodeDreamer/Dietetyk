@@ -1,50 +1,55 @@
-﻿@model List<Meal>
+﻿@using Dietician.Storage.StorageModels;
+@model List<FoodModel>
 
-@{ var mealList = Model.GroupBy(x => x.MealType).OrderBy(x => x.Key).ToList();}
 
-<div class="container">
-    @foreach (var mealType in mealList)
-    {
-        <hr class="hr-width"/>
+@if (Model != null)
+{
+    <div class="container">
+        @{var mealList = Model.GroupBy(x => x.Type).OrderBy(x => x.Key).ToList(); }
+        @*@foreach (var mealType in mealList)
+            {*@
+        <hr class="hr-width" />
         <div class="row week-div">
-            @foreach(var meal in mealType.Select(x => x.CosmosMeal))
+            @*@foreach(var meal in mealType.Select(x => x..CosmosMeal))
+                {*@
+            @foreach (var mealType in mealList)
             {
-            <div class="col-xs-3">
-                <div class="day">
-                    <h6> @mealType.Key.ToString() </h6>
+                <div class="col-xs-3">
+                    <div class="day">
+                        <h6> @mealType.Key.ToString() </h6>
+                    </div>
+                    <a class="thumbnail day">
+                        <img src="http://placehold.it/125x125" />
+                    </a>
+                    <div class="day meal-width">
+                        <h6>Składniki: </h6>
+                        @*@mealType..Ingredients*@
+                    </div>
+                    <div class="day meal-width">
+                        <h6>Sposób przygotowania: </h6>
+                        @*@mealType.Prepare*@
+                    </div>
                 </div>
-                <a class="thumbnail day">
-                    <img src="http://placehold.it/125x125"/>
-                </a>
-                <div class="day meal-width">
-                    <h6>Składniki: </h6>
-                    @meal.Ingredients
-                </div>
-                <div class="day meal-width">
-                    <h6>Sposób przygotowania: </h6>
-                    @meal.Prepare
-                </div>
-            </div>
-            }          
+            }
         </div>
-    }
+        @*}*@     
+    </div>
+}
 
-</div>
+    <style>
+        .hr-width {
+            width: 100%;
+        }
 
-<style>
-    .hr-width{
-        width: 100%;
-    }
+        .week-div {
+            margin: 0 10px 0 20px;
+        }
 
-    .week-div {
-        margin: 0 10px 0 20px;
-    }
+        .day {
+            margin: 0 15px 0 10px;
+        }
 
-    .day {
-        margin: 0 15px 0 10px;
-    }
-
-    .meal-width{
-        width: 140px;
-    }
-</style>
+        .meal-width {
+            width: 140px;
+        }
+    </style>

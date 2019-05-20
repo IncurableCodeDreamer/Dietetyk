@@ -5,28 +5,24 @@ using System.Threading.Tasks;
 using Dietician.Enums;
 using Dietician.Storage.Interfaces;
 using Dietician.Storage.StorageModels;
-using Microsoft.Azure.Documents.SystemFunctions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dietician.CosmosDB
 {
     public class SetMealsForUser
     {
-
-        private List<FoodModel> _updateList;
         private IRepositoryWrapper _wrapper;
-
 
         public SetMealsForUser(IRepositoryWrapper wrapper)
         {
             _wrapper = wrapper;
         }
-        private async Task<List<FoodModel>> UpdateListAsync(string idForUser)
+        private async Task<List<FoodModel>> UpdateListAsync(UserEntity userEnt)
         {
-
-            _updateList = new List<FoodModel>();
-            var list =await _wrapper.Food.GetAllFoodsFromTable();
-            var user = _wrapper.MealSetting.GetMealSettingFromTable(idForUser);
-            if (user.Result.MealSettingsModelData.Preferences.ToString().Contains("Wegetariańska"))// albo 1 albo 2 bo w bazie on zapisuje enumy jako INT!
+            List<FoodModel> _updateList = new List<FoodModel>();
+            var list = await _wrapper.Food.GetAllFoodsFromTable();
+            var user = _wrapper.MealSetting.GetMealSettingFromTable(userEnt.IdMealSetting);
+            if (user.Result.MealSettingsModelData.Preferences.ToString().Contains("Wegetariańska"))
             {
                 foreach (var item in list)
                 {
@@ -35,19 +31,18 @@ namespace Dietician.CosmosDB
                         _updateList.Add(item);
                     }
                 }
-
             }
             else
             {
                 _updateList = list;
             }
 
-            //TODO uaktualnic warunek na podstawie nowych modeli
-            var ingredients = await _wrapper.Ingredients.GetIIngredientsFromTable(idForUser);
-            if (ingredients.IngredientsModelData.Chocolate==true)
+            //TODO uaktualnic warunek na podstawie nowych modeli           
+            var ingredients = await _wrapper.Ingredients.GetIIngredientsFromTable(userEnt.IdIngredientSetting);
+            if (ingredients.IngredientsModelData.Chocolate == true)
             {
-               var l1 = _updateList.Where(o => o.Ingredients.Contains("czekol")).ToList();
-                foreach(var item in l1)
+                var l1 = _updateList.Where(o => o.Ingredients.Contains("czekol")).ToList();
+                foreach (var item in l1)
                 {
                     _updateList.Remove(item);
                 }
@@ -115,9 +110,11 @@ namespace Dietician.CosmosDB
             return _updateList;
         }
 
-        public void PlanDiet(string idUser, double cpmDaily, int dayNumber, int variable)
+        public async Task<IActionResult> PlanDiet(UserEntity user, double cpmDaily, int dayNumber, int variable)
         {
-            var userSetting = _wrapper.MealSetting.GetMealSettingFromTable(idUser).Result.MealSettingsModelData;
+            var userSetting = _wrapper.MealSetting.GetMealSettingFromTable(user.IdMealSetting).Result.MealSettingsModelData;
+            List<FoodModel> _updateList = new List<FoodModel>();
+            _updateList = await Task.Run(() => UpdateListAsync(user));
             var goal = userSetting.DietAim.ToString();
             var count = userSetting.MealCount;
 
@@ -145,8 +142,6 @@ namespace Dietician.CosmosDB
             double carbohydratesMin = ParametersCalc.CarbohydratesMinCalculate(cpm1);
             double carbohydratesMax = ParametersCalc.CarbohydratesMaxCalculate(cpm2);
 
-
-
             int a, b, c, d, e;
 
             var breakfastList = new List<FoodModel>();
@@ -160,6 +155,7 @@ namespace Dietician.CosmosDB
             var dinner = new FoodModel();
             var dessert = new FoodModel();
             var supper = new FoodModel();
+
             foreach (var dailyMeal in _updateList)
             {
                 switch (dailyMeal.Type)
@@ -211,11 +207,11 @@ namespace Dietician.CosmosDB
 
                 }
 
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, dayNumber, breakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, dayNumber, secondBreakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, dayNumber, dinner.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dessert.Guid, dayNumber, dessert.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, dayNumber, supper.Type,variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dessert.Guid, dayNumber, dessert.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable));
             }
             else
             {
@@ -236,18 +232,19 @@ namespace Dietician.CosmosDB
 
                     sum = breakfast.Calories + secondBreakfast.Calories + dinner.Calories +
                           supper.Calories;
-                    sumProteins = breakfast.Proteins + secondBreakfast.Proteins + dinner.Proteins  +
+                    sumProteins = breakfast.Proteins + secondBreakfast.Proteins + dinner.Proteins +
                                   supper.Proteins;
-                    sumFats = breakfast.Fat + secondBreakfast.Fat + dinner.Fat  + supper.Fat;
+                    sumFats = breakfast.Fat + secondBreakfast.Fat + dinner.Fat + supper.Fat;
                     sumCarbohydrates = breakfast.Carbohydrates + secondBreakfast.Carbohydrates + dinner.Carbohydrates +
                                         supper.Carbohydrates;
 
                 }
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, dayNumber, breakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, dayNumber, secondBreakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, dayNumber, dinner.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, dayNumber, supper.Type,variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable));
             }
+            return null;
         }
     }
 }

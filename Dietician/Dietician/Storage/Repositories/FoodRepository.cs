@@ -31,7 +31,6 @@ namespace Dietician.Storage.Repositories
 
             var tableOperation = TableOperation.InsertOrMerge(entity);
             await table.ExecuteAsync(tableOperation);
-
         }
 
         public async Task<List<FoodModel>> GetAllFoodsFromTable()
@@ -49,6 +48,17 @@ namespace Dietician.Storage.Repositories
                 result.AddRange(segmentedResult.Results.Select(s => s.FoodModelData));
             } while (tableContinuationToken != null);
             return result;
+        }
+
+        public async Task<FoodModel> GetOneFood(string idFood)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_foodTable);
+            TableQuery<FoodEntity> query = new TableQuery<FoodEntity>()
+                .Where(TableQuery.GenerateFilterCondition("Guid", QueryComparisons.Equal, idFood));
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+            var entity = result.Result.FirstOrDefault().FoodModelData;
+            return entity;
         }
     }
 }
