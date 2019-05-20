@@ -7,8 +7,7 @@ namespace Dietician.Storage.StorageModels
     {
         public string IdUser { get; set; }
         public string JsonId { get; set; }
-        public DateTime MealDate { get; set; }
-        //TO DO zamienic date time na nr dnia (1-7)
+        public int MealNumber { get; set; }
         public MealType MealTypeId { get; set; }
         public int Variant { get; set; }
         public MealModel()
@@ -16,12 +15,12 @@ namespace Dietician.Storage.StorageModels
 
         }
 
-        public MealModel(string idUser, string jsonId, DateTime mealDate, MealType mealTypeId, int variant)
+        public MealModel(string idUser, string jsonId, int mealDate, MealType mealTypeId, int variant)
         {
             Variant = variant;
             IdUser = idUser;
             JsonId = jsonId;
-            MealDate = mealDate;
+            MealNumber = mealDate;
             MealTypeId = mealTypeId;
         }
     }

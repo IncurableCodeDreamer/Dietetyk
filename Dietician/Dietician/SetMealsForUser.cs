@@ -118,7 +118,7 @@ namespace Dietician.CosmosDB
             var goal = userSetting.DietAim.ToString();
             var count = userSetting.MealCount;
 
-            switch (goal)
+            switch (goal)//tez srawdzic co to daje
             {
                 case "Redukcja":
                     cpmDaily = cpmDaily - 200;
