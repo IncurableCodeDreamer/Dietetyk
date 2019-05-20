@@ -23,6 +23,7 @@ namespace Dietician.Controllers
             _repository = new RepositoryWrapper(appConfiguration);
         }
 
+        [HttpPost]
         public FileResult ExportToPdf(List<Meal> meals)
         {
             List<Meal> mealsList = new List<Meal>();
@@ -134,7 +135,7 @@ namespace Dietician.Controllers
             foreach (var item in userMeals)
             {
                 var id = item.JsonId;
-                var meal = await _repository.Food.GetOneFood(id);
+                var meal = await _repository.Food.GetOneFoodWithDay(id, 1);// .GetOneFood(id);
                 dailyMeals.Add(meal);
             }
 

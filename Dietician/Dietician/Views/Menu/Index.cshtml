@@ -49,7 +49,11 @@
         <button id="addMeal" class="btn btn-primary ml-1" onclick="renderModal('add')">Dodaj własny posiłek</button>
         <button id="changeMeal" class="btn btn-primary ml-1" onclick="renderModal('change')">Zmień jadłospis</button>
         <button class="btn btn-primary ml-1" onclick="location.href='@Url.Action("GenerateMealsAsync","Menu")'">Generuj jadłospis</button>
-        <button id="export" onclick="location.href='@Url.Action("ExportToPdf","Menu",Model)'" class="btn btn-secondary">Eksportuj do pdf</button>
+
+        @using (Html.BeginForm("ExportToPdf", "Menu", FormMethod.Post))
+        {
+            <input type="submit" value="Eksportuj do pdf" id="export" class="btn btn-secondary"/>
+        }
     </div>
 </div>
 
@@ -68,9 +72,9 @@
     </div>
     @if (Model != null)
     {
-    <div class="row">
-        @Html.Partial("_Recipe", Model)
-    </div>
+        <div class="row">
+            @Html.Partial("_Recipe", Model)
+        </div>
     }
 </div>
 
