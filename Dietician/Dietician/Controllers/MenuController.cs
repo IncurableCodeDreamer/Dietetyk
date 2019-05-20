@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dietician.CosmosDB;
 using Dietician.Enums;
 using Dietician.Helpers;
@@ -85,11 +86,11 @@ namespace Dietician.Controllers
             return PartialView("_ChangeMenuModal", menu);
         }
 
-        public IActionResult GenerateMeals()
+        public async Task<IActionResult> GenerateMealsAsync()
         {
             UserEntity user = GetLoggedUser(_repository.User);
             SetMealsForUser setMeals = new SetMealsForUser(_repository);
-            await setMeals.PlanDiet(user.IdMealSetting, 2000, DateTime.Now, 1);
+            await setMeals.PlanDiet(user, 2000, DateTime.Now, 1);
 
             return RedirectToAction("Index");
         }
@@ -123,16 +124,16 @@ namespace Dietician.Controllers
             return mealsType;
         }
 
-        private async System.Threading.Tasks.Task<List<FoodModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
+        private async Task<List<FoodModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
         {
             List<FoodModel> dailyMeals = new List<FoodModel>();
             var userMeals = await _repository.Meal.GetIMealFromTable(user.Id);
-           foreach(var item in userMeals)
-           {
+            foreach (var item in userMeals)
+            {
                 var id = item.JsonId;
                 var meal = await _repository.Food.GetOneFood(id);
                 dailyMeals.Add(meal);
-           }
+            }
 
             return dailyMeals;
         }
