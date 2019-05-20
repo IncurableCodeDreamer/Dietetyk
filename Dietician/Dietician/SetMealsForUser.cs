@@ -26,7 +26,7 @@ namespace Dietician.CosmosDB
             _updateList = new List<FoodModel>();
             var list =await _wrapper.Food.GetAllFoodsFromTable();
             var user = _wrapper.MealSetting.GetMealSettingFromTable(idForUser);
-            if (user.Result.MealSettingsModelData.Preferences.ToString().Contains("Wegetariańska"))
+            if (user.Result.MealSettingsModelData.Preferences.ToString().Contains("Wegetariańska"))// albo 1 albo 2 bo w bazie on zapisuje enumy jako INT!
             {
                 foreach (var item in list)
                 {
@@ -115,13 +115,13 @@ namespace Dietician.CosmosDB
             return _updateList;
         }
 
-        public void PlanDiet(string idUser, double cpmDaily, DateTime date, int variable)
+        public void PlanDiet(string idUser, double cpmDaily, int dayNumber, int variable)
         {
             var userSetting = _wrapper.MealSetting.GetMealSettingFromTable(idUser).Result.MealSettingsModelData;
             var goal = userSetting.DietAim.ToString();
             var count = userSetting.MealCount;
 
-            switch (goal)
+            switch (goal)//tez srawdzic co to daje
             {
                 case "Redukcja":
                     cpmDaily = cpmDaily - 200;
@@ -211,11 +211,11 @@ namespace Dietician.CosmosDB
 
                 }
 
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dessert.Guid, date, dessert.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, dayNumber, breakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, dayNumber, secondBreakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, dayNumber, dinner.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dessert.Guid, dayNumber, dessert.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, dayNumber, supper.Type,variable));
             }
             else
             {
@@ -243,10 +243,10 @@ namespace Dietician.CosmosDB
                                         supper.Carbohydrates;
 
                 }
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type,variable));
-                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, dayNumber, breakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, dayNumber, secondBreakfast.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, dayNumber, dinner.Type,variable));
+                _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, dayNumber, supper.Type,variable));
             }
         }
     }
