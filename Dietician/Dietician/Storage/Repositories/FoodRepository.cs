@@ -60,5 +60,26 @@ namespace Dietician.Storage.Repositories
             var entity = result.Result.FirstOrDefault().FoodModelData;
             return entity;
         }
+        public async Task<FoodWithDayModel> GetOneFoodWithDay(string idFood, int day)
+        {
+            var item = await GetOneFood(idFood);
+            return new FoodWithDayModel
+            {
+                Guid = item.Guid,
+                Fat = item.Fat,
+                Carbohydrates = item.Carbohydrates,
+                Prepare = item.Prepare,
+                Portions = item.Portions,
+                ImageUrl = item.ImageUrl,
+                Type = item.Type,
+                Kind = item.Kind,
+                Calories = item.Calories,
+                Url = item.Url,
+                Ingredients = item.Ingredients,
+                Name = item.Name,
+                Day = day
+
+            };
+        }
     }
 }
