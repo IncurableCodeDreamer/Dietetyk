@@ -2,11 +2,10 @@
 @model List<FoodModel>
 
 
-
-<div class="container">
-    @if (Model != null)
-    {
-        var mealList = Model.GroupBy(x => x.Type).OrderBy(x => x.Key).ToList();
+@if (Model != null)
+{
+    <div class="container">
+        @{var mealList = Model.GroupBy(x => x.Type).OrderBy(x => x.Key).ToList(); }
         @*@foreach (var mealType in mealList)
             {*@
         <hr class="hr-width" />
@@ -33,25 +32,24 @@
                 </div>
             }
         </div>
-        @*}*@
-    }
+        @*}*@     
+    </div>
+}
 
-</div>
+    <style>
+        .hr-width {
+            width: 100%;
+        }
 
-<style>
-    .hr-width{
-        width: 100%;
-    }
+        .week-div {
+            margin: 0 10px 0 20px;
+        }
 
-    .week-div {
-        margin: 0 10px 0 20px;
-    }
+        .day {
+            margin: 0 15px 0 10px;
+        }
 
-    .day {
-        margin: 0 15px 0 10px;
-    }
-
-    .meal-width{
-        width: 140px;
-    }
-</style>
+        .meal-width {
+            width: 140px;
+        }
+    </style>
