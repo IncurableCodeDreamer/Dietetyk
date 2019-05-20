@@ -31,7 +31,6 @@ namespace Dietician.Storage.Repositories
 
             var tableOperation = TableOperation.InsertOrMerge(entity);
             await table.ExecuteAsync(tableOperation);
-
         }
 
         public async Task<List<FoodModel>> GetAllFoodsFromTable()
@@ -50,6 +49,7 @@ namespace Dietician.Storage.Repositories
             } while (tableContinuationToken != null);
             return result;
         }
+
         public async Task<FoodModel> GetOneFood(string idFood)
         {
             var cloudTable = await _tableStorage.GetTableReference(_foodTable);

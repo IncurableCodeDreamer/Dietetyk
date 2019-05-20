@@ -6,7 +6,6 @@ using Dietician.Enums;
 using Dietician.Storage.Interfaces;
 using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Documents.SystemFunctions;
 
 namespace Dietician.CosmosDB
 {
@@ -18,11 +17,11 @@ namespace Dietician.CosmosDB
         {
             _wrapper = wrapper;
         }
-        private async Task<List<FoodModel>> UpdateListAsync(string idForUser)
+        private async Task<List<FoodModel>> UpdateListAsync(UserEntity userEnt)
         {
             List<FoodModel> _updateList = new List<FoodModel>();
             var list = await _wrapper.Food.GetAllFoodsFromTable();
-            var user = _wrapper.MealSetting.GetMealSettingFromTable(idForUser);
+            var user = _wrapper.MealSetting.GetMealSettingFromTable(userEnt.IdMealSetting);
             if (user.Result.MealSettingsModelData.Preferences.ToString().Contains("Wegetariańska"))
             {
                 foreach (var item in list)
@@ -38,8 +37,8 @@ namespace Dietician.CosmosDB
                 _updateList = list;
             }
 
-            //TODO uaktualnic warunek na podstawie nowych modeli
-            var ingredients = await _wrapper.Ingredients.GetIIngredientsFromTable(idForUser);
+            //TODO uaktualnic warunek na podstawie nowych modeli           
+            var ingredients = await _wrapper.Ingredients.GetIIngredientsFromTable(userEnt.IdIngredientSetting);
             if (ingredients.IngredientsModelData.Chocolate == true)
             {
                 var l1 = _updateList.Where(o => o.Ingredients.Contains("czekol")).ToList();
@@ -111,10 +110,11 @@ namespace Dietician.CosmosDB
             return _updateList;
         }
 
-        public async Task<IActionResult> PlanDiet(string idUser, double cpmDaily, DateTime date, int variable)
+        public async Task<IActionResult> PlanDiet(UserEntity user, double cpmDaily, DateTime date, int variable)
         {
-            var userSetting = _wrapper.MealSetting.GetMealSettingFromTable(idUser).Result.MealSettingsModelData;
-            var myTask = await Task.Run(() => UpdateListAsync(idUser));// await UpdateListAsync(idUser).Result;
+            var userSetting = _wrapper.MealSetting.GetMealSettingFromTable(user.IdMealSetting).Result.MealSettingsModelData;
+            List<FoodModel> _updateList = new List<FoodModel>();
+            _updateList = await Task.Run(() => UpdateListAsync(user));
             var goal = userSetting.DietAim.ToString();
             var count = userSetting.MealCount;
 
@@ -155,8 +155,6 @@ namespace Dietician.CosmosDB
             var dinner = new FoodModel();
             var dessert = new FoodModel();
             var supper = new FoodModel();
-
-            List<FoodModel> _updateList = null;// await myTask;
 
             foreach (var dailyMeal in _updateList)
             {
@@ -209,11 +207,11 @@ namespace Dietician.CosmosDB
 
                 }
 
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type,variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type,variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type,variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dessert.Guid, date, dessert.Type,variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type,variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, date, breakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, date, secondBreakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, date, dinner.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dessert.Guid, date, dessert.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, date, supper.Type, variable));
             }
             else
             {
@@ -234,17 +232,17 @@ namespace Dietician.CosmosDB
 
                     sum = breakfast.Calories + secondBreakfast.Calories + dinner.Calories +
                           supper.Calories;
-                    sumProteins = breakfast.Proteins + secondBreakfast.Proteins + dinner.Proteins  +
+                    sumProteins = breakfast.Proteins + secondBreakfast.Proteins + dinner.Proteins +
                                   supper.Proteins;
-                    sumFats = breakfast.Fat + secondBreakfast.Fat + dinner.Fat  + supper.Fat;
+                    sumFats = breakfast.Fat + secondBreakfast.Fat + dinner.Fat + supper.Fat;
                     sumCarbohydrates = breakfast.Carbohydrates + secondBreakfast.Carbohydrates + dinner.Carbohydrates +
                                         supper.Carbohydrates;
 
                 }
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, breakfast.Guid, date, breakfast.Type,variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, secondBreakfast.Guid, date, secondBreakfast.Type,variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, dinner.Guid, date, dinner.Type,variable));
-                await  _wrapper.Meal.InsertMealIntoTable(new MealModel(idUser, supper.Guid, date, supper.Type,variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, date, breakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, date, secondBreakfast.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, date, dinner.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, date, supper.Type, variable));
             }
             return null;
         }
