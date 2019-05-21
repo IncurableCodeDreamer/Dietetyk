@@ -1,5 +1,5 @@
 ﻿@using Dietician.Storage.StorageModels;
-@model List<FoodModel>
+@model List<FoodWithDayModel>
 
 @{
     ViewData["Title"] = "Jadłospis";
@@ -49,11 +49,7 @@
         <button id="addMeal" class="btn btn-primary ml-1" onclick="renderModal('add')">Dodaj własny posiłek</button>
         <button id="changeMeal" class="btn btn-primary ml-1" onclick="renderModal('change')">Zmień jadłospis</button>
         <button class="btn btn-primary ml-1" onclick="location.href='@Url.Action("GenerateMealsAsync","Menu")'">Generuj jadłospis</button>
-
-        @using (Html.BeginForm("ExportToPdf", "Menu", FormMethod.Post))
-        {
-            <input type="submit" value="Eksportuj do pdf" id="export" class="btn btn-secondary"/>
-        }
+        <button id="export" onclick="location.href='@Url.Action("ExportToPdf", "Menu", new { meals = Model})'" class="btn btn-secondary">Eksportuj do pdf</button>
     </div>
 </div>
 

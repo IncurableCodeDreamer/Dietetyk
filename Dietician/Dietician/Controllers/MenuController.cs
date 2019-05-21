@@ -22,9 +22,8 @@ namespace Dietician.Controllers
         {
             _repository = new RepositoryWrapper(appConfiguration);
         }
-
-        [HttpPost]
-        public FileResult ExportToPdf(List<Meal> meals)
+               
+        public FileResult ExportToPdf(List<FoodWithDayModel> meals)
         {
             List<Meal> mealsList = new List<Meal>();
             Array values = Enum.GetValues(typeof(MealType));
@@ -62,8 +61,8 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             //TO DO add variant, day przy zmianie
-            List<FoodModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
-        
+            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
+
             return View(dailyMeals);
         }
         
@@ -128,9 +127,9 @@ namespace Dietician.Controllers
             return mealsType;
         }
 
-        private async Task<List<FoodModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
+        private async Task<List<FoodWithDayModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
         {
-            List<FoodModel> dailyMeals = new List<FoodModel>();
+            List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();
             var userMeals = await _repository.Meal.GetIMealFromTable(user.Id);
             foreach (var item in userMeals)
             {

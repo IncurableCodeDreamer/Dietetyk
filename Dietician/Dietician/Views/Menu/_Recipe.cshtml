@@ -1,11 +1,10 @@
 ﻿@using Dietician.Storage.StorageModels;
-@model List<FoodModel>
-
+@model List<FoodWithDayModel>
 
 @if (Model != null)
 {
     <div class="container">
-        @{var mealList = Model.GroupBy(x => x.Type).OrderBy(x => x.Key).ToList(); }
+        @{var mealList = Model.GroupBy(x => x.Day).OrderBy(x => x.Key).OrderBy(y => y.OrderBy(x => x.Type)).ToList(); }
         @*@foreach (var mealType in mealList)
             {*@
         <hr class="hr-width" />
