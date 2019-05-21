@@ -72,8 +72,24 @@ namespace Dietician.Controllers
             if (ModelState.IsValid)
             {
                 UserEntity user = GetLoggedUser(_repository.User);
-                //MealModel m = new MealModel(user.Id, 1, DateTime.Now, meal.Type, meal.Portions);
-                //_repository.Meal.InsertMealIntoTable(m); //TODO addmeal to db
+                FoodModel mealToAdd = new FoodModel
+                {
+                    Guid = Guid.NewGuid().ToString(),
+                    Name = meal.Name,
+                    Ingredients = meal.Ingredients,
+                    Portions = meal.Portions.ToString(),
+                    Prepare = meal.Prepare,
+                    Url = meal.Url,
+                    Calories = meal.Calories,
+                    Proteins = meal.Proteins,
+                    Carbohydrates = meal.Carbohydrates,
+                    Fat = meal.Fat,
+                    Type = meal.Type,
+                    Kind = meal.Kind.ToString(),
+                    ImageUrl = meal.ImageUrl,
+                };
+               _repository.Food.InsertFoodIntoTable(mealToAdd);
+                return Json(new { success = true });
             }
             return PartialView("_AddMealModal", meal);
         }

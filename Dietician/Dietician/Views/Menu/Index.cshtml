@@ -5,12 +5,9 @@
     ViewData["Title"] = "Jadłospis";
 }
 
-@if (ViewBag.AddMealSuccess != null && ViewBag.AddMealSuccess)
-{
-    <div class="alert alert-success" role="alert">
-        Posiłek został dodany poprawnie.
-    </div>
-}
+<div id="addMealSuccess" class="alert alert-success" role="alert" hidden="hidden">
+    Posiłek został dodany poprawnie.
+</div>
 
 @if (ViewBag.ChangeMenuSuccess != null && ViewBag.ChangeMenuSuccess)
 {
@@ -86,16 +83,19 @@
             url: url,
             data: data,
             success: function (data) {
-                $('#modal-body-render').html(data);
+                debugger
+                if (data.success) {
+                    $('#menuModal').modal('hide');
+                    $('#addMealSuccess')[0].hidden = false;
+                } else {
+                    $('#modal-body-render').html(data);
+                }
+                
             },
             error: function () {
                 alert("Wystąpił błąd");
             }
         });
-        //.done(function () {
-        //    $('#menuModal').modal('hide');
-        //});
-        
 
     }
 
