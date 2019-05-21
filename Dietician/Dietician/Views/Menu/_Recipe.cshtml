@@ -4,40 +4,73 @@
 @if (Model != null)
 {
     <div class="container">
-        @{var mealList = Model.GroupBy(x => x.Day).OrderBy(x => x.Key).OrderBy(y => y.OrderBy(x => x.Type)).ToList(); }
-        @*@foreach (var mealType in mealList)
-            {*@
+        @{var mealList = Model.OrderBy(x => x.Type).ThenBy(x => x.Day).ToList();
+            int i = 0; }
         <hr class="hr-width" />
         <div class="row week-div">
-            @*@foreach(var meal in mealType.Select(x => x..CosmosMeal))
-                {*@
             @foreach (var mealType in mealList)
             {
+                i++;
                 <div class="col-xs-3">
                     <div class="day">
-                        <h6> @mealType.Key.ToString() </h6>
+                        <h6 class="font"> @mealType.Type</h6>
+                        <span class="font2"> @mealType.Name </span>
                     </div>
                     <a class="thumbnail day">
-                        <img src="http://placehold.it/125x125" />
+                        <img class="image" src="@mealType.Url" />
                     </a>
-                    <div class="day meal-width">
-                        <h6>Składniki: </h6>
-                        @*@mealType..Ingredients*@
+                    <div class="day meal-width font">
+                        <h6 class="font">Ilość porcji: @mealType.Portions</h6>
                     </div>
                     <div class="day meal-width">
-                        <h6>Sposób przygotowania: </h6>
-                        @*@mealType.Prepare*@
+                        <button type="button" class="btn w-100 mb-2 font" style="color:white; background-color:gray"
+                                data-toggle="collapse" data-target="#dietitem_@i">
+                            <h6 class="font2">Składniki </h6>
+                        </button>
+                        <div id="dietitem_@i" class="collapse collapge-cont container mb-2 font2">
+                            @mealType.Ingredients
+                        </div>        
                     </div>
-                </div>
+                    <div class="day meal-width">
+                        <button type="button" class="btn w-100 mb-2 font" style="color:white; background-color:gray"
+                                data-toggle="collapse" data-target="#dietitem2_@i">
+                            <h6 class="prepare font2">Sposób przygotowania</h6>
+                        </button>
+                        <div id="dietitem2_@i" class="collapse collapge-cont container mb-2 font2">
+                            @mealType.Prepare
+                        </div>
+                    </div>
+                </div>     
             }
-        </div>
-        @*}*@     
+        </div>  
     </div>
 }
 
     <style>
+        .image{
+            width: 125px;
+            height: 115px;
+            margin:0;
+        }
+
+        .collapge-cont{
+            padding:0;
+        }
+
+        .font2{
+            font-size:13px;
+        }
+
         .hr-width {
             width: 100%;
+        }
+
+        .prepare{
+            max-width:100px;
+        }
+
+        .font{
+            font-size:11px;
         }
 
         .week-div {
@@ -46,6 +79,7 @@
 
         .day {
             margin: 0 15px 0 10px;
+            max-width: 125px;
         }
 
         .meal-width {
