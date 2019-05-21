@@ -1,8 +1,10 @@
-﻿using Dietician.Storage;
+﻿using Dietician.Helpers;
+using Dietician.Storage;
 using Dietician.Storage.Interfaces;
 using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Dietician.Controllers
 {
@@ -35,7 +37,26 @@ namespace Dietician.Controllers
 
             return RedirectToAction("Index");
         }
-        
+
+        public FileResult ExportToPdf()
+        {
+            UserEntity user = GetLoggedUser(_repository.User);
+            var list = _repository.ShoppingList.GetAllFoodsFromTable(user.Id).Result;
+            var pdfByteArray = PdfHelper.WritePdf(list);
+
+            return File(pdfByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, "Lista_Zakupow-" + DateTime.Now.ToShortDateString() + ".pdf");
+        }
+
+        [HttpPost]
+        public IActionResult SendByMail(string mail)
+        {
+            UserEntity user = GetLoggedUser(_repository.User);
+            var shippingList = _repository.ShoppingList.GetAllFoodsFromTable(user.Id).Result;
+            //TO DO implement sending mail
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult RemoveItem(string model)
         {
             UserEntity user = GetLoggedUser(_repository.User);
