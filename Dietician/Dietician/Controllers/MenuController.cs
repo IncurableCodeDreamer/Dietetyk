@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Dietician.CosmosDB;
 using Dietician.Enums;
@@ -63,7 +64,7 @@ namespace Dietician.Controllers
             UserEntity user = GetLoggedUser(_repository.User);
             //TO DO add variant, day przy zmianie
             List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
-
+  
             return View(dailyMeals);
         }
         
@@ -136,8 +137,9 @@ namespace Dietician.Controllers
             var userMeals = await _repository.Meal.GetIMealFromTable(user.Id);
             foreach (var item in userMeals)
             {
+                var day = item.MealNumber;
                 var id = item.JsonId;
-                var meal = await _repository.Food.GetOneFoodWithDay(id, 1);// .GetOneFood(id);
+                var meal = await _repository.Food.GetOneFoodWithDay(id, day);
                 dailyMeals.Add(meal);
             }
 
