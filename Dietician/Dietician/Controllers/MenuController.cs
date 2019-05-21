@@ -22,8 +22,8 @@ namespace Dietician.Controllers
         {
             _repository = new RepositoryWrapper(appConfiguration);
         }
-
-        public FileResult ExportToPdf(List<Meal> meals)
+               
+        public FileResult ExportToPdf(List<FoodWithDayModel> meals)
         {
             List<Meal> mealsList = new List<Meal>();
             Array values = Enum.GetValues(typeof(MealType));
@@ -61,8 +61,8 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             //TO DO add variant, day przy zmianie
-            List<FoodModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
-        
+            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
+
             return View(dailyMeals);
         }
         
@@ -90,7 +90,10 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             SetMealsForUser setMeals = new SetMealsForUser(_repository);
-            await setMeals.PlanDiet(user, 2000, DateTime.Now, 1);//yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy?
+            for (int i = 1; i <= 7; i++)
+            {
+                await setMeals.PlanDiet(user, 2000, i, 1);
+            }
 
             return RedirectToAction("Index");
         }
@@ -124,14 +127,14 @@ namespace Dietician.Controllers
             return mealsType;
         }
 
-        private async Task<List<FoodModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
+        private async Task<List<FoodWithDayModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
         {
-            List<FoodModel> dailyMeals = new List<FoodModel>();
+            List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();
             var userMeals = await _repository.Meal.GetIMealFromTable(user.Id);
             foreach (var item in userMeals)
             {
                 var id = item.JsonId;
-                var meal = await _repository.Food.GetOneFood(id);
+                var meal = await _repository.Food.GetOneFoodWithDay(id, 1);// .GetOneFood(id);
                 dailyMeals.Add(meal);
             }
 
