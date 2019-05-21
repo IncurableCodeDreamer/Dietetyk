@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Dietician.CosmosDB;
 using Dietician.Enums;
@@ -24,41 +23,12 @@ namespace Dietician.Controllers
             _repository = new RepositoryWrapper(appConfiguration);
         }
                
-        public FileResult ExportToPdf(List<FoodWithDayModel> meals)
+        public FileResult ExportToPdf()
         {
-            List<FoodWithDayModel> mealsList2 = meals
-                .OrderBy(x => x.Type)
-                .ThenBy(x => x.Day)
-                .ToList();
-
-            List<Meal> mealsList = new List<Meal>();
-            Array values = Enum.GetValues(typeof(MealType));
-            Random random = new Random();
-
-            for (int i = 0; i < 10; i++)
-            {
-                mealsList.Add(new Meal()
-                {
-                    Date = DateTime.Now.AddDays(i),
-                    CosmosMeal = new CosmosMealModel()
-                    {
-                        Calories = 24,
-                        Carbohydrates = 10,
-                        Fat = 10,
-                        Guid = "guid",
-                        Ingredients = "mleko, jaja, costam",
-                        Kind = "typ",
-                        Name = "owsianka",
-                        Portions = "porcje",
-                        Prepare = "nalej mleka do miski, dodaj płatki, wymieszaj w 30 stopniach przez 20 minut i wsio",
-                        Proteins = 20,
-                        Type = (MealType)values.GetValue(random.Next(values.Length)),
-                    },
-                    MealType = (MealType)values.GetValue(random.Next(values.Length)),
-                    JsonId = 1
-                });
-            }
-
+            int variant = 1;
+            UserEntity user = GetLoggedUser(_repository.User);
+            //TO DO add variant, day przy zmianie
+            List<FoodWithDayModel> mealsList = GetDailyMealsForUserAsync(user, variant).Result;    
             var pdfByteArray = PdfHelper.WritePdf(mealsList);
             return File(pdfByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, "Jadłospis-" + DateTime.Now.ToShortDateString() + ".pdf");                  
         }

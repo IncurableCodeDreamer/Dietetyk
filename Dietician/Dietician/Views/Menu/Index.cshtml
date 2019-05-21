@@ -43,13 +43,12 @@
     </div>
 </div>
 
-
 <div class="row">
     <div class="container-fluid ">
         <button id="addMeal" class="btn btn-primary ml-1" onclick="renderModal('add')">Dodaj własny posiłek</button>
         <button id="changeMeal" class="btn btn-primary ml-1" onclick="renderModal('change')">Zmień jadłospis</button>
-        <button class="btn btn-primary ml-1" onclick="location.href='@Url.Action("GenerateMealsAsync","Menu")'">Generuj jadłospis</button>
-        <button id="export" onclick="location.href='@Url.Action("ExportToPdf", "Menu", new { meals = Model})'" class="btn btn-secondary">Eksportuj do pdf</button>
+        <button class="btn btn-primary ml-1" onclick="location.href='@Url.Action("GenerateMealsAsync", "Menu")'">Generuj jadłospis</button>     
+        <button id="export" onclick="location.href='@Url.Action("ExportToPdf","Menu")'" class="btn btn-secondary">Eksportuj do pdf</button>
     </div>
 </div>
 

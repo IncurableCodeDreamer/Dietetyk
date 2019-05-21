@@ -2,9 +2,9 @@
 using System.Text;
 using IPdfConverter = DinkToPdf.Contracts.IConverter;
 using DinkToPdf;
-using Dietician.Models;
 using System.Linq;
 using System;
+using Dietician.Storage.StorageModels;
 
 namespace Dietician.Helpers
 {
@@ -39,16 +39,16 @@ namespace Dietician.Helpers
             });
         }   
 
-        public static byte[] WritePdf(List<Meal> records)
+        public static byte[] WritePdf(List<FoodWithDayModel> records)
         {
             htmlTemplate = GetHTML(records);
             file = BuildPdf(htmlTemplate);
             return file;
         }
 
-        private static string GetHTML(List<Meal> records)
+        private static string GetHTML(List<FoodWithDayModel> records)
         {
-            var meals = records.GroupBy(x => x.Date).OrderBy(x => x.Key).ToList();
+            var meals = records.OrderBy(x => x.Type).ThenBy(x => x.Day).ToList();
             List<string> Days = new List<string>() { "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
 
             var sb = new StringBuilder();
@@ -56,30 +56,24 @@ namespace Dietician.Helpers
             sb.Append(@"
                         <html>
                             <head>
-                            </head>");
+                            </head>
+                            <body>");
 
-            foreach (var day in Days)
+            foreach (var mealDay in meals)
             {
+                sb.AppendFormat(@"                           
+                                <h1 align='center'> {0} </h1>", Days[mealDay.Day-1]);
+           
                 sb.AppendFormat(@"
-                            <body>
-                                <h1 align='center'> {0} </h1>", day);
-
-                foreach (var mealDay in meals)
-                {
-                    foreach (var meal in mealDay.OrderBy(x => x.MealType).Select(x => x.CosmosMeal))
-                    {
-                        sb.AppendFormat(@"
                                 <h3 align='center'> {0} </h3>
                                 <p align='center'> <strong> {1} </strong></p>
                                 <p align='center'> 
-                                    <img src={2}/>
+                                    <img style='width: 250px; height: 250px;' src={2}/>
                                </p>
                                 <p> Składniki:</p>     
                                 <p> {3} </p>  
                                 <p> Sposób przygotowania:</p>
-                                <p> {4} </p>", meal.Type, meal.Name, meal.ImageUrl, meal.Ingredients, meal.Prepare);
-                    }
-                }
+                                <p> {4} </p>", mealDay.Type, mealDay.Name, mealDay.Url, mealDay.Ingredients, mealDay.Prepare);                
             }
                
             sb.Append(@"
