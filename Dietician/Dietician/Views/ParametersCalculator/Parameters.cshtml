@@ -49,10 +49,10 @@
             </div>
             <div class="col">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-10" id="gender-woman">
                         @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Kobieta.ToString(), new { htmlAttributes = new { @id = "female" } }) Kobieta
                     </div>
-                    <div class="col-7">
+                    <div class="col-7" id="gender-man">
                         @Html.RadioButtonFor(m => m.PresonalData.Gender, Gender.Mężczyzna.ToString(), new { htmlAttributes = new { @id = "male" } }) Mężczyzna
                     </div>
                 </div>
@@ -167,3 +167,16 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    document.getElementById("gender-man").onclick = function () {
+        document.getElementById("man").style.display = "inline";
+        document.getElementById("woman").style.display = "none";
+    }
+
+    document.getElementById("gender-woman").onclick = function () {
+        document.getElementById("man").style.display = "none";
+        document.getElementById("woman").style.display = "inline";
+    }
+</script> 
