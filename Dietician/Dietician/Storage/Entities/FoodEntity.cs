@@ -21,10 +21,10 @@ namespace Dietician.Storage.Entities
             string kind = "";
             double fat = 0;
             double carbohydrates = 0;
-         double proteins = 0;
+            double proteins = 0;
             double calories = 0;
             string url = "";
-         string prepare = "";
+            string prepare = "";
             string portions = "";
             string ingredients = "";
             string name = "";

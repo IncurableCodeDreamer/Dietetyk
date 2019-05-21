@@ -11,21 +11,23 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
+<div class="ingredients">
+    <div class="row">
         @Html.LabelFor(m => m.Ingredients, "Składniki")
     </div>
-    <div class="col input">
-        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="row input">
+        <label class="small">Wpisz poszczególne składniki oddzielając je przecinkiem</label>
+        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control ingredientsEditor" } })
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
+
+<div class="prepare">
+    <div class="row">
         @Html.LabelFor(m => m.Prepare, "Przepis")
     </div>
-    <div class="col input">
-        @Html.EditorFor(m => m.Prepare, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="row input">
+        @Html.EditorFor(m => m.Prepare, new { htmlAttributes = new { @class = "form-control prepareEditor" } })
     </div>
 </div>
 
@@ -101,3 +103,20 @@
         @Html.EditorFor(m => m.Fat, new { htmlAttributes = new { @class = "form-control" } })
     </div>
 </div>
+
+<style>
+    .ingredients{
+        padding-left:15px;
+        padding-right:15px;
+    }
+    .prepare {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .prepareEditor{
+        min-height:100px;
+    }
+    .ingredientsEditor {
+        min-height: 100px;
+    }
+</style>
