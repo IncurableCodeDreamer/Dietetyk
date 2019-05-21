@@ -1,10 +1,7 @@
 ﻿using Dietician.Storage.StorageModels;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dietician.Storage.Entities
 {
@@ -14,7 +11,6 @@ namespace Dietician.Storage.Entities
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
-
             string userId = "";
             string ingredient = "";
             
@@ -29,7 +25,6 @@ namespace Dietician.Storage.Entities
                         ingredient = prop.Value.StringValue;
                         break;
                 }
-
                 ShopModelData = new ShoppingListModel(userId, ingredient);
             }
         }

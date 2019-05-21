@@ -21,26 +21,40 @@ namespace Dietician.Controllers
         public IActionResult Index()
         {
             UserEntity user = GetLoggedUser(_repository.User);
-            var indicators = _repository.Indicator.GetIndicatorsFromTable(user.Id).Result.ToList();
-            var model = new Parameters()
+            if (user != null)
             {
-                PresonalData = new PersonalDataSettings()
+                var indicators = _repository.Indicator.GetIndicatorsFromTable(user.Id).Result.ToList();
+                var model = new Parameters()
                 {
-                    Age = user.Age,
-                    Gender = user.Gender,
-                    Weight = indicators[0].IndicatorsModelData.Weight,
-                    Height = indicators[0].IndicatorsModelData.Height,
-                     Lifestyle = user.LifeStyle
-                },
-                Params = new CheckboxResult(),
-                FatLevel = new FatLevel(),
-                ShowResults = false,
-                ParameterResults = new ParameterResults()
-            };
+                    PresonalData = new PersonalDataSettings()
+                    {
+                        Age = user.Age,
+                        Gender = user.Gender,
+                        Weight = indicators[0].IndicatorsModelData.Weight,
+                        Height = indicators[0].IndicatorsModelData.Height,
+                        Lifestyle = user.LifeStyle
+                    },
+                    Params = new CheckboxResult(),
+                    FatLevel = new FatLevel(),
+                    ShowResults = false,
+                    ParameterResults = new ParameterResults()
+                };
 
-            model = CalculateParams(model);
-
-            return View(model);
+                model = CalculateParams(model);
+                return View(model);
+            }
+            else
+            {
+                var model = new Parameters()
+                {
+                    PresonalData = new PersonalDataSettings(),
+                    Params = new CheckboxResult(),
+                    FatLevel = new FatLevel(),
+                    ShowResults = false,
+                    ParameterResults = new ParameterResults()
+                };
+                return View(model);
+            }           
         }
 
         [HttpPost]
