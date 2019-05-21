@@ -5,6 +5,7 @@ using DinkToPdf;
 using System.Linq;
 using System;
 using Dietician.Storage.StorageModels;
+using Dietician.Storage.Entities;
 
 namespace Dietician.Helpers
 {
@@ -24,7 +25,7 @@ namespace Dietician.Helpers
                     Orientation = Orientation.Portrait,
                     PaperSize = PaperKind.A4,
                     Margins = new MarginSettings { Top = 20, Right = 20, Left = 20, Bottom = 20 },
-                    DocumentTitle = "Jadłospis-" + DateTime.Now.ToShortDateString(),
+                    DocumentTitle = "Pdf_Document-" + DateTime.Now.ToShortDateString(),
                 },
                 Objects =
                 {
@@ -38,12 +39,47 @@ namespace Dietician.Helpers
                 }
             });
         }   
-
+               
         public static byte[] WritePdf(List<FoodWithDayModel> records)
         {
             htmlTemplate = GetHTML(records);
             file = BuildPdf(htmlTemplate);
             return file;
+        }
+
+        public static byte[] WritePdf(List<ShoppingListEntity> records)
+        {
+            htmlTemplate = GetHTML(records);
+            file = BuildPdf(htmlTemplate);
+            return file;
+        }
+
+        private static string GetHTML(List<ShoppingListEntity> records)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(@"
+                        <html>
+                            <head>
+                            </head>
+                            <body>
+                            <ul>");
+
+            sb.AppendFormat(@"                           
+                                <h3 align='center'> Lista zakupów z dnia: {0}</h3>", DateTime.Now.ToShortDateString());
+
+            foreach (var r in records)
+            {
+                sb.AppendFormat(@"
+                                <li>{0}</li>", r.ShopModelData.Ingredient);
+            }
+
+            sb.Append(@"
+                            </ul>
+                            </body>
+                        </html>");
+
+            return sb.ToString();
         }
 
         private static string GetHTML(List<FoodWithDayModel> records)
