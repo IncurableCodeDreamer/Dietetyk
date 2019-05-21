@@ -41,16 +41,14 @@ namespace Dietician.Storage.Repositories
                 .Where(TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idUser));
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
             var result = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
-            List<ShoppingListEntity> entity = result.Results.ToList();
-            return entity;
-            /*jak ne zadziala uzyj tego i to mozna tez sprawdzic dla FoodRepository
-             *  ShoppingListEntity result;
+            List<ShoppingListEntity> entity = new List<ShoppingListEntity>();
             do
             {
-                var segmentedResult = await table.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                var segmentedResult = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
                 tableContinuationToken = segmentedResult.ContinuationToken;
-                result.AddRange(segmentedResult.Results);
-            } while (tableContinuationToken != null);*/
+                entity.AddRange(segmentedResult.Results);
+            } while (tableContinuationToken != null);
+            return entity;
         }
         public async Task RemoveFood(ShoppingListModel model)
         {

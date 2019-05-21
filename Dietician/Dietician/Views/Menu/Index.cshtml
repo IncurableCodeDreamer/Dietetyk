@@ -1,4 +1,5 @@
-﻿@model List<Meal>
+﻿@using Dietician.Storage.StorageModels;
+@model List<FoodWithDayModel>
 
 @{
     ViewData["Title"] = "Jadłospis";
@@ -25,7 +26,7 @@
                 <h6 id="title" class="modal-title"></h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
             </div>
-            
+
             <div class="modal-body">
                 <form id="form-control" role="form">
                     <div class="container" id="modal-body-render">
@@ -33,7 +34,7 @@
                     </div>
                 </form>
             </div>
-            
+
             <div class="modal-footer">
                 <button id="btnAdd" type="button" class="btn btn-primary" data-type="" onclick="onSubmit()"></button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
@@ -47,13 +48,13 @@
     <div class="container-fluid ">
         <button id="addMeal" class="btn btn-primary ml-1" onclick="renderModal('add')">Dodaj własny posiłek</button>
         <button id="changeMeal" class="btn btn-primary ml-1" onclick="renderModal('change')">Zmień jadłospis</button>
-        <button class="btn btn-primary ml-1">Generuj jadłospis</button>
-        <button id="export" onclick="location.href='@Url.Action("ExportToPdf","Menu")'"  class="btn btn-secondary">Eksportuj do pdf</button>
+        <button class="btn btn-primary ml-1" onclick="location.href='@Url.Action("GenerateMealsAsync","Menu")'">Generuj jadłospis</button>
+        <button id="export" onclick="location.href='@Url.Action("ExportToPdf", "Menu", new { meals = Model})'" class="btn btn-secondary">Eksportuj do pdf</button>
     </div>
 </div>
 
 <div class="row" style=" background-color:lightgray; padding:5px; margin:1px; border-radius:8px;">
-    <div class="container-fluid text-center" >
+    <div class="container-fluid text-center">
 
         <ul class="list-inline" style="display: -webkit-box; margin:5px;">
             <li class="tab day-div">@Dietician.Enums.DayOfWeek.Poniedziałek.ToString()</li>
@@ -65,9 +66,12 @@
             <li class="tab day-div">@Dietician.Enums.DayOfWeek.Niedziela.ToString()</li>
         </ul>
     </div>
-    <div class="row">
-        @Html.Partial("_Recipe", Model)
-    </div>
+    @if (Model != null)
+    {
+        <div class="row">
+            @Html.Partial("_Recipe", Model)
+        </div>
+    }
 </div>
 
 
@@ -117,12 +121,11 @@
 
     function onSubmit() {
         var type = $('#btnAdd')[0].dataset.type;
-        if (type == 'add') { 
+        if (type == 'add') {
             addMeal();
         }
         else {
             changeMeal();
-
         }
     }
 
@@ -159,8 +162,7 @@
 </script>
 
 <style>
-    .day-div{
+    .day-div {
         margin-left: 18px;
     }
-
 </style>

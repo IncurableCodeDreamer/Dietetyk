@@ -4,18 +4,15 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dietician.Storage.Entities
 {
-    public class FoodEntity:TableEntity
+    public class FoodEntity : TableEntity
     {
         public FoodModel FoodModelData { get; set; }
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext context)
         {
-
             string imageUrl = "";
             MealType mealTypeId = 0;
             string kind = "";
@@ -40,7 +37,7 @@ namespace Dietician.Storage.Entities
                     case "kind":
                         kind = prop.Value.StringValue;
                         break;
-                    case "mealtypeid":
+                    case "type":
                         mealTypeId = (MealType)prop.Value.Int32Value;
                         break;
                     case "carbohydrates":
