@@ -27,6 +27,11 @@ namespace Dietician.Controllers
                
         public FileResult ExportToPdf(List<FoodWithDayModel> meals)
         {
+            List<FoodWithDayModel> mealsList2 = meals
+                .OrderBy(x => x.Type)
+                .ThenBy(x => x.Day)
+                .ToList();
+
             List<Meal> mealsList = new List<Meal>();
             Array values = Enum.GetValues(typeof(MealType));
             Random random = new Random();

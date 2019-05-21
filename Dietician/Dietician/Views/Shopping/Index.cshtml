@@ -1,32 +1,36 @@
-﻿@model ShoppingList
+﻿@using Dietician.Storage.Entities;
+@model List<ShoppingListEntity>
 
 @{
     ViewData["Title"] = "Lista zakupów";
 }
 
 <div class="container width-cont">
-    @if (Model.Item.Count != 0)
+    @if (Model.Select(x => x.ShopModelData).Count() != 0)
     {
-        @foreach (var item in Model.Item)
+        @foreach (var item in Model.Select(x => x.ShopModelData))
         {
             <div class="row">
                 <div class="col">
                     @item.Ingredient
                 </div>
                 <div class="col">
-                    <input type="button" id="deleteIte" class="form-control btn-shopping" onclick="location.href='@Url.Action("RemoveItem", "ShoppingList", @item.Ingredient)'" value="Usuń" />
+                    <input type="button" id="deleteIte" class="form-control btn-shopping" onclick="location.href='@Url.Action("RemoveItem", "Shopping", new { model = item.Ingredient })'" value="Usuń" />
                 </div>
             </div>
         }
     }
-    <div class="row">
-        <div class="col">
-            @Html.EditorFor(m => m.Item, new { htmlAttributes = new { @class = "form-control", @type = "string" } })
+    @using (Html.BeginForm("AddItem", "Shopping", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control " name="ingredientName" />
+            </div>
+            <div class="col">
+                <input type="submit" class="linkAction form-control btn-shopping" value="Dodaj" />
+            </div>
         </div>
-        <div class="col">
-            <input type="button" class="form-control btn-shopping" value="Dodaj" onclick="addItem()" />
-        </div>
-    </div>
+    }
 </div>
 
 <style>
