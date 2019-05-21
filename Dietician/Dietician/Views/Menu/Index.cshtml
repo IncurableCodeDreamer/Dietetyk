@@ -65,7 +65,7 @@
     </div>
     @if (Model != null)
     {
-        <div class="row">
+        <div class="row" id="receipeView">
             @Html.Partial("_Recipe", Model)
         </div>
     }
@@ -110,7 +110,8 @@
             success: function (data) {
                 if (data.success) {
                     $('#menuModal').modal('hide');
-                    $('#ChangeMenuSuccess')[0].hidden = false;
+                    $('#changeMenuSuccess')[0].hidden = false;
+                    RerenderRecipeView();
                 } else {
                     $('#modal-body-render').html(data);
                 }
@@ -120,6 +121,20 @@
             }
         });
 
+    }
+
+    function RerenderRecipeView() {
+        var url = "/Menu/RefreshReceipeView";
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#receipeView').html(data);
+            },
+            error: function () {
+                alert("Wystąpił błąd");
+            }
+        });
     }
 
     function onSubmit() {

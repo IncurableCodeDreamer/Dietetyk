@@ -72,7 +72,7 @@ namespace Dietician.Storage.Repositories
         public async Task<List<MealModel>> GetMealToOneVariantFromTableAsync(string idMeal, string variant)
         {
            var table = await _tableStorage.GetTableReference(_mealsTable);
-            var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idMeal);
+            var idUserFilter = TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idMeal);
             var varFilter = TableQuery.GenerateFilterConditionForInt("Variant", QueryComparisons.Equal, int.Parse(variant));
             var filterSecond = TableQuery.CombineFilters(idUserFilter, TableOperators.And, varFilter);
             var query = new TableQuery<MealEntity>().Where(filterSecond);
@@ -113,7 +113,7 @@ namespace Dietician.Storage.Repositories
         public async Task RemoveMealToOneVariantFromTableAsync(string idMeal, string variant)
         {
             var table = await _tableStorage.GetTableReference(_mealsTable);
-            var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idMeal);
+            var idUserFilter = TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idMeal);
             var varFilter = TableQuery.GenerateFilterConditionForInt("Variant", QueryComparisons.Equal, int.Parse(variant));
             var filter = TableQuery.CombineFilters(idUserFilter, TableOperators.And, varFilter);
             var query = new TableQuery<MealEntity>().Where(filter);
