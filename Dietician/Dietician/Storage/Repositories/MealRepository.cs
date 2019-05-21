@@ -52,9 +52,9 @@ namespace Dietician.Storage.Repositories
         public async Task<List<MealModel>> GetMealToOneDayFromTableAsync(string idMeal, string day, string variant)
         {
             var table = await _tableStorage.GetTableReference(_mealsTable);
-            var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idMeal);
-            var ingFilter = TableQuery.GenerateFilterCondition("MealNumber", QueryComparisons.Equal, day);
-            var varFilter = TableQuery.GenerateFilterCondition("Variant", QueryComparisons.Equal, variant);
+            var idUserFilter = TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idMeal);
+            var ingFilter = TableQuery.GenerateFilterConditionForInt("MealNumber", QueryComparisons.Equal, int.Parse(day));
+            var varFilter = TableQuery.GenerateFilterConditionForInt("Variant", QueryComparisons.Equal, int.Parse(variant));
             var filter = TableQuery.CombineFilters(idUserFilter, TableOperators.And, ingFilter);
             var filterSecond = TableQuery.CombineFilters(filter, TableOperators.And, varFilter);
             var query = new TableQuery<MealEntity>().Where(filterSecond);
@@ -73,7 +73,7 @@ namespace Dietician.Storage.Repositories
         {
            var table = await _tableStorage.GetTableReference(_mealsTable);
             var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idMeal);
-            var varFilter = TableQuery.GenerateFilterCondition("Variant", QueryComparisons.Equal, variant);
+            var varFilter = TableQuery.GenerateFilterConditionForInt("Variant", QueryComparisons.Equal, int.Parse(variant));
             var filterSecond = TableQuery.CombineFilters(idUserFilter, TableOperators.And, varFilter);
             var query = new TableQuery<MealEntity>().Where(filterSecond);
             TableContinuationToken tableContinuationToken = null;
@@ -90,9 +90,9 @@ namespace Dietician.Storage.Repositories
         public async Task RemoveMealToOneDayFromTable(string idMeal, string day, string variant)
         {
             var table = await _tableStorage.GetTableReference(_mealsTable);
-            var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idMeal);
-            var ingFilter = TableQuery.GenerateFilterCondition("MealNumber", QueryComparisons.Equal, day);
-            var varFilter = TableQuery.GenerateFilterCondition("Variant", QueryComparisons.Equal, variant);
+            var idUserFilter = TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idMeal);
+            var ingFilter = TableQuery.GenerateFilterConditionForInt("MealNumber", QueryComparisons.Equal, int.Parse(day));
+            var varFilter = TableQuery.GenerateFilterConditionForInt("Variant", QueryComparisons.Equal, int.Parse(variant));
             var filter = TableQuery.CombineFilters(idUserFilter, TableOperators.And, ingFilter);
             var filterSecond = TableQuery.CombineFilters(filter, TableOperators.And, varFilter);
             var query = new TableQuery<MealEntity>().Where(filterSecond);
@@ -112,9 +112,9 @@ namespace Dietician.Storage.Repositories
 
         public async Task RemoveMealToOneVariantFromTableAsync(string idMeal, string variant)
         {
-               var table = await _tableStorage.GetTableReference(_mealsTable);
-            var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idMeal);           
-            var varFilter = TableQuery.GenerateFilterCondition("Variant", QueryComparisons.Equal, variant);
+            var table = await _tableStorage.GetTableReference(_mealsTable);
+            var idUserFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, idMeal);
+            var varFilter = TableQuery.GenerateFilterConditionForInt("Variant", QueryComparisons.Equal, int.Parse(variant));
             var filter = TableQuery.CombineFilters(idUserFilter, TableOperators.And, varFilter);
             var query = new TableQuery<MealEntity>().Where(filter);
             TableContinuationToken tableContinuationToken = null;

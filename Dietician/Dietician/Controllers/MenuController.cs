@@ -97,11 +97,66 @@ namespace Dietician.Controllers
 
         public ActionResult ChangeMenu(ChangeMenu menu)
         {
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
-                //TODO change menu
+                //TODO change wariant
+                int wariant = 1;
+
+                if (menu.Monday)
+                {
+                   ChangeMenuForADay(wariant, System.DayOfWeek.Monday);
+                }
+                if (menu.Tuesday)
+                {
+                    ChangeMenuForADay(wariant, System.DayOfWeek.Tuesday);
+                }
+                if (menu.Thursday)
+                {
+                    ChangeMenuForADay(wariant, System.DayOfWeek.Thursday);
+                }
+                if (menu.Wednesday)
+                {
+                    ChangeMenuForADay(wariant, System.DayOfWeek.Wednesday);
+                }
+                if (menu.Friday)
+                {
+                    ChangeMenuForADay(wariant, System.DayOfWeek.Friday);
+                }
+                if (menu.Saturday)
+                {
+                    ChangeMenuForADay(wariant, System.DayOfWeek.Saturday);
+                }
+                if (menu.Sunday)
+                {
+                    ChangeMenuForADay(wariant, System.DayOfWeek.Sunday);
+                }
+
+                return Json(new { success = true });
             }
             return PartialView("_ChangeMenuModal", menu);
+        }
+
+        private async void ChangeMenuForADay(int wariant, System.DayOfWeek day)
+        {
+            UserEntity user = GetLoggedUser(_repository.User);
+            int numberOfDay = (int)day;
+
+            var dailyMeals =  _repository.Meal.GetMealToOneDayFromTableAsync(user.Id, numberOfDay.ToString(), wariant.ToString()).Result;
+            
+            SetMealsForUser setMeals = new SetMealsForUser(_repository);
+            
+            var result = _repository.Meal.RemoveMealToOneDayFromTable(user.Id, numberOfDay.ToString(), wariant.ToString());
+           
+            var indicators = _repository.Indicator.GetLastIndicatorFromTable(user.Id).Result;
+            var cpm = ParametersCalc.CountCPM(new PersonalDataSettings {
+                Age=user.Age,
+                Gender=user.Gender,
+                Height=indicators.IndicatorsModelData.Height,
+                Weight=indicators.IndicatorsModelData.Weight
+            });
+
+            await setMeals.PlanDiet(user, cpm, numberOfDay, wariant);
+            
         }
 
         public async Task<IActionResult> GenerateMealsAsync()
