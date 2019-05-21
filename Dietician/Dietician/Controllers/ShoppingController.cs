@@ -1,10 +1,8 @@
-﻿using Dietician.Models;
-using Dietician.Storage;
+﻿using Dietician.Storage;
 using Dietician.Storage.Interfaces;
 using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace Dietician.Controllers
 {
@@ -20,34 +18,31 @@ namespace Dietician.Controllers
         public IActionResult Index()
         {
             UserEntity user = GetLoggedUser(_repository.User);
-            ShoppingList list = new ShoppingList();
-            List<ShoppingListModel> items = new List<ShoppingListModel>();
-
-            for (int i = 0; i < 10; i++)
+            if (user != null)
             {
-                ShoppingListModel x = new ShoppingListModel(user.Id, "item");
-                items.Add(x);
-            };
-
-            //list.Item = items;
-           var list2 = _repository.ShoppingList.GetAllFoodsFromTable(user.Id).Result;
-
-            list.Item = items;
-            return View(list);
+                var list = _repository.ShoppingList.GetAllFoodsFromTable(user.Id).Result;
+                return View(list);
+            }
+            return View(null);
         }
 
-       // [HttpPost]
-        public IActionResult AddItem(ShoppingListModel model)
+        [HttpPost]
+        public IActionResult AddItem(string ingredientName)
         {
-            _repository.ShoppingList.InsertFoodIntoTable(model);
-            return View();
-        }
+            UserEntity user = GetLoggedUser(_repository.User);
+            ShoppingListModel shoppingListModel = new ShoppingListModel(user.Id, ingredientName);
+            _repository.ShoppingList.InsertFoodIntoTable(shoppingListModel);
 
-        //[HttpPost]
-        public IActionResult RemoveItem(ShoppingListModel model)
+            return RedirectToAction("Index");
+        }
+        
+        public IActionResult RemoveItem(string model)
         {
-            _repository.ShoppingList.RemoveFood(model);
-            return View();
+            UserEntity user = GetLoggedUser(_repository.User);
+            ShoppingListModel shoppingListModel = new ShoppingListModel(user.Id, model);
+            _repository.ShoppingList.RemoveFood(shoppingListModel);
+
+            return RedirectToAction("Index");
         }
     }
 }
