@@ -104,7 +104,7 @@ namespace Dietician.Helpers
                                 <h3 align='center'> {0} </h3>
                                 <p align='center'> <strong> {1} </strong></p>
                                 <p align='center'> 
-                                    <img style='width: 250px; height: 250px;' src={2}/>
+                                    <img style='width: 250px; height: 250px; border-radius: 10px;' src={2}/>
                                </p>
                                 <p> Składniki:</p>     
                                 <p> {3} </p>  
