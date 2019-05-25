@@ -1,6 +1,14 @@
 ﻿@using Dietician.Storage.StorageModels;
 @model List<FoodWithDayModel>
 
+
+<div class="container" float="center" style="text-align:center">
+        <div class="spinner-border" role="status" hidden="hidden">
+            <span class="sr-only"></span>
+        </div>
+</div>
+
+
 @if (Model != null)
 {
     <div class="container">
