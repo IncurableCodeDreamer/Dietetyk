@@ -148,6 +148,7 @@ namespace Dietician.Controllers
             return PartialView("_Recipe", dailyMeals);
         }
 
+        [HttpGet]
         public async Task<IActionResult> GenerateMealsAsync()
         {
             UserEntity user = GetLoggedUser(_repository.User);
@@ -157,7 +158,10 @@ namespace Dietician.Controllers
                 await setMeals.PlanDiet(user, 2000, i, 1);
             }
 
-            return RedirectToAction("Index");
+            //TO DO add variant, day przy zmianie
+            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
+
+            return PartialView("_Recipe", dailyMeals);
         }
 
         [HttpGet]
