@@ -237,12 +237,12 @@ namespace Dietician.CosmosDB
                     sumFats = breakfast.Fat + secondBreakfast.Fat + dinner.Fat + supper.Fat;
                     sumCarbohydrates = breakfast.Carbohydrates + secondBreakfast.Carbohydrates + dinner.Carbohydrates +
                                         supper.Carbohydrates;
-
                 }
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable));
+                
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable,"default"));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable, "default"));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable, "default"));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable, "default"));
             }
             return null;
         }

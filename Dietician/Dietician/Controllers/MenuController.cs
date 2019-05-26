@@ -18,27 +18,35 @@ namespace Dietician.Controllers
     public class MenuController : BaseController
     {
         private readonly IRepositoryWrapper _repository;
+        const string defaultVariant = "default";
+        const int defaultVariantId = 1;
 
         public MenuController(IAppConfiguration appConfiguration)
         {
             _repository = new RepositoryWrapper(appConfiguration);
         }
                
-        public FileResult ExportToPdf()
+        public async Task<FileResult> ExportToPdf()
         {
-            int variant = 1;
             UserEntity user = GetLoggedUser(_repository.User);
-            //TO DO add variant, day przy zmianie
-            List<FoodWithDayModel> mealsList = GetDailyMealsForUserAsync(user, variant).Result;    
+            string variantName = user.MenuWariantName;
+            var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
+
+            List<FoodWithDayModel> mealsList = GetDailyMealsForUserAsync(user, int.Parse(variantId)).Result;    
             var pdfByteArray = PdfHelper.WritePdf(mealsList);
             return File(pdfByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, "Jadłospis-" + DateTime.Now.ToShortDateString() + ".pdf");                  
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             UserEntity user = GetLoggedUser(_repository.User);
-            //TO DO add variant, day przy zmianie
-            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
+            string variantName = user.MenuWariantName;
+            var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
+            List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();
+            if (variantId != null)
+            {
+                dailyMeals = GetDailyMealsForUserAsync(user, int.Parse(variantId)).Result;
+            }
   
             return View(dailyMeals);
         }
@@ -74,8 +82,10 @@ namespace Dietician.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO change wariant
-                int wariant = 1;
+                UserEntity user = GetLoggedUser(_repository.User);
+                string variantName = user.MenuWariantName;
+                var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
+                var wariant = int.Parse(variantId);
 
                 if (menu.Monday)
                 {
@@ -135,16 +145,17 @@ namespace Dietician.Controllers
             
         }
 
-        private  async Task RemoveMealsFromDay(UserEntity user, int numberOfDay, int wariant)
+        private async Task RemoveMealsFromDay(UserEntity user, int numberOfDay, int wariant)
         {
             await _repository.Meal.RemoveMealToOneDayFromTable(user.Id, numberOfDay.ToString(), wariant.ToString());
         }
 
-        public IActionResult RefreshReceipeView()
+        public async Task<IActionResult> RefreshReceipeView()
         {
             UserEntity user = GetLoggedUser(_repository.User);
-            //TO DO add variant, day przy zmianie
-            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
+            string variantName = user.MenuWariantName;
+            var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
+            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, int.Parse(variantId)).Result;
             return PartialView("_Recipe", dailyMeals);
         }
 
@@ -153,15 +164,50 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             SetMealsForUser setMeals = new SetMealsForUser(_repository);
-            for (int i = 1; i <= 7; i++)
+
+            var variantId = await _repository.Meal.GetIdOfMEalIfExist(defaultVariant, user.Id);
+            if (variantId != null)
             {
-                await setMeals.PlanDiet(user, 2000, i, 1);
+                await _repository.Meal.RemoveMealToOneVariantFromTableAsync(user.Id, variantId);
             }
 
-            //TO DO add variant, day przy zmianie
-            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, 1).Result;
+            double cpm = 0;
+            try {
+                cpm = await GetCPM(user);
+            }
+            catch (Exception e){
+                return Json(new { success = false });
+            }
+            
+
+            for (int i = 1; i <= 7; i++)
+            {
+                await setMeals.PlanDiet(user, cpm, i, defaultVariantId);
+            }
+            
+            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, defaultVariantId).Result;
+            user.MenuWariantName = defaultVariant;
+            _repository.User.UpdateUser(user);
 
             return PartialView("_Recipe", dailyMeals);
+        }
+
+        private async Task<double> GetCPM(UserEntity user)
+        {
+            var indicators = await _repository.Indicator.GetLastIndicatorFromTable(user.Id);
+
+            var personalData = new PersonalDataSettings
+            {
+                Age = user.Age,
+                Lifestyle = user.LifeStyle,
+                Gender = user.Gender,
+                Height = indicators.IndicatorsModelData.Height,
+                Weight = indicators.IndicatorsModelData.Weight,
+            };
+
+            var cpm = ParametersCalc.CountCPM(personalData);
+
+            return cpm;
         }
 
         [HttpGet]
@@ -178,7 +224,21 @@ namespace Dietician.Controllers
             UserEntity user = GetLoggedUser(_repository.User);
             return PartialView("_ChangeMenuModal",model);
         }
-        
+
+        [HttpGet]
+        public PartialViewResult GetSaveMealsView()
+        {
+            var model = new SaveMeals();
+            return PartialView("_SaveMealsModal", model);
+        }
+
+        [HttpGet]
+        public PartialViewResult GetVariantsFromDbView()
+        {
+            //TODO uzupelnic o model itd
+            return PartialView("_VariantsFromDbModal");
+        }
+
         private async Task<List<FoodWithDayModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
         {
             List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();

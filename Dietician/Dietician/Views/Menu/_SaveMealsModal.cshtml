@@ -1,0 +1,10 @@
+﻿@model SaveMeals
+
+<div class="container">
+    <div class="row">
+        @Html.LabelFor(m => Model.Name, "Wpisz nazwę jadłospisu")
+    </div>
+    <div class="row">
+        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+</div>

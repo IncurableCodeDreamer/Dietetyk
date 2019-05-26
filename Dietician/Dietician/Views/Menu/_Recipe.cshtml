@@ -3,15 +3,15 @@
 
 
 <div class="container" float="center" style="text-align:center">
-        <div class="spinner-border" role="status" hidden="hidden">
-            <span class="sr-only"></span>
-        </div>
+    <div class="spinner-border" role="status" hidden="hidden">
+        <span class="sr-only"></span>
+    </div>
 </div>
 
 
 @if (Model != null)
 {
-    <div class="container">
+    <div class="container" id="receips">
         @{var mealList = Model.OrderBy(x => x.Type).ThenBy(x => x.Day).ToList();
             int i = 0; }
         <hr class="hr-width" />
@@ -37,7 +37,7 @@
                         </button>
                         <div id="dietitem_@i" class="collapse collapge-cont container mb-2 font2">
                             @mealType.Ingredients
-                        </div>        
+                        </div>
                     </div>
                     <div class="day meal-width">
                         <button type="button" class="btn w-100 mb-2 font" style="color:white; background-color:gray"
@@ -48,50 +48,55 @@
                             @mealType.Prepare
                         </div>
                     </div>
-                </div>     
+                </div>
             }
-        </div>  
+        </div>
     </div>
+    
 }
 
-    <style>
-        .image {
-            width: 125px;
-            height: 115px;
-            margin: 0;
-            border-radius: 10px;
-        }
 
-        .collapge-cont{
-            padding:0;
-        }
+<style>
+    #receips {
+        width: 100%;
+    }
+    .image {
+        width: 125px;
+        height: 115px;
+        margin: 0;
+        border-radius: 10px;
+    }
 
-        .font2{
-            font-size:13px;
-        }
+    .collapge-cont {
+        padding: 0;
+    }
 
-        .hr-width {
-            width: 100%;
-        }
+    .font2 {
+        font-size: 13px;
+    }
 
-        .prepare{
-            max-width:100px;
-        }
+    .hr-width {
+        width: 100%;
+    }
 
-        .font{
-            font-size:11px;
-        }
+    .prepare {
+        max-width: 100px;
+    }
 
-        .week-div {
-            margin: 0 10px 0 20px;
-        }
+    .font {
+        font-size: 11px;
+    }
 
-        .day {
-            margin: 0 15px 0 10px;
-            max-width: 125px;
-        }
+    .week-div {
+        /*margin: 0 10px 0 20px;*/
+    }
 
-        .meal-width {
-            width: 140px;
-        }
-    </style>
+    .day {
+        margin: 0 15px 0 10px;
+        max-width: 125px;
+    }
+
+    .meal-width {
+        width: 140px;
+    }
+</style>

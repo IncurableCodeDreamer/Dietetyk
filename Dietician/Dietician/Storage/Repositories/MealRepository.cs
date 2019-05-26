@@ -130,6 +130,34 @@ namespace Dietician.Storage.Repositories
                 await table.ExecuteAsync(TableOperation.Delete(item));
             }
         }
+
+        public async Task<string> GetIdOfMEalIfExist(string mealName, string idUser)
+        {
+            var table = await _tableStorage.GetTableReference(_mealsTable);
+            var idUserFilter = TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser);
+            var varFilter = TableQuery.GenerateFilterCondition("VariantName", QueryComparisons.Equal, mealName);
+            var filter = TableQuery.CombineFilters(idUserFilter, TableOperators.And, varFilter);
+            var query = new TableQuery<MealEntity>().Where(filter);
+            TableContinuationToken tableContinuationToken = null;
+            var result = new List<MealEntity>();
+            do
+            {
+                var segmentedResult = await table.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                result.AddRange(segmentedResult);
+            } while (tableContinuationToken != null);
+
+            if (result.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                var variantId = result.Select(x => x.MealsModelData.Variant).First();
+                return variantId.ToString();
+            }
+            
+        }
     }
 }
     

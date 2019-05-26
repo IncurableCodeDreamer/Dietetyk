@@ -22,5 +22,10 @@ namespace Dietician.Storage.StorageModels
             Gender = gender;
             Weight = weight;
         }
+
+        public PersonalData()
+        {
+
+        }
     }
 }
