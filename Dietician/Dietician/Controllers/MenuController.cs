@@ -238,7 +238,8 @@ namespace Dietician.Controllers
             var user = GetLoggedUser(_repository.User);
             var variants = new List<Variants>();
             var variantsFromDb = await _repository.Meal.GetAllVariantsName(user.Id);
-            foreach(var variant in variantsFromDb)
+            variantsFromDb = variantsFromDb.Where(x => x != defaultVariantName).ToList();
+            foreach (var variant in variantsFromDb)
             {
                 variants.Add(new Variants
                 {
@@ -276,6 +277,15 @@ namespace Dietician.Controllers
             {
                 await _repository.Meal.InsertMealIntoTable(new MealModel(user.Id, meal.JsonId,meal.MealNumber,meal.MealTypeId,variantId,variantName.ToLower()));
             }
+        }
+
+        [HttpGet]
+        public ActionResult ChooseVariant(string variantName)
+        {
+            var user = GetLoggedUser(_repository.User);
+            user.MenuWariantName = variantName;
+            _repository.User.UpdateUser(user);
+            return Json(new { success = true });
         }
 
         private async Task<List<FoodWithDayModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
