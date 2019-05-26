@@ -13,6 +13,10 @@
     Jadłospis został zmieniony poprawnie.
 </div>
 
+<div id="saveMealsSuccess" class="alert alert-success" role="alert" hidden="hidden">
+    Jadłospis został zapisany.
+</div>
+
 <div id="lackOfData" class="alert alert-danger" role="alert" hidden="hidden">
     Brak wystarczającej ilości danych do wygenerowania jadłospisu. @Html.ActionLink("Przejdź do ustawień","Index","Settings")
 </div>
@@ -145,6 +149,40 @@
 
     }
 
+    function saveMeals() {
+        debugger
+        var data = $(modalForm).serialize();
+        var url = '/Menu/SaveVariant';
+
+        $.ajax({
+            url: url,
+            type:"post",
+            data: data,
+            success: function (data) {
+                debugger
+                if (data.success) {
+                    $('#menuModal').modal('hide');
+                    $('#saveMealsSuccess')[0].hidden = false;
+                    $('#variantNameExist')[0].hidden = true;
+                } else if (data.nameExist) {
+                    $('#variantNameExist')[0].hidden = false;
+                }
+                else {
+                    $('#variantNameExist')[0].hidden = true;
+                    $('#modal-body-render').html(data);
+                }
+            },
+            error: function () {
+                alert("Wystąpił błąd");
+            }
+        });
+    }
+
+    function chooseFromDb() {
+        debugger
+
+    }
+
     function changeMeal() {
 
         var data = $(modalForm).serialize();
@@ -189,16 +227,6 @@
         });
     }
 
-    function saveMeals() {
-        debugger
-
-    }
-
-    function chooseFromDb() {
-        debugger
-
-    }
-
     function onSubmit() {
         var type = $('#btnAdd')[0].dataset.type;
         if (type == 'add') {
@@ -207,7 +235,7 @@
         else if (type == 'change'){
             changeMeal();
         }
-        else if (type == 'saveMeals') {
+        else if (type == 'save') {
             saveMeals();
         }
         else if (type == 'choose') {

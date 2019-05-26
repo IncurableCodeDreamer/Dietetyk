@@ -1,10 +1,15 @@
 ﻿@model SaveMeals
 
+<div id="variantNameExist" class="alert alert-danger" role="alert" hidden="hidden">
+    Jadłospis o podanej nazwie już istnieje.
+</div>
+
 <div class="container">
     <div class="row">
         @Html.LabelFor(m => Model.Name, "Wpisz nazwę jadłospisu")
     </div>
     <div class="row">
         @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m=>m.Name,"")
     </div>
 </div>

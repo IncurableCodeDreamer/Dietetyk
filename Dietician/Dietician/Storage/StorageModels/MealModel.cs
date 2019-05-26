@@ -26,7 +26,7 @@ namespace Dietician.Storage.StorageModels
             MealTypeId = mealTypeId;
         }
 
-        public MealModel(string idUser, string jsonId, int mealDate, MealType mealTypeId, int variant,string variantName)
+        public MealModel(string idUser, string jsonId, int mealDate, MealType mealTypeId, int variant, string variantName)
         {
             Variant = variant;
             IdUser = idUser;

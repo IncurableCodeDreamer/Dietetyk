@@ -207,11 +207,11 @@ namespace Dietician.CosmosDB
 
                 }
 
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dessert.Guid, dayNumber, dessert.Type, variable));
-                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, breakfast.Guid, dayNumber, breakfast.Type, variable, "default"));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, secondBreakfast.Guid, dayNumber, secondBreakfast.Type, variable, "default"));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dinner.Guid, dayNumber, dinner.Type, variable, "default"));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, dessert.Guid, dayNumber, dessert.Type, variable, "default"));
+                await _wrapper.Meal.InsertMealIntoTable(new MealModel(user.Id, supper.Guid, dayNumber, supper.Type, variable, "default"));
             }
             else
             {

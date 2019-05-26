@@ -13,5 +13,8 @@ namespace Dietician.Storage.Interfaces
         Task RemoveMealToOneDayFromTable(string idUser, string day, string variant);
         Task RemoveMealToOneVariantFromTableAsync(string idUser, string variant);
         Task<string> GetIdOfMEalIfExist(string variantName, string idUser);
+        Task<int> GetMaxVariantId(string idUser);
+        Task<List<MealModel>> GetMealsFromTable(string idUser, string variantName);
+        Task<List<string>> GetAllVariantsName(string idUser);
     }
 }

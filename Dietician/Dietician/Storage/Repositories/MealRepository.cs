@@ -158,6 +158,66 @@ namespace Dietician.Storage.Repositories
             }
             
         }
+
+        public async Task<int> GetMaxVariantId(string idUser)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_mealsTable);
+            TableQuery<MealEntity> query = new TableQuery<MealEntity>()
+                .Where(TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser));
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+
+            List<MealModel> result = new List<MealModel>();
+            do
+            {
+                var segmentedResult = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                result.AddRange(segmentedResult.Results.Select(s => s.MealsModelData));
+            } while (tableContinuationToken != null);
+
+            var maxId = result.Max(x => x.Variant);
+            return maxId;
+        }
+
+        public async Task<List<MealModel>> GetMealsFromTable(string idUser, string variantName)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_mealsTable);
+            var idUserFilter = TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser);
+            var varFilter = TableQuery.GenerateFilterCondition("VariantName", QueryComparisons.Equal, variantName);
+            var filter = TableQuery.CombineFilters(idUserFilter, TableOperators.And, varFilter);
+            var query = new TableQuery<MealEntity>().Where(filter);
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+
+            List<MealModel> result = new List<MealModel>();
+            do
+            {
+                var segmentedResult = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                result.AddRange(segmentedResult.Results.Select(s => s.MealsModelData));
+            } while (tableContinuationToken != null);
+
+            return result;
+        }
+
+        public async Task<List<string>> GetAllVariantsName(string idUser)
+        {
+            var cloudTable = await _tableStorage.GetTableReference(_mealsTable);
+            TableQuery<MealEntity> query = new TableQuery<MealEntity>()
+                .Where(TableQuery.GenerateFilterCondition("IdUser", QueryComparisons.Equal, idUser));
+            TableContinuationToken tableContinuationToken = new TableContinuationToken();
+
+            List<MealModel> result = new List<MealModel>();
+            do
+            {
+                var segmentedResult = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                result.AddRange(segmentedResult.Results.Select(s => s.MealsModelData));
+            } while (tableContinuationToken != null);
+
+            var variantsName = result.Select(x => x.VariantName).Distinct().ToList();
+
+            return variantsName;
+        }
+
     }
 }
     
