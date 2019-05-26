@@ -7,22 +7,30 @@
 
 <div id="addMealSuccess" class="alert alert-success" role="alert" hidden="hidden">
     Posiłek został dodany poprawnie.
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#addMealSuccess" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <div id="changeMenuSuccess" class="alert alert-success" role="alert" hidden="hidden">
     Jadłospis został zmieniony poprawnie.
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#changeMenuSuccess" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <div id="saveMealsSuccess" class="alert alert-success" role="alert" hidden="hidden">
     Jadłospis został zapisany.
-</div>
-
-<div id="chooseMealsSuccess" class="alert alert-success" role="alert" hidden="hidden">
-    Jadłospis wybrano poprawnie.
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#saveMealsSuccess" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <div id="lackOfData" class="alert alert-danger" role="alert" hidden="hidden">
     Brak wystarczającej ilości danych do wygenerowania jadłospisu. @Html.ActionLink("Przejdź do ustawień", "Index", "Settings")
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#lackOfData" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 
@@ -207,7 +215,7 @@
                 alert("Wystąpił błąd");
             }
         }).done(function () { 
-            $('#chooseMealsSuccess')[0].hidden = false;
+            //$('#chooseMealsSuccess')[0].hidden = false;
         });
     }
 
