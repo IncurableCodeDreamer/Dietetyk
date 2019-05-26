@@ -12,20 +12,25 @@
     {
         @for (int i =0; i<Model.Count; i++)
         {
-        <div class="row mb-2">
-            <div class="col">
-                @if (i == 0)
-                {
-                    <input type="radio" id="@Model[i].Name" value="@Model[i].Selected" checked />
-                }
-                else
-                {
-                    <input type="radio" id="@Model[i].Name" value="@Model[i].Selected" />
-                }
+          <fieldset id="group1">
+            <div class="row mb-2">
+                <div class="col">
+                    @if (i == 0)
+                    {
+                        <input type="radio" id="@Model[i].Name" name="radio" value="@Model[i].Selected" checked />
+                    }
+                    else
+                    {
+                        <input type="radio" id="@Model[i].Name" name="radio" value="@Model[i].Selected" />
+                    }
 
-                @Html.LabelFor(m => Model[i].Name, @Model[i].Name)
+                    @Html.LabelFor(m => Model[i].Name, @Model[i].Name)
+                </div>
+                <div class="col">
+                    -
+                </div>
             </div>
-        </div>
+          </fieldset>
         }
     }
 </div>

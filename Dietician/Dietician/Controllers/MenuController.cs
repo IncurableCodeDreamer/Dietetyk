@@ -30,9 +30,8 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             string variantName = user.MenuWariantName;
-            var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
 
-            List<FoodWithDayModel> mealsList = GetDailyMealsForUserAsync(user, int.Parse(variantId)).Result;    
+            List<FoodWithDayModel> mealsList = GetDailyMealsForUserAsync(user, variantName).Result;    
             var pdfByteArray = PdfHelper.WritePdf(mealsList);
             return File(pdfByteArray, System.Net.Mime.MediaTypeNames.Application.Octet, "Jadłospis-" + DateTime.Now.ToShortDateString() + ".pdf");                  
         }
@@ -41,11 +40,10 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             string variantName = user.MenuWariantName;
-            var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
             List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();
-            if (variantId != null)
+            if (variantName != null)
             {
-                dailyMeals = GetDailyMealsForUserAsync(user, int.Parse(variantId)).Result;
+                dailyMeals = GetDailyMealsForUserAsync(user, variantName).Result;
             }
   
             return View(dailyMeals);
@@ -154,8 +152,7 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             string variantName = user.MenuWariantName;
-            var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
-            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, int.Parse(variantId)).Result;
+            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, variantName).Result;
             return PartialView("_Recipe", dailyMeals);
         }
 
@@ -185,7 +182,7 @@ namespace Dietician.Controllers
                 await setMeals.PlanDiet(user, cpm, i, defaultVariantId);
             }
             
-            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, defaultVariantId).Result;
+            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, defaultVariantName).Result;
             user.MenuWariantName = defaultVariantName;
             _repository.User.UpdateUser(user);
 
@@ -288,10 +285,10 @@ namespace Dietician.Controllers
             return Json(new { success = true });
         }
 
-        private async Task<List<FoodWithDayModel>> GetDailyMealsForUserAsync(UserEntity user, int variant)
+        private async Task<List<FoodWithDayModel>> GetDailyMealsForUserAsync(UserEntity user, string variantName)
         {
             List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();
-            var userMeals = await _repository.Meal.GetIMealFromTable(user.Id);
+            var userMeals = await _repository.Meal.GetMealsFromTable(user.Id, variantName);
             foreach (var item in userMeals)
             {
                 var day = item.MealNumber;

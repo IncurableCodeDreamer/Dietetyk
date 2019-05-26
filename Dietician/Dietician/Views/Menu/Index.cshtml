@@ -192,9 +192,14 @@
         $.ajax({
             url: url,
             type: "get",
-            data: variantName,
+            data: {
+                variantName: variantName
+            },
             success: function (data) {
+                debugger
                 if (data.success) {
+                    $('.spinner-border')[0].hidden = false;
+                    $('.spinner-border').show();
                     RerenderRecipeView();
                 } 
             },

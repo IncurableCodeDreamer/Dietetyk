@@ -9,6 +9,7 @@ namespace Dietician.Models
     public class SaveMeals
     {
         [Required(ErrorMessage = "Pole jest wymagane")]
+        [MaxLength(20,ErrorMessage ="Maksymalna długość nazwy to 20 znaków")]
         public string Name { get; set; }
     }
 }
