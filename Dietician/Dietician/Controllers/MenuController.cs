@@ -285,6 +285,26 @@ namespace Dietician.Controllers
             return Json(new { success = true });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> DeleteVariant(string variantName)
+        {
+            var user = GetLoggedUser(_repository.User);
+            int daysCount = 7;
+            var variantId = await _repository.Meal.GetIdOfMEalIfExist(variantName, user.Id);
+            for(int i = 1; i < daysCount+1; i++)
+            {
+                await RemoveMealsFromDay(user,i, int.Parse(variantId));
+            }
+            
+            if (variantName == user.MenuWariantName)
+            {
+                user.MenuWariantName = defaultVariantName;
+                _repository.User.UpdateUser(user);
+            }
+
+            return RedirectToAction("GetVariantsFromDbView");
+        }
+
         private async Task<List<FoodWithDayModel>> GetDailyMealsForUserAsync(UserEntity user, string variantName)
         {
             List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();

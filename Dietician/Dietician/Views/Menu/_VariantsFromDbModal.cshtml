@@ -1,6 +1,5 @@
 ﻿@model List<Variants>
 
-
 <div class="container">
     @if (Model.Count == 0)
     {
@@ -10,27 +9,36 @@
     }
     else
     {
-        @for (int i =0; i<Model.Count; i++)
+        @for (int i = 0; i < Model.Count; i++)
         {
-          <fieldset id="group1">
-            <div class="row mb-2">
-                <div class="col">
-                    @if (i == 0)
-                    {
-                        <input type="radio" id="@Model[i].Name" name="radio" value="@Model[i].Selected" checked />
-                    }
-                    else
-                    {
-                        <input type="radio" id="@Model[i].Name" name="radio" value="@Model[i].Selected" />
-                    }
-
-                    @Html.LabelFor(m => Model[i].Name, @Model[i].Name)
-                </div>
-                <div class="col">
-                    -
+            <div id="variantsLoader" class="container" float="center" style="text-align:center" hidden="hidden">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only"></span>
                 </div>
             </div>
-          </fieldset>
+            <fieldset id="group">
+                <div class="row mb-2">
+                    <div class="col-10">
+                        @if (i == 0)
+                        {
+                            <input type="radio" id="@Model[i].Name" name="radio" value="@Model[i].Selected" checked />
+                        }
+                        else
+                        {
+                            <input type="radio" id="@Model[i].Name" name="radio" value="@Model[i].Selected" />
+                        }
+
+                        @Html.LabelFor(m => Model[i].Name, @Model[i].Name)
+                    </div>
+                    <div class="col-2">
+                        <a href="#" class="btn btn-primary" onclick="onDelete(event)" data-variantname="@Model[i].Name">
+                            <span class="glyphicon glyphicon-minus"></span>
+                            <strong>-</strong>
+                        </a>
+                    </div>
+                </div>
+            </fieldset>
         }
     }
 </div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

@@ -5,34 +5,35 @@
     ViewData["Title"] = "Jadłospis";
 }
 
-<div id="addMealSuccess" class="alert alert-success" role="alert" hidden="hidden">
+<div id="addMealSuccess" class="alert alert-success alert-dismissible fade show" role="alert" hidden="hidden">
     Posiłek został dodany poprawnie.
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#addMealSuccess" aria-label="Close">
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-<div id="changeMenuSuccess" class="alert alert-success" role="alert" hidden="hidden">
+<div id="changeMenuSuccess" class="alert alert-success alert-dismissible fade show" role="alert" hidden="hidden">
     Jadłospis został zmieniony poprawnie.
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#changeMenuSuccess" aria-label="Close">
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-<div id="saveMealsSuccess" class="alert alert-success" role="alert" hidden="hidden">
+<div id="saveMealsSuccess" class="alert alert-success alert-dismissible fade show" role="alert" hidden="hidden">
     Jadłospis został zapisany.
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#saveMealsSuccess" aria-label="Close">
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-<div id="lackOfData" class="alert alert-danger" role="alert" hidden="hidden">
+<div id="lackOfData" class="alert alert-danger alert-dismissible fade show" role="alert" hidden="hidden">
     Brak wystarczającej ilości danych do wygenerowania jadłospisu. @Html.ActionLink("Przejdź do ustawień", "Index", "Settings")
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" data-toggle="alert" data-target="#lackOfData" aria-label="Close">
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
+@Html.Partial("_DeleteModal")
 
 <div id="menuModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -44,7 +45,7 @@
 
             <div class="modal-body">
                 <form id="form-control" role="form">
-                    <div class="container" id="modal-body-render">
+                    <div class="container" id="modal-body-render" data-variant="">
 
                     </div>
                 </form>
@@ -102,6 +103,34 @@
         setButtonsVisiblity(isVisible);
     });
 
+    function onDelete(event) {
+        //$('#variants')[0].hidden = false;
+        // var variantName = $('#modal-body-render-variant')[0].dataset.variant;
+        $('#variantsLoader').hidden = false;
+        $('#group').hidden = true;
+        var variantName = event.currentTarget.dataset.variantname;
+        debugger
+        var url = '/Menu/DeleteVariant';
+
+        $.ajax({
+            url: url,
+            type: "get",
+            data: {
+                variantName: variantName
+            },
+            success: function (data) {
+                $('#modal-body-render').html(data);
+            },
+            error: function () {
+                alert("Wystąpił błąd");
+            }
+        }).done(function () {
+            $('#variantsLoader').hidden = true;
+            $('#group').hidden = false;
+        });
+        
+    }
+
     function setButtonsVisiblity(isVisible) {
         debugger
         $('#changeMeal')[0].hidden = !isVisible;
@@ -115,7 +144,7 @@
 
         var url = '/Menu/GenerateMealsAsync';
         $('#menuModal').modal('hide');
-        $('.spinner-border')[0].hidden = false;
+        $('#receipeLoader')[0].hidden = false;
         $('.spinner-border').show();
 
         $.ajax({
@@ -124,7 +153,7 @@
                 debugger
                 if (data.success == false) {
                     $('#lackOfData')[0].hidden = false;
-                    $('.spinner-border')[0].hidden = true;
+                    $('#receipeLoader')[0].hidden = true;
                     $('.spinner-border').hide();
                 } else {
                     $('#receipeView').html(data);
@@ -164,6 +193,7 @@
     function saveMeals() {
         var data = $(modalForm).serialize();
         var url = '/Menu/SaveVariant';
+        debugger
 
         $.ajax({
             url: url,
@@ -191,7 +221,8 @@
 
     function chooseFromDb() {
         
-        var inputs = $(modalForm).find(':input');
+        var inputs = $('#menuModal').find(':input');
+        debugger
         var variantName = getVariantName(inputs);
         debugger
         var url = '/Menu/ChooseVariant';
@@ -206,7 +237,7 @@
             success: function (data) {
                 debugger
                 if (data.success) {
-                    $('.spinner-border')[0].hidden = false;
+                    $('#receipeLoader')[0].hidden = false;
                     $('.spinner-border').show();
                     RerenderRecipeView();
                 } 
@@ -215,7 +246,6 @@
                 alert("Wystąpił błąd");
             }
         }).done(function () { 
-            //$('#chooseMealsSuccess')[0].hidden = false;
         });
     }
 
@@ -236,7 +266,7 @@
         var data = $(modalForm).serialize();
         var url = '/Menu/ChangeMenu';
         $('#menuModal').modal('hide');
-        $('.spinner-border')[0].hidden = false;
+        $('#receipeLoader')[0].hidden = false;
         $('.spinner-border').show();
 
         $.ajax({
@@ -270,7 +300,7 @@
                 alert("Wystąpił błąd");
             }
         }).done(function () {
-            $('.spinner-border')[0].hidden = true;
+            $('#receipeLoader')[0].hidden = true;
             $('.spinner-border').hide();
         });
     }
@@ -280,7 +310,7 @@
         if (type == 'add') {
             addMeal();
         }
-        else if (type == 'change'){
+        else if (type == 'change') {
             changeMeal();
         }
         else if (type == 'save') {
@@ -310,25 +340,26 @@
             $('#title')[0].innerText = "Zapisz jadłospis";
             $('#btnAdd')[0].innerText = "Zapisz";
             $('#btnAdd')[0].dataset.type = "save";
-        } else {
+        }
+        else {
             url = '/Menu/GetVariantsFromDbView'
             $('#title')[0].innerText = "Wybierz jadłospis";
             $('#btnAdd')[0].innerText = "Wybierz";
             $('#btnAdd')[0].dataset.type = "choose";
         }
-
-        $.ajax({
-            type: "Get",
-            url: url,
-            success: function (data) {
-                $('#modal-body-render').html(data);
-            },
-            error: function () {
-                alert("Wystąpił błąd");
-            }
-        }).done(function () {
-            $('#menuModal').modal('show');
-        });
+            
+            $.ajax({
+                type: "Get",
+                url: url,
+                success: function (data) {
+                    $('#modal-body-render').html(data);
+                },
+                error: function () {
+                    alert("Wystąpił błąd");
+                }
+            }).done(function () {
+                $('#menuModal').modal('show');
+            });
     }
 
 </script>
