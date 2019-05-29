@@ -101,6 +101,47 @@
     $(document).ready(function () {
         var isVisible = @Model.Count>0;
         setButtonsVisiblity(isVisible);
+
+
+        $('.modal').on('hidden.bs.modal', function (event) {
+            $(this).removeClass('fv-modal-stack');
+            $('body').data('fv_open_modals', $('body').data('fv_open_modals') - 1);
+        });
+
+        $('.modal').on('shown.bs.modal', function (event) {
+            // keep track of the number of open modals
+            if (typeof ($('body').data('fv_open_modals')) == 'undefined') {
+                $('body').data('fv_open_modals', 0);
+            }
+
+            // if the z-index of this modal has been set, ignore.
+            if ($(this).hasClass('fv-modal-stack')) {
+                return;
+            }
+
+            $(this).addClass('fv-modal-stack');
+            $('body').data('fv_open_modals', $('body').data('fv_open_modals') + 1);
+            $(this).css('z-index', 1040 + (10 * $('body').data('fv_open_modals')));
+            $('.modal-backdrop').not('.fv-modal-stack').css('z-index', 1039 + (10 * $('body').data('fv_open_modals')));
+            $('.modal-backdrop').not('fv-modal-stack').addClass('fv-modal-stack');
+
+        });        
+
+        //$('#menuModal').on('hidden.bs.modal', function () {
+        //    debugger
+        //    $('#confirmModal')[0].hidden = false;
+        //    $('#confirmModal').modal('show')
+        //    var idx = $('.modal:visible').length;
+        //    $('#confirmModal').css('z-index', 1040 + (10 * idx));
+        //})
+
+        //$('#confirmModal').on('shown.bs.modal', function (event) {
+        //    debugger
+        //    var idx = ($('.modal:visible').length) - 1; // raise backdrop after animation.
+        //    $('.modal-backdrop').not('.stacked').css('z-index', 1039 + (10 * idx));
+        //    $('.modal-backdrop').not('.stacked').addClass('stacked');
+        //});
+
     });
 
     function hideAlert(id) {
@@ -111,9 +152,28 @@
     function onDelete(event) {
         //$('#variants')[0].hidden = false;
         // var variantName = $('#modal-body-render-variant')[0].dataset.variant;
-        $('#variantsLoader').hidden = false;
-        $('#group').hidden = true;
-        var variantName = event.currentTarget.dataset.variantname;
+
+        $('#modal-body-render-variant')[0].dataset.variant = event.currentTarget.dataset.variantname;
+        $('#modal-body-render-variant')[0].innerText = "Czy napewno chcesz usunąć wariant: " + event.currentTarget.dataset.variantname + "?";
+
+        $('#menuModal')[0].hidden = true;
+        $('#menuModal').modal('hide')
+
+        
+        $('#confirmModal')[0].hidden = false;
+        $('#confirmModal').modal('show')
+        $('#confirmModal').removeClass('in');
+        $('#confirmModal').addClass('show');
+
+        debugger
+        //$('#variantsLoader').hidden = false;
+        //$('#group').hidden = true;
+
+
+    }
+
+    function DeleteVariant() {
+        var variantName = $('#modal-body-render-variant')[0].dataset.variant;
         debugger
         var url = '/Menu/DeleteVariant';
 
@@ -130,14 +190,20 @@
                 alert("Wystąpił błąd");
             }
         }).done(function () {
-            $('#variantsLoader').hidden = true;
-            $('#group').hidden = false;
+            $('#menuModal')[0].hidden = false;
+            $('#menuModal').modal('show')
+
+            $('#confirmModal')[0].hidden = true;
+            $('#confirmModal').modal('hide')
+            $('#confirmModal').removeClass('show');
+
+            //    $('#variantsLoader').hidden = true;
+            //    $('#group').hidden = false;
         });
-        
+
     }
 
     function setButtonsVisiblity(isVisible) {
-        debugger
         $('#changeMeal')[0].hidden = !isVisible;
         $('#export')[0].hidden = !isVisible;
         $('#saveMeals')[0].hidden = !isVisible;
