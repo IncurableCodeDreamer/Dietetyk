@@ -1,20 +1,19 @@
-﻿<div id="confirmModal" class="modal fade" tabindex="-1" style="z-index:1999" aria-modal="true" role="dialog">
+﻿<div id="confirmModal" class="modal fade" tabindex="-1" style="z-index:1999" aria-modal="true" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 id="title-variant" class="modal-title">Usuń</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
             </div>
 
             <div class="modal-body-confirm">
-                    <div class="container" id="modal-body-render-variant" data-variant="">
+                    <div class="container" id="modal-body-render-variant" data-variant="" style=" margin-top:15px; margin-bottom:15px">
                         Czy napewno chcesz usunąć wariant?
                     </div>
             </div>
 
             <div class="modal-footer">
                 <button id="btnConfirm" type="button" class="btn btn-primary" data-type="" onclick="DeleteVariant()">Usuń</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                <button type="button" class="btn btn-secondary" onclick="ChangeModals()">Anuluj</button>
             </div>
         </div>
     </div>

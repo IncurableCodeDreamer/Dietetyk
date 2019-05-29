@@ -35,7 +35,7 @@
 
 @Html.Partial("_DeleteModal")
 
-<div id="menuModal" class="modal fade" tabindex="-1" role="dialog">
+<div id="menuModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,7 +102,6 @@
         var isVisible = @Model.Count>0;
         setButtonsVisiblity(isVisible);
 
-
         $('.modal').on('hidden.bs.modal', function (event) {
             $(this).removeClass('fv-modal-stack');
             $('body').data('fv_open_modals', $('body').data('fv_open_modals') - 1);
@@ -127,54 +126,44 @@
 
         });        
 
-        //$('#menuModal').on('hidden.bs.modal', function () {
-        //    debugger
-        //    $('#confirmModal')[0].hidden = false;
-        //    $('#confirmModal').modal('show')
-        //    var idx = $('.modal:visible').length;
-        //    $('#confirmModal').css('z-index', 1040 + (10 * idx));
-        //})
-
-        //$('#confirmModal').on('shown.bs.modal', function (event) {
-        //    debugger
-        //    var idx = ($('.modal:visible').length) - 1; // raise backdrop after animation.
-        //    $('.modal-backdrop').not('.stacked').css('z-index', 1039 + (10 * idx));
-        //    $('.modal-backdrop').not('.stacked').addClass('stacked');
-        //});
-
     });
 
     function hideAlert(id) {
-        debugger
         $('#' + id)[0].hidden = true;
     }
 
     function onDelete(event) {
-        //$('#variants')[0].hidden = false;
-        // var variantName = $('#modal-body-render-variant')[0].dataset.variant;
 
         $('#modal-body-render-variant')[0].dataset.variant = event.currentTarget.dataset.variantname;
         $('#modal-body-render-variant')[0].innerText = "Czy napewno chcesz usunąć wariant: " + event.currentTarget.dataset.variantname + "?";
 
         $('#menuModal')[0].hidden = true;
         $('#menuModal').modal('hide')
-
         
         $('#confirmModal')[0].hidden = false;
         $('#confirmModal').modal('show')
         $('#confirmModal').removeClass('in');
         $('#confirmModal').addClass('show');
+        
+    }
 
-        debugger
-        //$('#variantsLoader').hidden = false;
-        //$('#group').hidden = true;
+    function ChangeModals() {
+        $('#confirmModal')[0].hidden = true;
+        $('#confirmModal').modal('hide')
+        $('#confirmModal').removeClass('show');
 
+        $('#menuModal')[0].hidden = false;
+        $('#menuModal').modal('show')
+    }
 
+    function close(id) {
+        $('#' + id)[0].hidden = true;
+        $('#' + id).modal('hide')
+        $('#' + id).removeClass('show');
     }
 
     function DeleteVariant() {
         var variantName = $('#modal-body-render-variant')[0].dataset.variant;
-        debugger
         var url = '/Menu/DeleteVariant';
 
         $.ajax({
@@ -196,9 +185,7 @@
             $('#confirmModal')[0].hidden = true;
             $('#confirmModal').modal('hide')
             $('#confirmModal').removeClass('show');
-
-            //    $('#variantsLoader').hidden = true;
-            //    $('#group').hidden = false;
+            
         });
 
     }
@@ -221,7 +208,6 @@
         $.ajax({
             url: url,
             success: function (data) {
-                debugger
                 if (data.success == false) {
                     $('#lackOfData')[0].hidden = false;
                     $('#receipeLoader')[0].hidden = true;
@@ -245,7 +231,6 @@
             url: url,
             data: data,
             success: function (data) {
-                debugger
                 if (data.success) {
                     $('#menuModal').modal('hide');
                     $('#addMealSuccess')[0].hidden = false;
@@ -264,14 +249,12 @@
     function saveMeals() {
         var data = $(modalForm).serialize();
         var url = '/Menu/SaveVariant';
-        debugger
 
         $.ajax({
             url: url,
             type:"post",
             data: data,
             success: function (data) {
-                debugger
                 if (data.success) {
                     $('#menuModal').modal('hide');
                     $('#saveMealsSuccess')[0].hidden = false;
@@ -293,9 +276,7 @@
     function chooseFromDb() {
         
         var inputs = $('#menuModal').find(':input');
-        debugger
         var variantName = getVariantName(inputs);
-        debugger
         var url = '/Menu/ChooseVariant';
         $('#menuModal').modal('hide');
 
@@ -306,7 +287,6 @@
                 variantName: variantName
             },
             success: function (data) {
-                debugger
                 if (data.success) {
                     $('#receipeLoader')[0].hidden = false;
                     $('.spinner-border').show();
@@ -324,7 +304,6 @@
         var i;
 
         for (i = 0; i < inputs.length; i++) {
-            debugger
             if (inputs[i].checked === true) {
                 return inputs[i].id;
             }
@@ -394,10 +373,8 @@
 
     function renderModal(type) {
         url = '';
-        debugger
         if (type == 'add') {
             url = '/Menu/GetAddMealView';
-            debugger
             $('#title')[0].innerText = "Dodaj posiłek";
             $('#btnAdd')[0].innerText = "Dodaj";
             $('#btnAdd')[0].dataset.type = "add";
