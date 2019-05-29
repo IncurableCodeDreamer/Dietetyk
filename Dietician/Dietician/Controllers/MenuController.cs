@@ -53,6 +53,7 @@ namespace Dietician.Controllers
         {           
             if (ModelState.IsValid)
             {
+                string defaultUrl = "https://firebasestorage.googleapis.com/v0/b/hallowed-ray-197220.appspot.com/o/images%2F800px-Good_Food_In_Dishes_-_NCI_Visuals_Online.jpg?alt=media&token=48fa6ca1-7973-4bff-9fde-f480ab760ad57";
                 UserEntity user = GetLoggedUser(_repository.User);
                 FoodModel mealToAdd = new FoodModel
                 {
@@ -61,14 +62,14 @@ namespace Dietician.Controllers
                     Ingredients = meal.Ingredients,
                     Portions = meal.Portions.ToString(),
                     Prepare = meal.Prepare,
-                    Url = meal.Url,
+                    Url = defaultUrl,
                     Calories = meal.Calories,
                     Proteins = meal.Proteins,
                     Carbohydrates = meal.Carbohydrates,
                     Fat = meal.Fat,
                     Type = meal.Type,
                     Kind = meal.Kind.ToString(),
-                    ImageUrl = meal.ImageUrl,
+                    ImageUrl = null,
                 };
                _repository.Food.InsertFoodIntoTable(mealToAdd);
                 return Json(new { success = true });
