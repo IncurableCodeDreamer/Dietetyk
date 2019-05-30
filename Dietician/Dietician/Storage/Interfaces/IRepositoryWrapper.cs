@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Dietician.Storage.Interfaces
+﻿namespace Dietician.Storage.Interfaces
 {
     public interface IRepositoryWrapper
     {
@@ -14,5 +9,7 @@ namespace Dietician.Storage.Interfaces
         IMealRepository Meal { get; }
         IMealTypeRepository MealType { get; }
         IMealSettingRepository MealSetting { get; }
+        IFoodRepository Food { get; }
+        IShoppingListRepository ShoppingList { get; }
     }
 }

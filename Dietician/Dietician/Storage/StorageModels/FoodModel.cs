@@ -1,8 +1,4 @@
 ﻿using Dietician.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dietician.Storage.StorageModels
 {
@@ -38,6 +34,10 @@ namespace Dietician.Storage.StorageModels
             this.Type = type;
             this.Kind = kind;
             this.ImageUrl = imageUrl;
-        }    
+        }
+
+        public FoodModel()
+        {
+        }
     }
 }

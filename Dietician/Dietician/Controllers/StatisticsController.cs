@@ -33,8 +33,9 @@ namespace Dietician.Controllers
             string[] yearMonth = date.Split('-');
             var year = int.Parse(yearMonth[0]);
             var month = int.Parse(yearMonth[1]);
+            DateTime now = DateTime.Now;
             DateTime startDate = new DateTime(year, month, 1);
-            DateTime endDate = new DateTime(year, month, DateTime.DaysInMonth(year, month),23,59,59);
+            DateTime endDate = new DateTime(year, month, now.Month == month ? now.Day : DateTime.DaysInMonth(year, month), 23,59,59);
 
             UserEntity user = GetLoggedUser(_repository.User);
             var indicatorModels = GetIndicatorsData(startDate, endDate, user);
@@ -83,7 +84,7 @@ namespace Dietician.Controllers
             };
 
 
-            for (int i = 1; i <= DateTime.DaysInMonth(startDate.Year, startDate.Month); i++)
+            for (int i = 1; i <= endDate.Day; i++)
             {
                 var dataFromDay = indicators.FirstOrDefault(x => x.IndicatorsModelData.ChangeDate.Day == i);
                 if (dataFromDay!=null)

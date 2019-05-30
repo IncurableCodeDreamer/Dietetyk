@@ -20,6 +20,7 @@ namespace Dietician.Storage
             {"UserIndicatorsTable","userIndicatorsTable"},
             {"UserMealTable","userMealTable"},
             {"IngredientsTable","ingredientsTable"},
+            { "ShoppingTable","shoppingTable"},
             {"FoodTable","foodTable"}
         };
 

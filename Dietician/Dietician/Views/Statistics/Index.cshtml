@@ -47,7 +47,6 @@
         $(document).ready(function () { });
 
         function getDate() {
-            debugger
             let dataRegexp = new RegExp("^[0-9]{4}[-]{1}[0-9]{2}$");
             var date = $("#dateInput")[0].value;
             var isDateValid = dataRegexp.test(date);
@@ -86,18 +85,15 @@
 
         function setVisible(isAnyData) {
             if (isAnyData) {
-                debugger
                 $("#chartContainer")[0].hidden = false;
                 $("#noData")[0].hidden = true;
             } else {
-                debugger
                 $("#chartContainer")[0].hidden = true;
                 $("#noData")[0].hidden = false;
             }
         }
 
         async function drawCharts(dataset, labels, ctx) {
-            debugger
             var lineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -116,7 +112,6 @@
 
             var kindOfCharts = $('#kindOfChart')[0].value;
             var dataset = null;
-            debugger
             if (kindOfCharts == "Waga") {
                 dataset = {
                     label: 'Masa ciała [kg] ',
@@ -145,19 +140,15 @@
 
 
         async function renderChart() {
-            debugger
             var date = getDate();
-            debugger
             if (date != null) {
 
                 showLoading(true);
-
-                debugger
+                
                 var promise = await getDatasets(date);
 
                 if (promise.success) {
                     var ctx = $("#weightChart");
-                    debugger
                     var labels = promise.datesDataset;
                     var dataset = await chooseCharts(promise);
                     await drawCharts(dataset, labels, ctx);
@@ -172,13 +163,11 @@
 
         function showLoading(isLoading) {
             if (isLoading) {
-                debugger
                 $("#dataViewer")[0].hidden = !isLoading;
                 $(".spinner-border")[0].hidden = !isLoading;
                 $(".spinner-border").show();
 
             } else {
-                debugger
                 $(".spinner-border")[0].hidden = isLoading;
                 $(".spinner-border").hide();
                 $("#dataViewer")[0].hidden = isLoading;
@@ -186,7 +175,6 @@
         }
 
         function validateDate(isValid) {
-            debugger
             if (!isValid) {
                 $("#dateInput").addClass("is-invalid");
             } else {

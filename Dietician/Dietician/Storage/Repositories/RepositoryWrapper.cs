@@ -16,6 +16,8 @@ namespace Dietician.Storage.Repositories
         private IMealRepository _meal;
         private IMealTypeRepository _mealType;
         private IMealSettingRepository _mealSetting;
+        private IFoodRepository _food;
+        private IShoppingListRepository _shoppingList;
         
         public RepositoryWrapper(IAppConfiguration appConfiguration)
         {
@@ -68,7 +70,17 @@ namespace Dietician.Storage.Repositories
                 return _ingredients;
             }
         }
-
+        public IFoodRepository Food
+        {
+            get
+            {
+                if (_food == null)
+                {
+                    _food = new FoodRepository(_appConfiguration);
+                }
+                return _food;
+            }
+        }
         public IMealRepository Meal
         {
             get
@@ -102,6 +114,18 @@ namespace Dietician.Storage.Repositories
                     _mealSetting = new MealSettingRepository(_appConfiguration);
                 }
                 return _mealSetting;
+            }
+        }
+
+        public IShoppingListRepository ShoppingList
+        {
+            get
+            {
+                if (_shoppingList == null)
+                {
+                    _shoppingList = new ShoppingListRepository(_appConfiguration);
+                }
+                return _shoppingList;
             }
         }
     }

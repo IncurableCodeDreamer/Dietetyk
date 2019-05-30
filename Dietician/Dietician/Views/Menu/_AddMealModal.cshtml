@@ -8,24 +8,28 @@
     </div>
     <div class="col input">
         @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m=>m.Name, "")
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
+<div class="ingredients">
+    <div class="row">
         @Html.LabelFor(m => m.Ingredients, "Składniki")
     </div>
-    <div class="col input">
-        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="row input">
+        <label class="small">Wpisz poszczególne składniki oddzielając je przecinkiem</label>
+        @Html.EditorFor(m => m.Ingredients, new { htmlAttributes = new { @class = "form-control ingredientsEditor" } })
+        @Html.ValidationMessageFor(m => m.Ingredients, "")
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
+
+<div class="prepare-meal">
+    <div class="row">
         @Html.LabelFor(m => m.Prepare, "Przepis")
     </div>
-    <div class="col input">
-        @Html.EditorFor(m => m.Prepare, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="row input">
+        @Html.EditorFor(m => m.Prepare, new { htmlAttributes = new { @class = "form-control prepareEditor" } })
     </div>
 </div>
 
@@ -66,6 +70,7 @@
     </div>
     <div class="col input">
         @Html.EditorFor(m => m.Portions, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.Portions, "")
     </div>
 </div>
 
@@ -75,6 +80,7 @@
     </div>
     <div class="col input">
         @Html.EditorFor(m => m.Calories, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.Calories, "")
     </div>
 </div>
 <div class="row">
@@ -83,6 +89,7 @@
     </div>
     <div class="col input">
         @Html.EditorFor(m => m.Proteins, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.Proteins, "")
     </div>
 </div>
 <div class="row">
@@ -91,6 +98,7 @@
     </div>
     <div class="col input">
         @Html.EditorFor(m => m.Carbohydrates, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.Carbohydrates, "")
     </div>
 </div>
 <div class="row">
@@ -99,5 +107,24 @@
     </div>
     <div class="col input">
         @Html.EditorFor(m => m.Fat, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.Fat, "")
     </div>
 </div>
+
+<style>
+    .ingredients{
+        padding-left:15px;
+        padding-right:15px;
+    }
+    .prepare-meal {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .prepareEditor {
+        min-height: 100px;
+        min-width: 100%
+    }
+    .ingredientsEditor {
+        min-height: 100px;
+    }
+</style>

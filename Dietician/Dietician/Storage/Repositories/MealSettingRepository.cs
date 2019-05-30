@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dietician.Storage.Interfaces;
@@ -50,9 +49,15 @@ namespace Dietician.Storage.Repositories
             if (cloudTable == null) throw new ArgumentNullException(nameof(cloudTable));
             TableQuery<MealSettingsEntity> query = new TableQuery<MealSettingsEntity>()
                 .Where(TableQuery.GenerateFilterCondition("IdMealSettings", QueryComparisons.Equal, idMealSettings));
+            var entity = new MealSettingsEntity();
             TableContinuationToken tableContinuationToken = new TableContinuationToken();
-            var result = cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
-            var entity = result.Result.FirstOrDefault();
+            do
+            {
+                var segmentedResult = await cloudTable.ExecuteQuerySegmentedAsync(query, tableContinuationToken);
+                tableContinuationToken = segmentedResult.ContinuationToken;
+                entity = segmentedResult.FirstOrDefault();
+            } while (tableContinuationToken != null);
+           
             return entity;
         }
     }
