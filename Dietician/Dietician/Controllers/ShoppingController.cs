@@ -5,6 +5,8 @@ using Dietician.Storage.Repositories;
 using Dietician.Storage.StorageModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Net;
+using System.Net.Mail;
 
 namespace Dietician.Controllers
 {
@@ -52,7 +54,30 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             var shippingList = _repository.ShoppingList.GetAllFoodsFromTable(user.Id).Result;
-            //TO DO implement sending mail
+            using (MailMessage mm = new MailMessage("aplikacjadietetyczna@gmail.com", mail))
+            {
+                mm.Subject = "Lista zakupów";
+                string body = "Witaj ";
+                body += "<br /><br />Oto Twoja lista zakupów:";
+                foreach (var item in shippingList)
+                {
+                    body += "<br />" + item.ShopModelData.Ingredient;
+                }
+                body += "<br /><br />Miłych zakupów życzy Twoja Aplikacja Dietetyczna";
+                mm.Body = body;
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    EnableSsl = true
+                };
+                NetworkCredential NetworkCred = new NetworkCredential("aplikacjadietetyczna@gmail.com", "appIP2019");
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
+                smtp.Send(mm);
+            }
+
 
             return RedirectToAction("Index");
         }

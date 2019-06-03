@@ -157,7 +157,7 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             string variantName = user.MenuWariantName;
-            List<FoodWithDayModel> dailyMeals = GetDailyMealsForUserAsync(user, variantName).Result;
+            List<FoodWithDayModel> dailyMeals = await GetDailyMealsForUserAsync(user, variantName);
             return PartialView("_Recipe", dailyMeals);
         }
 
