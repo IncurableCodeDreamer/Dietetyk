@@ -40,10 +40,14 @@ namespace Dietician.Controllers
         {
             UserEntity user = GetLoggedUser(_repository.User);
             string variantName = user.MenuWariantName;
-            List<FoodWithDayModel> dailyMeals = new List<FoodWithDayModel>();
+            List<FoodWithDayModel> dailyMeals=null;
             if (variantName != null)
             {
                 dailyMeals = GetDailyMealsForUserAsync(user, variantName).Result;
+            }
+            if (dailyMeals == null)
+            {
+                dailyMeals = new List<FoodWithDayModel>();
             }
   
             return View(dailyMeals);
@@ -88,31 +92,31 @@ namespace Dietician.Controllers
 
                 if (menu.Monday)
                 {
-                   await ChangeMenuForADay(wariant, System.DayOfWeek.Monday);
+                   await ChangeMenuForADay(wariant, Enums.DayOfWeek.Poniedziałek);
                 }
                 if (menu.Tuesday)
                 {
-                    await ChangeMenuForADay(wariant, System.DayOfWeek.Tuesday);
+                    await ChangeMenuForADay(wariant, Enums.DayOfWeek.Wtorek);
                 }
                 if (menu.Thursday)
                 {
-                    await ChangeMenuForADay(wariant, System.DayOfWeek.Thursday);
+                    await ChangeMenuForADay(wariant, Enums.DayOfWeek.Środa);
                 }
                 if (menu.Wednesday)
                 {
-                    await ChangeMenuForADay(wariant, System.DayOfWeek.Wednesday);
+                    await ChangeMenuForADay(wariant, Enums.DayOfWeek.Czwartek);
                 }
                 if (menu.Friday)
                 {
-                    await ChangeMenuForADay(wariant, System.DayOfWeek.Friday);
+                    await ChangeMenuForADay(wariant, Enums.DayOfWeek.Piątek);
                 }
                 if (menu.Saturday)
                 {
-                    await ChangeMenuForADay(wariant, System.DayOfWeek.Saturday);
+                    await ChangeMenuForADay(wariant, Enums.DayOfWeek.Sobota);
                 }
                 if (menu.Sunday)
                 {
-                    await ChangeMenuForADay(wariant, System.DayOfWeek.Sunday);
+                    await ChangeMenuForADay(wariant, Enums.DayOfWeek.Niedziela);
                 }
 
                 return Json(new { success = true });
@@ -121,10 +125,10 @@ namespace Dietician.Controllers
             return PartialView("_ChangeMenuModal", menu);
         }
 
-        private async Task ChangeMenuForADay(int wariant, System.DayOfWeek day)
+        private async Task ChangeMenuForADay(int wariant, Enums.DayOfWeek day)
         {
             UserEntity user = GetLoggedUser(_repository.User);
-            int numberOfDay = (int)day;
+            int numberOfDay = (int)day+1;
 
             var dailyMeals =  _repository.Meal.GetMealToOneDayFromTableAsync(user.Id, numberOfDay.ToString(), wariant.ToString()).Result;
             
